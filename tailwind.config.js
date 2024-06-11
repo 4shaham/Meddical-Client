@@ -10,6 +10,7 @@ export default {
         btnColor:"rgba(16,27,85)",
         bgColors:"rgba(255,255,255)",
         serviceColors:"rgba(241,237,237)"
+        
       }
     },
   },

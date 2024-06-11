@@ -2,15 +2,8 @@ import React from "react";
 
 function UserLogin() {
   return (
-
-
     <section className="bg-gray-50 dark:bg-serviceColors md:my-36 md:mx-36 rounded-md">
-   
-
       <h1 className="py-4 px-11 font-medium">Home</h1>
-
-    
-      
 
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
         <div className="w-full bg-white rounded-lg  md:mt-0 sm:max-w-md xl:p-0 text-black">
@@ -38,13 +31,11 @@ function UserLogin() {
                 />
               </div>
               <p className="text-sm text-center font-light text-red-700 dark:text-red-700">
-               forgetPassword?{" "}
+                forgetPassword?{" "}
                 <a
                   href="#"
                   className="font-medium text-primary-600 hover:underline dark:text-primary-500"
-                >
-                  
-                </a>
+                ></a>
               </p>
               <div className="block text-center ">
                 <button className="bg-btnColor hover:bg-white hover:text-black text-white px-14 py-1 rounded-md mb-2">
@@ -61,14 +52,11 @@ function UserLogin() {
               >
                 Sign in
               </button>
-             
             </form>
           </div>
         </div>
       </div>
     </section>
-
-   
   );
 }
 

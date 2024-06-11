@@ -4,6 +4,7 @@ import Banner from "../../components/User/Banner";
 import paiedratrics from "../../assets/paiedratrics.png";
 import CardComponent from "../../components/User/CardComponent";
 import hospital from "../../assets/hospital.jpg"
+
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -19,6 +20,7 @@ function UserHome() {
     slidesToShow: 4,
     slidesToScroll: 4,
     initialSlide: 0,
+
     responsive: [
       {
         breakpoint: 1024,
@@ -135,7 +137,7 @@ function UserHome() {
       <div className=" bg-serviceColors w-[90%] mx-auto rounded-lg">
         <h1 className="text-4xl text-start mx-10 pt-10">Our Doctors</h1>
         <p className="text-2xl text-start mx-10 ">we have some of best the world specality  doctors around the world</p>
-        <div className="mt-20 p-7">
+        <div className="mt-5 p-7">
         <Slider  {...settings}>    
         {val.map(()=>(  <CardComponent  />))}
         </Slider>
