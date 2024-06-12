@@ -1,6 +1,6 @@
 import React from "react";
 
-function LoginPage() {
+function Login() {
   return (
     <div className="w-full bg-white h-screen flex">
       <div className="w-1/3 text-2xl sm:w1/2  md:w-1/3 bg-white h-full flex">
@@ -9,7 +9,7 @@ function LoginPage() {
         </h1>
       </div>
       <div className="w-2/3  sm:w-2/3  md:w-2/3 h-full pr-0 sm:pr-5 md:pr-13  ">
-        <div className="w-full h-[80%] mx-auto mt-16 border-gray-300 rounded-xl border-solid border-2 my-auto  bg-white">
+        <div className="w-full h-[80%]  mx-auto mt-16 border-gray-300 rounded-xl border-solid border-2 my-auto  bg-white">
           <h1 className="custom-fontText text-3xl font-bold  md:text-4xl mt-[10%] ml-[12%] text-black ">
             Doctor Login
           </h1>
@@ -42,4 +42,4 @@ function LoginPage() {
   );
 }
 
-export default LoginPage;
+export default Login;

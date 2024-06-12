@@ -7,7 +7,7 @@ function NavBar() {
     path: string;
   }
   const navItem: navItems[] = [
-    { link: "", path: "Services" },
+    { link: "", path: "Services"},
     { link: "", path: "About Us" },
     { link: "", path: "Contact Us" },
     { link: "", path: "Doctors" },
@@ -30,8 +30,8 @@ function NavBar() {
           </div>
 
           <ul className="hidden md:flex gap-x-16">
-            {navItem.map((values) => (
-              <li className="mx-auto text-black text-lg font-medium">{values.path}</li>
+            {navItem.map((values,index) => (
+              <li className="mx-auto text-black text-lg font-medium" key={index}>{values.path}</li>
             ))}
           </ul>
 

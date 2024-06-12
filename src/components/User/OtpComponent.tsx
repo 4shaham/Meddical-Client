@@ -1,13 +1,20 @@
 import React, { useEffect, useRef, useState, useCallback } from "react";
+import { resendOtp, verifyOtp } from "../../api/user";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { login } from "../../Redux/slice/userAuthSlice";
+import axios from "axios";
+
 
 function OtpComponent() {
+  const navigate=useNavigate()
   const [buttonStatus, setButtonStatus] = useState<boolean>(false);
   const inputRef = useRef<HTMLInputElement[]>([]);
   const [timer, setTimer] = useState(() => {
     const savedTimer = localStorage.getItem("timer");
     return savedTimer ? parseInt(savedTimer, 10) : 5;
   });
-
+  const dispatch=useDispatch()
   const timeOutCallback = useCallback(
     () => setTimer((currTimer) => currTimer - 1),
     []
@@ -35,6 +42,8 @@ function OtpComponent() {
     digitFour: "",
   });
 
+  const [err,setErr]=useState<string>('')
+
   const handleChange = (
     event: React.ChangeEvent<HTMLInputElement>,
     index: number
@@ -59,10 +68,76 @@ function OtpComponent() {
     }
   };
 
-  const handleSubmit = (event: React.FormEvent) => {
+  const handleSubmit = async(event:React.FormEvent) => {
     event.preventDefault();
-    console.log("OTP submitted:", otp);
+
+    try {
+      if(otp.digitOne=="" || otp.digitTwo=="" ||otp.digitThree==""|| otp.digitFour==""){
+        
+        setErr("all fields are Required")
+        return null
+     }
+ 
+     let values=""
+     let keys=Object.values(otp)
+     for(let i=0;i<keys.length;i++){
+        values+=keys[i]
+     }
+ 
+     const response=await verifyOtp(Number(values),"shahamsalam123@gmail.com")
+     console.log(response)
+ 
+     const {token}=response.data
+ 
+     if(response.data.message=="the Otp verification is completed" && token){
+         
+       dispatch(login("incremetn"))
+       navigate('/')
+ 
+     }
+    } catch (error) {
+      
+      console.log(error,"koko")
+
+      if (axios.isAxiosError(error)) {
+
+         if(error.response){
+               
+          if(!error.response.data.status){
+             setErr(error.response.data.message)
+          }
+
+         }
+
+      }  
+
+    }
+      
   };
+
+
+  const handleResendOtp=async()=>{
+
+    try {
+
+      console.log("hdfjdhfjdhfjdhfjdhfjdhfjdhfjdhf")
+      const response=await resendOtp("shahamsalam123@gmail.com")
+      
+      if(response.data.status){
+        
+        localStorage.setItem("timer","60")
+     
+      }
+      
+      
+    } catch (error) {
+
+      console.log(error)
+      
+    }
+
+
+  }
 
   const renderInput = () => {
     return Object.keys(otp).map((key, index) => (
@@ -106,16 +181,19 @@ function OtpComponent() {
                 <div className="flex flex-col ">
                  {!buttonStatus?( 
                   <>
+                      <p className="text-center text-red-500 ">{err}</p>
                     <h1 className="text-center text-red-600 mb-2">Timer:00:{timer}</h1>
                   <div>
-                    <button className="flex flex-row items-center justify-center text-center w-full border rounded-xl outline-none py-5 bg-btnColor border-none text-white text-sm shadow-sm">
+                    <button className="flex flex-row items-center justify-center text-center w-full border rounded-xl outline-none py-5 bg-btnColor border-none text-white text-sm shadow-sm" onClick={handleSubmit}>
                       Verify Account
                     </button>
                   </div>
                   </>):(<div>
-                    <button className="flex flex-row items-center justify-center text-center w-full border rounded-xl outline-none py-5 bg-red-500 border-none text-white text-sm shadow-sm">
+                    {/* <button className="flex flex-row items-center justify-center text-center w-full border rounded-xl outline-none py-5 bg-red-500 border-none text-white text-sm shadow-sm" onClick={handleResendOtp}>
                       Resend Otp
-                    </button>
+                    </button> */}
+           
+                    <Link to="/about"><button onClick={handleResendOtp}>Resend otp</button></Link> 
                   </div>)}
 
                

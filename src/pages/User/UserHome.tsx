@@ -139,7 +139,7 @@ function UserHome() {
         <p className="text-2xl text-start mx-10 ">we have some of best the world specality  doctors around the world</p>
         <div className="mt-5 p-7">
         <Slider  {...settings}>    
-        {val.map(()=>(  <CardComponent  />))}
+        {val.map((values,index)=>(  <CardComponent index={index}/>))}
         </Slider>
         </div>
       </div>
