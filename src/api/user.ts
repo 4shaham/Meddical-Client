@@ -51,5 +51,29 @@ export const resendOtp=async(email:string):Promise<resendOtp>=>{
    return response
 }
 
+interface LogoutResponse extends resendOtp{
+
+}
+
+
+
+interface resendOtp{
+
+  data:{
+    status:boolean,
+  } 
+
+}
+export const logOut=async():Promise<LogoutResponse>=>await Api.post(userRoutes.logOut)
+
+
+interface getTokenRes{
+  data:{
+    token:string
+  }
+}
+export const getToken=async():Promise<getTokenRes>=>await Api.get(userRoutes.getToken)
+
+
 
 

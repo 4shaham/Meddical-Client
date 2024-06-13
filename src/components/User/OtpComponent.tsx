@@ -91,7 +91,7 @@ function OtpComponent() {
  
      if(response.data.message=="the Otp verification is completed" && token){
          
-       dispatch(login("incremetn"))
+       dispatch(login())
        navigate('/')
  
      }
@@ -193,11 +193,9 @@ function OtpComponent() {
                       Resend Otp
                     </button> */}
            
-                    <Link to="/about"><button onClick={handleResendOtp}>Resend otp</button></Link> 
+                    <Link to="/otpVerification"><button onClick={handleResendOtp}>Resend otp</button></Link> 
                   </div>)}
 
-               
-                 
                 </div>
               </div>
             </form>

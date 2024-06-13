@@ -1,4 +1,9 @@
 import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import { RootState } from "../../Redux/store/store";
+import { logOut } from "../../api/user";
+import { logout } from "../../Redux/slice/userAuthSlice";
 
 function NavBar() {
   // nav items
@@ -6,6 +11,10 @@ function NavBar() {
     link: string;
     path: string;
   }
+  const dispatch=useDispatch()
+  const userStatus=useSelector((state:RootState)=>(
+      state.user.userStatus
+  ))
   const navItem: navItems[] = [
     { link: "", path: "Services"},
     { link: "", path: "About Us" },
@@ -18,6 +27,21 @@ function NavBar() {
   const toogleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
+
+  const handleLogoout=async()=>{
+  try {
+    const response=await logOut()
+    if(response.data.status==true){
+         dispatch(logout())
+    }
+  } catch (error) {
+    
+  }
+  
+
+         
+  }
+
 
   return (
     <header className="bg-bgColors w-full ">
@@ -36,7 +60,8 @@ function NavBar() {
           </ul>
 
           <div>
-            <button className="md:bg-btnColor text-white py-2 px-4 rounded-lg">Sign Up</button>
+            {userStatus?<button className="md:bg-red-600 text-white py-2 px-4 rounded-lg" onClick={handleLogoout}>Logout</button>: <Link to={"/login"}><button className="md:bg-btnColor text-white py-2 px-4 rounded-lg">Sign In</button></Link> }
+          
           </div>
           <div className="md:hidden">
             <button className="text-black" onClick={toogleMenu}>

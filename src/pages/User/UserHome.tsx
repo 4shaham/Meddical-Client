@@ -1,13 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
 import NavBar from "../../components/User/NavBar";
 import Banner from "../../components/User/Banner";
 import paiedratrics from "../../assets/paiedratrics.png";
 import CardComponent from "../../components/User/CardComponent";
 import hospital from "../../assets/hospital.jpg"
-
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { getToken } from "../../api/user";
+import { useDispatch } from "react-redux";
+import { login } from "../../Redux/slice/userAuthSlice";
+
 
 function UserHome() {
 
@@ -48,6 +51,22 @@ function UserHome() {
       }
     ]
   };
+
+  const dispatch=useDispatch()
+
+  useEffect(()=>{
+   
+    const Response=async()=>{
+        const datas=await getToken()
+        console.log(datas,"dhfdhjdhf")
+
+        if(datas.data.token){
+            dispatch(login())
+        }
+    }
+    Response()
+
+  },[])
  
 
 

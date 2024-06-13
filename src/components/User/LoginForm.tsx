@@ -3,6 +3,8 @@ import { signIn } from "../../api/user";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { IoArrowBackCircleOutline } from "react-icons/io5";
+import { useDispatch } from "react-redux";
+import { login } from "../../Redux/slice/userAuthSlice";
 
 function LoginForm() {
   interface FormData {
@@ -18,7 +20,8 @@ function LoginForm() {
   // hooks
 
   const navigate=useNavigate()
-
+  const dispatch=useDispatch()
+  
   const [formDatas, setFormDatas] = useState<FormData>({
     email: "",
     password: "",
@@ -72,8 +75,13 @@ function LoginForm() {
         setFormErr((prev) => ({ ...prev, emailErr: "" }));
       }
 
-      let a = await signIn(email, password);
-      console.log("response", a);
+      let response = await signIn(email, password);
+
+      if(response.data.message=="the login sucesss" && response.data.status==true){
+          dispatch(login())
+          navigate("/")
+      }
+      console.log("response",response);
       return null;
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -86,7 +94,6 @@ function LoginForm() {
 
           }else if(error.response.data.otpVerified=='false'){
              
-            console.log("hdfdhfhdjfhdj")
             localStorage.setItem("timer",'60')
             navigate('/otpVerification')
 

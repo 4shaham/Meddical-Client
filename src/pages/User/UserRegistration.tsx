@@ -90,6 +90,26 @@ function UserRegistration() {
         phoneNumberErr: "This Field is required",
         confirmPasswordErr: "This Field is required",
       })
+      return 
+    }
+    if (
+      userName.trim() == "" &&
+      email.trim() != "" &&
+      gender.trim() != "" &&
+      password.trim() != "" &&
+      confirmPassword.trim() != "" &&
+      phoneNumber.trim() != ""
+    ) {
+      setFormErrData({
+        userNameErr:"This Field is required",
+        emailErr: "This Field is required",
+        passwordErr: "This Field is required",
+        ageErr: "This Field is required",
+        genderErr: "This Field is required",
+        phoneNumberErr: "This Field is required",
+        confirmPasswordErr: "This Field is required",
+      })
+      return 
     }
 
    const response=await signUp(email,userName,age,gender,password,phoneNumber)

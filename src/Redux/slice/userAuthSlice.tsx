@@ -1,14 +1,14 @@
 
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { PayloadAction,createSlice } from "@reduxjs/toolkit";
 
 
 
 interface userState{
-    userData:any
+    userStatus:boolean
 }
 
 const initialState:userState={
-    userData:null
+    userStatus:false
 }
 
 
@@ -18,14 +18,14 @@ const userAuthSlice=createSlice({
     initialState,
 
     reducers:{
-        login:(state,action:PayloadAction<any>)=>{
+        login:(state)=>{
              
-           state.userData=action.payload
+           state.userStatus=true
 
         },  
-        logout:(state,action:PayloadAction<void>)=>{
+        logout:(state)=>{
                
-            state.userData=null
+            state.userStatus=false
         
         }
     }
