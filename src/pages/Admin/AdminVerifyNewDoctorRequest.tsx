@@ -1,23 +1,21 @@
-import React from "react";
+
 import SideBar from "../../components/Admin/SideBar";
 import NavBar from "../../components/Admin/NavBar";
-import DashBoardComponent from "../../components/Admin/DashBoardComponent";
 import UseAdminRouteProtect from "../../components/Admin/AdminRoteProtectHook";
 
-function AdminDashBoard() {
+function AdminVerifyNewDoctorRequest() {
 
-  // coustom hook for route Protecting
   UseAdminRouteProtect()
 
   return (
     <div className="w-full h-full flex">
-        <SideBar />
+      <SideBar />
       <div className="bg-white w-full">
         <NavBar />
-        <DashBoardComponent />
+        <h1>Verify new Request</h1>
       </div>
     </div>
   );
 }
 
-export default AdminDashBoard;
+export default AdminVerifyNewDoctorRequest;

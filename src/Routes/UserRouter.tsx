@@ -9,14 +9,10 @@ import { RootState } from "../Redux/store/store";
 import PrivateRoutes from "./protectRoutes";
 
 function UserRouter() {
-  const userStatus = useSelector((state: RootState) => {
-    return state.user.userStatus;
-  });
-
   return (
     <div>
       <Routes>
-        <Route element={<PrivateRoutes/>}>
+        <Route element={<PrivateRoutes />}>
           <Route path={"/login"} element={<UserLogin />} />
           <Route path="/registration" element={<UserRegistration />} />
         </Route>

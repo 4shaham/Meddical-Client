@@ -3,7 +3,7 @@ import NavBar from "../../components/User/NavBar";
 import Banner from "../../components/User/Banner";
 import paiedratrics from "../../assets/paiedratrics.png";
 import CardComponent from "../../components/User/CardComponent";
-import hospital from "../../assets/hospital.jpg"
+import hospital from "../../assets/hospital.jpg";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -11,10 +11,8 @@ import { getToken } from "../../api/user";
 import { useDispatch } from "react-redux";
 import { login } from "../../Redux/slice/userAuthSlice";
 
-
 function UserHome() {
-
-  let val=[1,2,3,4,56,6]
+  let val = [1, 2, 3, 4, 56, 6];
 
   var settings = {
     dots: true,
@@ -31,44 +29,38 @@ function UserHome() {
           slidesToShow: 3,
           slidesToScroll: 3,
           infinite: true,
-          dots: true
-        }
+          dots: true,
+        },
       },
       {
         breakpoint: 600,
         settings: {
           slidesToShow: 2,
           slidesToScroll: 2,
-          initialSlide: 2
-        }
+          initialSlide: 2,
+        },
       },
       {
         breakpoint: 480,
         settings: {
           slidesToShow: 1,
-          slidesToScroll: 1
-        }
-      }
-    ]
+          slidesToScroll: 1,
+        },
+      },
+    ],
   };
 
-  const dispatch=useDispatch()
+  const dispatch = useDispatch();
 
-  useEffect(()=>{
-   
-    const Response=async()=>{
-        const datas=await getToken()
-        console.log(datas,"dhfdhjdhf")
-
-        if(datas.data.token){
-            dispatch(login())
-        }
-    }
-    Response()
-
-  },[])
- 
-
+  useEffect(() => {
+    const Response = async () => {
+      const datas = await getToken();
+      if (datas.data.token) {
+        dispatch(login());
+      }
+    };
+    Response();
+  }, []);
 
   return (
     <div>
@@ -149,20 +141,29 @@ function UserHome() {
       </div>
 
       <div className=" object-fill p-6 rounded-2xl">
-           <h1 className=" text-center text-2xl font-bold mt-10 mb-7">Over View </h1>
-           <img className="h-auto w-full rounded-2xl mb-5 " src={hospital} alt="image description"/>
+        <h1 className=" text-center text-2xl font-bold mt-10 mb-7">
+          Over View{" "}
+        </h1>
+        <img
+          className="h-auto w-full rounded-2xl mb-5 "
+          src={hospital}
+          alt="image description"
+        />
       </div>
 
       <div className=" bg-serviceColors w-[90%] mx-auto rounded-lg">
         <h1 className="text-4xl text-start mx-10 pt-10">Our Doctors</h1>
-        <p className="text-2xl text-start mx-10 ">we have some of best the world specality  doctors around the world</p>
+        <p className="text-2xl text-start mx-10 ">
+          we have some of best the world specality doctors around the world
+        </p>
         <div className="mt-5 p-7">
-        <Slider  {...settings}>    
-        {val.map((values,index)=>(  <CardComponent index={index}/>))}
-        </Slider>
+          <Slider {...settings}>
+            {val.map((values, index) => (
+              <CardComponent index={index} />
+            ))}
+          </Slider>
         </div>
       </div>
-    
     </div>
   );
 }

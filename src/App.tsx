@@ -3,7 +3,7 @@ import AdminRouter from "./Routes/AdminRouter";
 import DoctorRouter from "./Routes/DoctorRouter";
 import UserRouter from "./Routes/UserRouter";
 
-function App() {
+function  App() {
   return (
     <>
       <AdminRouter/>
