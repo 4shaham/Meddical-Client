@@ -13,9 +13,9 @@ function AdminRouter() {
     <Routes>
       <Route path={"/admin/login"} element={<AdminLogin />}></Route>
 
-      {/* <Route element={<AdminRote />}> */}
+    
         <Route path="/admin/userManagement" element={<AdminUserManagment />} />
-      {/* </Route> */}
+
       <Route path={"/admin/"} element={<AdminDashBoard />}></Route>
       <Route
         path="/admin/doctorsManagment"

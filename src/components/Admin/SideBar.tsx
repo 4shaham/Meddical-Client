@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React,{Children, useState} from "react";
 import { LuLayoutDashboard } from "react-icons/lu";
 import { IoMdNotifications } from "react-icons/io";
 import { FaUsersRectangle } from "react-icons/fa6";
@@ -7,7 +7,7 @@ import { MdLocalFireDepartment } from "react-icons/md";
 import { Link } from "react-router-dom";
 
 function SideBar() {
-  let sideBard = [
+  const sideBard = [
     {path: "/admin/", element: "AdminDashBoard", icon:<LuLayoutDashboard/> },
     {
       path: "/admin/verifyNewRequest",
@@ -36,7 +36,7 @@ function SideBar() {
     ));
 
   return (
-    <div className="w-[25%] md:bg-gray-100 md:p-5 md:h-screen md:text-center">
+    <div className="w-[25%]  md:bg-gray-100 md:p-5 md:h-screen md:text-center">
       <div>{sideBardElements()}</div>
     </div>
   );

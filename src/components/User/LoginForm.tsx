@@ -5,118 +5,77 @@ import { Link, useNavigate } from "react-router-dom";
 import { IoArrowBackCircleOutline } from "react-icons/io5";
 import { useDispatch } from "react-redux";
 import { login } from "../../Redux/slice/userAuthSlice";
+import { SubmitHandler, useForm } from "react-hook-form";
 
 function LoginForm() {
-  interface FormData {
-    email: string;
-    password: string;
-  }
-
-  interface FormErr {
+  // interface
+  interface CredentiolErr {
     emailErr: string;
     passwordErr: string;
   }
 
   // hooks
-
-  const navigate=useNavigate()
-  const dispatch=useDispatch()
-  
-  const [formDatas, setFormDatas] = useState<FormData>({
-    email: "",
-    password: "",
-  });
-
-  const [formErr, setFormErr] = useState<FormErr>({
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [credintaiolErr, setCredintiaolErr] = useState<CredentiolErr>({
     emailErr: "",
     passwordErr: "",
   });
 
-  const handleSubmit = async (e: React.FormEvent): Promise<null> => {
-    e.preventDefault();
+   // useForm
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<IFormData>();
 
+  interface IFormData {
+    email: string;
+    password: string;
+  }
+
+  const HandleOnSubmit:SubmitHandler<IFormData>=async (data) => {
     try {
-      const { email, password } = formDatas;
-
-      if (email.trim() == "" && password.trim() == "") {
-        setFormErr({
-          emailErr: "This fild is requied",
-          passwordErr: "This filed is required",
-        });
-        return null;
+      let response = await signIn(data.email, data.password);
+      if (
+        response.data.message == "the login sucesss" &&
+        response.data.status == true
+      ) {
+        dispatch(login());
+        navigate("/");
       }
-
-      if (email.trim() != "" && password.trim() != "") {
-        setFormErr({ emailErr: "", passwordErr: "" });
-      }
-
-      if (email.trim() == "" && password.trim() != "") {
-        setFormErr((prev) => ({
-          ...prev,
-          emailErr: "This field is required",
-          passwordErr: "",
-        }));
-        return null;
-      }
-
-      if (password.trim() == "" && email.trim() != "") {
-        setFormErr((prev) => ({
-          ...prev,
-          passwordErr: "This field is required",
-        }));
-        return null;
-      }
-
-      if (password.trim() != "") {
-        setFormErr((prev) => ({ ...prev, passwordErr: "" }));
-      }
-
-      if (email.trim() != "") {
-        setFormErr((prev) => ({ ...prev, emailErr: "" }));
-      }
-
-      let response = await signIn(email, password);
-
-      if(response.data.message=="the login sucesss" && response.data.status==true){
-          dispatch(login())
-          navigate("/")
-      }
-      console.log("response",response);
-      return null;
     } catch (error) {
       if (axios.isAxiosError(error)) {
         if (error.response) {
           if (error.response.data.message == "the password is not match") {
-            setFormErr({
+            setCredintiaolErr({
               emailErr: "",
               passwordErr: "This password is not match",
             });
-
-          }else if(error.response.data.otpVerified=='false'){
-             
-            localStorage.setItem("timer",'60')
-            navigate('/otpVerification')
-
-          }else {
-            setFormErr({
+          } else if (error.response.data.otpVerified == "false") {
+            localStorage.setItem("timer", "60");
+            navigate("/otpVerification");
+          } else {
+            setCredintiaolErr({
               emailErr: "This Email user is not found",
-              passwordErr:"",
+              passwordErr: "",
             });
           }
-          console.log("Response status:", error.response.status);
-          console.log("Response data:", error.response.data);
-          console.log("Response headers:", error.response.headers);
         }
       }
-      console.log(error);
-      return null;
     }
   };
 
   return (
     <div>
       <section className="bg-gray-50 mt-6 dark:bg-serviceColors-500 md:my-34 md:mx-36 rounded-md">
-       <Link to={"/"}><h1 className="py-4 px-11  font-medium flex">  <IoArrowBackCircleOutline size="1.5rem" />Home</h1></Link> 
+        <Link to={"/"}>
+          <h1 className="py-4 px-11  font-medium flex">
+            {" "}
+            <IoArrowBackCircleOutline size="1.5rem" />
+            Home
+          </h1>
+        </Link>
 
         <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
           <div className="w-full bg-white rounded-lg  md:mt-0 sm:max-w-md xl:p-0 text-black">
@@ -124,7 +83,10 @@ function LoginForm() {
               <h1 className="text-xl text-center font-bold leading-tight tracking-tight text-gray-900 md:text-2xl ">
                 User Sign In
               </h1>
-              <form className="space-y-4 md:space-y-6" action="#">
+              <form
+                className="space-y-4 md:space-y-6"
+                onSubmit={handleSubmit(HandleOnSubmit)}
+              >
                 <div>
                   <label className="block mb-2 text-sm font-medium text-center">
                     Your email
@@ -132,19 +94,27 @@ function LoginForm() {
                   <input
                     placeholder="please enter Email"
                     className="text-center  peer h-full w-full border-b border-blue-gray-200 bg-transparent pt-4 pb-1.5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border-blue-gray-200 focus:border-gray-900 focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
-                    value={formDatas.email}
-                    onChange={(event) =>
-                      setFormDatas({
-                        email: event.target.value,
-                        password: formDatas.password,
-                      })
-                    }
+                    {...register("email",{
+                      required: true,
+                      pattern:
+                        /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                    })}
                   />
-                  {formErr.emailErr.length != 0 ? (
-                    <p className="text-red-600 text-center">
-                      {formErr.emailErr}
+                  {(errors.email?.type == "required" && (
+                    <p className="font-medium text-red-600 text-center">
+                      This field is required
                     </p>
-                  ) : null}
+                  )) ||
+                    (errors.email?.type == "pattern" && (
+                      <p className="font-medium text-red-500 text-center">
+                        The email format is not valid
+                      </p>
+                    ))}
+                  {credintaiolErr.emailErr && (
+                    <p className="text-red-500 text-center">
+                      {credintaiolErr.emailErr}
+                    </p>
+                  )}
                 </div>
                 <div>
                   <label className="block mb-2 text-sm font-medium text-center">
@@ -153,19 +123,20 @@ function LoginForm() {
                   <input
                     placeholder="please Enter Password"
                     className="text-center  peer h-full w-full border-b border-blue-gray-200 bg-transparent pt-4 pb-1.5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border-blue-gray-200 focus:border-gray-900 focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
-                    value={formDatas.password}
-                    onChange={(event) =>
-                      setFormDatas({
-                        email: formDatas.email,
-                        password: event.target.value,
-                      })
-                    }
+                    {...register("password", {
+                      required: true,
+                    })}
                   />
-                  {formErr.passwordErr.length != 0 ? (
-                    <p className="text-red-600 text-center">
-                      {formErr.passwordErr}
+                  {errors.email?.type == "required" && (
+                    <p className="font-medium text-red-600 text-center">
+                      This field is required
                     </p>
-                  ) : null}
+                  )}
+                  {credintaiolErr.passwordErr && (
+                    <p className="text-red-500 text-center">
+                      {credintaiolErr.passwordErr}
+                    </p>
+                  )}
                 </div>
                 <p className="text-sm text-center font-light text-red-700 dark:text-red-700">
                   forgetPassword?{" "}
@@ -175,16 +146,15 @@ function LoginForm() {
                   ></a>
                 </p>
                 <div className="block text-center ">
-                  <button
-                    className="bg-btnColor hover:bg-white hover:text-black text-white px-14 py-1 rounded-md mb-2"
-                    onClick={(e) => handleSubmit(e)}
-                  >
+                  <button className="bg-btnColor hover:bg-white hover:text-black text-white px-14 py-1 rounded-md mb-2">
                     Sign In
                   </button>
                   <br />
-                  <Link to={"/registration"}><button className="bg-btnColor text-white px-14 py-1 rounded-md">
-                    Sign Up
-                  </button></Link>
+                  <Link to={"/registration"}>
+                    <button className="bg-btnColor text-white px-14 py-1 rounded-md">
+                      Sign Up
+                    </button>
+                  </Link>
                 </div>
               </form>
             </div>
@@ -196,3 +166,5 @@ function LoginForm() {
 }
 
 export default LoginForm;
+
+
