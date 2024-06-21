@@ -15,6 +15,7 @@ function AdminRouter() {
         <Route path={"/admin/"} element={<DashBoardComponent/>} />
         <Route path={"/admin/doctorsManagment"} element={<DashBoardComponent/>} />
       </Route>
+      
       <Route path={"/admin/login"} element={<Login/>}></Route>
       <Route path="/admin/*" element={<AdminNotFoundPage />} />
     </Routes>

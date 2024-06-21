@@ -1,8 +1,10 @@
 import React from 'react'
 import {  useState } from "react";
 import { signUp } from "../../api/user";
-import {useNavigate } from "react-router-dom";
+import {Link, useNavigate } from "react-router-dom";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { useDispatch } from 'react-redux';
+import { verifed } from '../../Redux/slice/OtpSlice';
 
 
 interface IUserRegisterData {
@@ -28,6 +30,7 @@ interface RegistrationErr {
 function Registration() {
 
     const navigate=useNavigate()
+    const dispatch=useDispatch()
     const [registrationErr, setRegistrationErr] = useState<RegistrationErr>({
       userNameErr: "",
       emailErr: "",
@@ -78,7 +81,9 @@ function Registration() {
   
             let timer=60
             localStorage.setItem("timer", timer.toString());
+            dispatch(verifed())
             navigate('/otpVerification')
+
           }
          
         
@@ -275,6 +280,14 @@ function Registration() {
             >
               Sign Up
             </button>
+            <br />
+           <Link to={"/login"}> <button
+              className="bg-btnColor text-white px-14 py-1 rounded-md mt-2"
+              type="submit"
+            >
+              Sign  In
+            </button></Link>
+               
           </div>
         </form>
       </div>

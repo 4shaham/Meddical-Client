@@ -68,8 +68,8 @@ export const logOut = async (): Promise<LogoutResponse> =>
 
 interface getTokenRes {
   data: {
-    token: string;
+    status:boolean,
+    decoded?:object
   };
 }
-export const getToken = async (): Promise<getTokenRes> =>
-  await Api.get(userRoutes.getToken);
+export const getToken = async (): Promise<getTokenRes> => await Api.get(userRoutes.getToken);

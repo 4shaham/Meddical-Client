@@ -53,9 +53,10 @@ function UserHome() {
   const dispatch = useDispatch();
 
   useEffect(() => {
+
     const Response = async () => {
       const datas = await getToken();
-      if (datas.data.token) {
+      if (datas.data.status) {
         dispatch(login());
       }
     };

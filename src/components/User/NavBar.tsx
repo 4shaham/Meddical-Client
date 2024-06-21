@@ -5,25 +5,35 @@ import { RootState } from "../../Redux/store/store";
 import { logOut } from "../../api/user";
 import { logout } from "../../Redux/slice/userAuthSlice";
 
+
+interface navItems {
+  link: string;
+  path: string;
+}
+
+
+
+
 function NavBar() {
-  // nav items
-  interface navItems {
-    link: string;
-    path: string;
-  }
+  
+
+
   const dispatch=useDispatch()
   const userStatus=useSelector((state:RootState)=>(
       state.user.userStatus
   ))
+
+  // nav items
+
   const navItem: navItems[] = [
     { link: "", path: "Services"},
     { link: "", path: "About Us" },
     { link: "", path: "Contact Us" },
     { link: "", path: "Doctors" },
   ];
-
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
 
+ 
   const toogleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };

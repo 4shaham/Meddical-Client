@@ -1,8 +1,11 @@
 import { Link, Outlet } from "react-router-dom";
 import { IoArrowBackCircleOutline } from "react-icons/io5";
+import UseProtectLoginAndRegistration from "../../hook/UserSide/useProtectLoginAndRegistration";
 
 
 function UserRegistrationAndLogin() {
+
+  UseProtectLoginAndRegistration()
 
   return (
     <div className="p-12">
@@ -13,9 +16,7 @@ function UserRegistrationAndLogin() {
             Home
           </h1>
         </Link>
-        
         <Outlet/>
-
       </section>
     </div>
   );
