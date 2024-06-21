@@ -7,6 +7,9 @@ import { MdLocalFireDepartment } from "react-icons/md";
 import { Link } from "react-router-dom";
 
 function SideBar() {
+  
+  console.log("hiiii side bar")
+
   const sideBard = [
     {path: "/admin/", element: "AdminDashBoard", icon:<LuLayoutDashboard/> },
     {
@@ -42,4 +45,4 @@ function SideBar() {
   );
 }
 
-export default SideBar;
+export default React.memo(SideBar);

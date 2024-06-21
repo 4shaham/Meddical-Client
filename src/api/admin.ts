@@ -21,6 +21,6 @@ interface adminGetTokenResponse{
     }
 }
 
-export const adminGetToken = async():Promise<adminGetTokenResponse>=> await Api.get(adminRoutes.getToken)
+export const adminGetToken = async():Promise<adminGetTokenResponse>=> await Api.get(adminRoutes.getToken) 
  
 

@@ -7,6 +7,8 @@ const UseAdminRouteProtect = () => {
 
   const navigate = useNavigate();
 
+  console.log("coustom hook worked is successess")
+                                                                      
   interface adminGetTokenResponse {
     data: {
       status: boolean;

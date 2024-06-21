@@ -1,35 +1,22 @@
-import React from "react";
+
 import { Route, Routes } from "react-router-dom";
-import AdminLogin from "../pages/Admin/AdminLogin";
-import AdminDashBoard from "../pages/Admin/AdminDashBoard";
-import AdminDoctorsManagment from "../pages/Admin/AdminDoctorsManagment";
-import AdminUserManagment from "../pages/Admin/AdminUserManagment";
-import AdminSpecalityManagment from "../pages/Admin/AdminSpecalityManagment";
-import AdminVerifyNewDoctorRequest from "../pages/Admin/AdminVerifyNewDoctorRequest";
-import AdminRote from "../components/Admin/AdminRoteProtectHook";
+import MainPage from "../pages/Admin/MainPage";
+import DashBoardComponent from "../components/Admin/DashBoardComponent";
+import AdminNotFoundPage from "../pages/Admin/AdminNotFoundPage";
+import Login from "../components/Admin/Login";
+
+
 
 function AdminRouter() {
   return (
     <Routes>
-      <Route path={"/admin/login"} element={<AdminLogin />}></Route>
-
-    
-        <Route path="/admin/userManagement" element={<AdminUserManagment />} />
-
-      <Route path={"/admin/"} element={<AdminDashBoard />}></Route>
-      <Route
-        path="/admin/doctorsManagment"
-        element={<AdminDoctorsManagment />}
-      />
-
-      <Route
-        path="/admin/specalityManagement"
-        element={<AdminSpecalityManagment />}
-      />
-      <Route
-        path="/admin/verifyNewRequest"
-        element={<AdminVerifyNewDoctorRequest />}
-      />
+      <Route element={<MainPage/>}>
+        <Route path={"/admin/specalityManagement"}  />
+        <Route path={"/admin/"} element={<DashBoardComponent/>} />
+        <Route path={"/admin/doctorsManagment"} element={<DashBoardComponent/>} />
+      </Route>
+      <Route path={"/admin/login"} element={<Login/>}></Route>
+      <Route path="/admin/*" element={<AdminNotFoundPage />} />
     </Routes>
   );
 }

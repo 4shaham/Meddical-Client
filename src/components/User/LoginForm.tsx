@@ -34,7 +34,7 @@ function LoginForm() {
     password: string;
   }
 
-  const HandleOnSubmit:SubmitHandler<IFormData>=async (data) => {
+  const HandleOnSubmit:SubmitHandler<IFormData>=async (data: IFormData) => {
     try {
       let response = await signIn(data.email, data.password);
       if (
@@ -67,15 +67,8 @@ function LoginForm() {
   };
 
   return (
-    <div>
-      <section className="bg-gray-50 mt-6 dark:bg-serviceColors-500 md:my-34 md:mx-36 rounded-md">
-        <Link to={"/"}>
-          <h1 className="py-4 px-11  font-medium flex">
-            {" "}
-            <IoArrowBackCircleOutline size="1.5rem" />
-            Home
-          </h1>
-        </Link>
+   
+     
 
         <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
           <div className="w-full bg-white rounded-lg  md:mt-0 sm:max-w-md xl:p-0 text-black">
@@ -160,8 +153,7 @@ function LoginForm() {
             </div>
           </div>
         </div>
-      </section>
-    </div>
+   
   );
 }
 
