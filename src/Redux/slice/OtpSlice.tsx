@@ -2,7 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 
 
 const initialState={
-    OtpVerifed:false
+    OtpVerifed:false,
+    otpType:"",
 }
 
 
@@ -12,8 +13,9 @@ const OtpSlice=createSlice({
     initialState,
 
     reducers:{
-        verifed:(state)=>{
+        verifed:(state,actions)=>{
            state.OtpVerifed=true
+           state.otpType=actions.payload
         }
     }
 })

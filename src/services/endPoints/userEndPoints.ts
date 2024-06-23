@@ -1,3 +1,4 @@
+import UpdatePassword from "../../components/User/UpdatePassword"
 
 
 const userRoutes={
@@ -6,7 +7,10 @@ const userRoutes={
     verifyOtp:'/api/otpVerification',
     resendOtp:'/api/resendOtp',
     logOut:'/api/logOut',
-    getToken:'/api/getToken'
+    getToken:'/api/getToken',
+    googleAuth:'/api/googleAuth',
+    forgotPassword:'/api/forgotPassword',
+    UpdatePassword:'/api/updatePassword',
 }   
 
 export default userRoutes

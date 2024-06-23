@@ -1,13 +1,26 @@
 import React, { useEffect, useRef, useState, useCallback } from "react";
 import { resendOtp, verifyOtp } from "../../api/user";
-import { Link, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import {useNavigate} from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../Redux/slice/userAuthSlice";
 import axios from "axios";
-import { FaS } from "react-icons/fa6";
+
+interface root{
+   
+  otpPageVerification:{
+ 
+      OtpVerifed:boolean,
+      otpType:string
+  
+  }
+  
+
+}
+
 
 function OtpComponent() {
   const navigate = useNavigate();
+  const typeOfOtp=useSelector((state:root)=>state.otpPageVerification.otpType)
   const [buttonStatus, setButtonStatus] = useState<boolean>(false);
   const inputRef = useRef<HTMLInputElement[]>([]);
   const [isLoaidng, setIsLoading] = useState<boolean>(false);
@@ -97,11 +110,22 @@ function OtpComponent() {
         values += keys[i];
       }
 
-      const response = await verifyOtp(Number(values));
+      const response = await verifyOtp(Number(values),typeOfOtp); 
       isFormSumbited = false;
       console.log(response);
 
+      if(response.data.message=="OTP verification successful of forgotPassword"){
+          
+        navigate("/updatePassword");
+
+        return
+
+      }
+
+
       const { token } = response.data;
+
+   
 
       if (
         response.data.message == "the Otp verification is completed" &&
@@ -131,7 +155,7 @@ function OtpComponent() {
      
       console.log("handle resend Otp");
       setIsLoading(true)
-      const response = await resendOtp("shahamsalam123@gmail.com");
+      const response = await resendOtp();
       setIsLoading(false)
   
       console.log(response);
@@ -143,6 +167,7 @@ function OtpComponent() {
       }
     } catch (error) {
       console.log(error);
+      setIsLoading(false)
     }
   };
 

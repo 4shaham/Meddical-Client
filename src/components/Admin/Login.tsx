@@ -7,9 +7,12 @@ import { useDispatch } from "react-redux";
 import { login } from "../../Redux/slice/AdminAuthSlice";
 import UseAdminLogin from "../../hook/AdminSide/useAdminLoginRoute";
 
+
 function Login() {
   
   UseAdminLogin()
+
+
 
   const [error, setError] = useState("");
   const {
@@ -107,6 +110,7 @@ function Login() {
                 <button className="bg-btnColor text-white w-full py-2 rounded-md">
                   Sign In
                 </button>
+               
               </div>
             </form>
           </div>
