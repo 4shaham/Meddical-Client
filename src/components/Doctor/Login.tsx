@@ -40,8 +40,7 @@ function Login() {
           <div className="flex flex-col gap-6 mx-auto md:mx-32 max-w-72 mt-20">
             <form onSubmit={handleSubmit(handleOnSubmitForm)}>
               <div className="h-11 w-full min-w-[200px] md:min-w-[400px]">
-           
-                <label   className={errors.email?.type=="required"||errors.email?.type=="pattern"?"text-red-500 p-2 md:p-0 text-md  md:text-xl  mt-3 ":"text-balck p-2 md:p-0 text-md  md:text-xl  mt-3 "}  >
+                <label   className={errors.email?.type=="required"||errors.email?.type=="pattern"?"text-red-500 p-2 md:p-0 text-md  md:text-lg  mt-3 ":"text-balck p-2 md:p-0 text-md  md:text-lg  mt-3 "}  >
                  EMAIL ADDRESS  
                 </label>
                 <input
@@ -58,7 +57,7 @@ function Login() {
                    <small  className="text-red-500 text-center"> This Email format is not valid</small> }    
               </div>
               <div className="h-11 w-full min-w-[200px] md:min-w-[400px] mt-14">
-                <label   className={errors.password?.type=="required"?"text-red-500 p-2 md:p-0 text-md  md:text-xl  mt-3 ":"text-balck p-2 md:p-0 text-md  md:text-xl  mt-3 "}  >
+                <label   className={errors.password?.type=="required"?"text-red-500 p-2 md:p-0 text-md  md:text-lg  mt-3 ":"text-balck p-2 md:p-0 text-md  md:text-xl  mt-3 "}  >
                   PASSWORD
                 </label>
                 <input

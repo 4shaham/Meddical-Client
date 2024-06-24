@@ -4,6 +4,7 @@ import MainPage from "../pages/Admin/MainPage";
 import DashBoardComponent from "../components/Admin/DashBoardComponent";
 import AdminNotFoundPage from "../pages/Admin/AdminNotFoundPage";
 import Login from "../components/Admin/Login";
+import SpecalityManagement from "../pages/Admin/SpecalityManagement";
 
 
 
@@ -11,7 +12,7 @@ function AdminRouter() {
   return (
     <Routes>
       <Route element={<MainPage/>}>
-        <Route path={"/admin/specalityManagement"}  />
+        <Route path={"/admin/specalityManagement"} element={<SpecalityManagement/>}  />
         <Route path={"/admin/"} element={<DashBoardComponent/>} />
         <Route path={"/admin/doctorsManagment"} element={<DashBoardComponent/>} />
       </Route>

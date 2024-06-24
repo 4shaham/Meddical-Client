@@ -4,6 +4,7 @@ import NavBar from "../../components/Doctor/NavBar";
 function DoctorHomePage() {
   return (
     <div className="bg-white w-full h-screen">
+      
       <NavBar />
 
       <div className="w-full  sm:h-1/3 md:h-1/2 mt-4  flex">
