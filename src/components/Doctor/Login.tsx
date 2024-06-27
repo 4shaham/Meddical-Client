@@ -1,5 +1,6 @@
 import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { Link } from "react-router-dom";
 
 interface FormData {
   email: string;
@@ -7,6 +8,7 @@ interface FormData {
 }
 
 function Login() {
+
   const {
     register,
     handleSubmit,
@@ -25,12 +27,12 @@ function Login() {
   }
 
   return (
-    <div className="w-full bg-white h-screen flex">
-      <div className="w-1/3 text-2xl  sm:w1/2  md:w-1/3 bg-white h-full flex">
-        <h1 className="custom-font font-bold text-black text-xl   md:text-5xl lg:text-6xl my-auto mx-auto justify-center">
-          MEDDICAL
-        </h1>
-      </div>
+    // <div className="w-full bg-white h-screen flex">
+    //   <div className="w-1/3 text-2xl  sm:w1/2  md:w-1/3 bg-white h-full flex">
+    //     <h1 className="custom-font font-bold text-black text-xl   md:text-5xl lg:text-6xl my-auto mx-auto justify-center">
+    //       MEDDICAL
+    //     </h1>
+    //   </div>
       <div className="w-2/3  sm:w-2/3  md:w-2/3 h-full pr-0 sm:pr-5 md:pr-13  ">
         <div className="w-full h-[80%]  mx-auto mt-16 border-gray-100 rounded-xl border-solid border-2 my-auto  bg-white">
           <h1 className="custom-fontText text-3xl font-bold  md:text-4xl mt-[10%] ml-[12%] text-black ">
@@ -56,7 +58,7 @@ function Login() {
                  {errors.email?.type=="pattern" &&
                    <small  className="text-red-500 text-center"> This Email format is not valid</small> }    
               </div>
-              <div className="h-11 w-full min-w-[200px] md:min-w-[400px] mt-14">
+              <div className="h-11 w-full min-w-[200px] md:min-w-[400px] mt-14 ">
                 <label   className={errors.password?.type=="required"?"text-red-500 p-2 md:p-0 text-md  md:text-lg  mt-3 ":"text-balck p-2 md:p-0 text-md  md:text-xl  mt-3 "}  >
                   PASSWORD
                 </label>
@@ -77,15 +79,16 @@ function Login() {
                 >
                   Sign In
                 </button>
-                <button className="bg-btnColor text-white w-full py-2 rounded-md mt-2">
+               <Link to={"/doctor/register"}><button className="bg-btnColor text-white w-full py-2 rounded-md mt-2">
                   Register New Doctor
                 </button>
+                </Link> 
               </div>
             </form>
           </div>
         </div>
       </div>
-    </div>
+    // </div>
   );
 }
 

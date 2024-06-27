@@ -5,6 +5,7 @@ import DashBoardComponent from "../components/Admin/DashBoardComponent";
 import AdminNotFoundPage from "../pages/Admin/AdminNotFoundPage";
 import Login from "../components/Admin/Login";
 import SpecalityManagement from "../pages/Admin/SpecalityManagement";
+import AddSpecalityManagment from "../pages/Admin/AddSpecalityManagment";
 
 
 
@@ -14,6 +15,7 @@ function AdminRouter() {
       <Route element={<MainPage/>}>
         <Route path={"/admin/specalityManagement"} element={<SpecalityManagement/>}  />
         <Route path={"/admin/"} element={<DashBoardComponent/>} />
+        <Route path={"/admin/AddSpecalityManagment"} element={<AddSpecalityManagment/>}/>
         <Route path={"/admin/doctorsManagment"} element={<DashBoardComponent/>} />
       </Route>
       

@@ -97,7 +97,7 @@ function Login() {
                   {...register("password", {
                     required: true,
                     maxLength: 10,
-                    onChange: handleTrim,
+                    onChange:handleTrim,
                   })}
                 />
                 {errors.password && (

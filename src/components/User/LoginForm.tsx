@@ -58,10 +58,13 @@ function LoginForm() {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm<IFormData>();
 
   // gogle auth
+
+ 
 
 
   const responseMessage = async(response:CredentialResponse):Promise<void>=> {
@@ -144,6 +147,7 @@ function LoginForm() {
                 {...register("email", {
                   required: true,
                   pattern: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                  onChange:(e):any=>setValue("email",e.target.value.trim())
                 })}
               />
               {(errors.email?.type == "required" && (
@@ -171,6 +175,7 @@ function LoginForm() {
                 className="text-center  peer h-full w-full border-b border-blue-gray-200 bg-transparent pt-4 pb-1.5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border-blue-gray-200 focus:border-gray-900 focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
                 {...register("password", {
                   required: true,
+                  onChange:(e):any=>setValue("password",e.target.value.trim())
                 })}
               />
               {errors.password?.type == "required" && (
@@ -224,11 +229,13 @@ function LoginForm() {
                 </button>
               </Link>
               <br />
-             
-                <GoogleLogin
+               <div className="md:mx-16 md:pl-9">
+               <GoogleLogin
                   onSuccess={responseMessage}
                   onError={errorMessage}
                 />
+               </div>
+              
             </div>
           </form>
         </div>

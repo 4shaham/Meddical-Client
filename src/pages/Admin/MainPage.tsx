@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import NavBar from "../../components/Admin/NavBar";
 import SideBar from "../../components/Admin/SideBar";
-import { Outlet, Route, Routes } from "react-router-dom";
+import { Outlet} from "react-router-dom";
 import UseAdminRouteProtect from "../../hook/AdminSide/useAdminRouteProtectHook";
 
 function MainPage() {

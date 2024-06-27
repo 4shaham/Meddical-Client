@@ -41,7 +41,7 @@ function Registration() {
       confirmPasswordErr: "",
     });
     const [isLoaidng,setIsLoading]=useState<boolean>(false)
-    const handleOnSubmit: SubmitHandler<IUserRegisterData> = async (
+    const handleOnSubmit:SubmitHandler<IUserRegisterData> = async (
       data: IUserRegisterData
     ) => {
       try {
@@ -95,6 +95,7 @@ function Registration() {
     const {
       register,
       handleSubmit,
+      setValue,
       formState: { errors },
     } = useForm<IUserRegisterData>();
   
@@ -119,6 +120,7 @@ function Registration() {
               type="text"
               {...register("userName", {
                 required: "this field is required",
+                onChange:(e):any=>setValue("userName",e.target.value.trim())
               })}
             />
             {errors.userName && (
@@ -139,6 +141,7 @@ function Registration() {
                 required: true,
                 pattern:
                   /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                onChange:(e):any=>setValue("email",e.target.value.trim())  
               })}
             />
             {errors.email?.type == "required" && (
@@ -162,6 +165,7 @@ function Registration() {
               type="text"
               {...register("gender", {
                 required: true,
+                onChange:(e):any=>setValue("gender",e.target.value.trim())  
               })}
             />
             {errors.gender?.type == "required" && (
@@ -181,6 +185,7 @@ function Registration() {
               {...register("phoneNumber", {
                 required: true,
                 minLength: 10,
+                onChange:(e):any=>setValue("phoneNumber",e.target.value.trim())  
               })}
             />
             {(errors.phoneNumber?.type == "required" && (
@@ -202,12 +207,13 @@ function Registration() {
               placeholder="Please enter your Age"
               className="text-center peer h-full w-full border-b border-blue-gray-200 bg-transparent pt-4 pb-1.5 font-sans text-sm font-normal text-blue-gray-700 outline-none transition-all placeholder-shown:border-blue-gray-200 focus:border-gray-900 disabled:border-0 disabled:bg-blue-gray-50"
               type="number"
-              {...register("age", {
+              {...register("age",{
                 required: true,
                 min: {
                   value: 0,
                   message: "Age must be greater than 0",
                 },
+                onChange:(e):any=>setValue("age",e.target.value.trim())  
               })}
             />
             {(errors.age?.type == "required" && (
@@ -234,6 +240,7 @@ function Registration() {
                 required: "Password is required",
                 pattern:
                   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+                  onChange:(e):any=>setValue("password",e.target.value.trim())    
               })}
             />
             {errors.password?.type == "required" && (
@@ -258,6 +265,7 @@ function Registration() {
               type="password"
               {...register("confirmPassword", {
                 required: true,
+                onChange:(e):any=>setValue("confirmPassword",e.target.value.trim())  
               })}
             />
             {errors.confirmPassword?.type == "required" && (
