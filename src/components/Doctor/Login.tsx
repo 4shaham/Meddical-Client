@@ -33,13 +33,13 @@ function Login() {
     //       MEDDICAL
     //     </h1>
     //   </div>
-      <div className="w-2/3  sm:w-2/3  md:w-2/3 h-full pr-0 sm:pr-5 md:pr-13  ">
-        <div className="w-full h-[80%]  mx-auto mt-16 border-gray-100 rounded-xl border-solid border-2 my-auto  bg-white">
+      <div className="w-2/3  sm:w-2/3  md:w-2/3 h-full pr-0 sm:pr-5 md:pr-13 p-2 ">
+        <div className="w-full h-full   mx-auto  border-gray-100 rounded-xl border-solid border-2 my-auto px-16  bg-gray-100">
           <h1 className="custom-fontText text-3xl font-bold  md:text-4xl mt-[10%] ml-[12%] text-black ">
             Doctor Login
           </h1>
 
-          <div className="flex flex-col gap-6 mx-auto md:mx-32 max-w-72 mt-20">
+          <div className="flex flex-col gap-6  md:mx-32 max-w-72 mt-20">
             <form onSubmit={handleSubmit(handleOnSubmitForm)}>
               <div className="h-11 w-full min-w-[200px] md:min-w-[400px]">
                 <label   className={errors.email?.type=="required"||errors.email?.type=="pattern"?"text-red-500 p-2 md:p-0 text-md  md:text-lg  mt-3 ":"text-balck p-2 md:p-0 text-md  md:text-lg  mt-3 "}  >

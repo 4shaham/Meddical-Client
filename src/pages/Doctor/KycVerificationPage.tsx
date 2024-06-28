@@ -35,7 +35,7 @@ function KycVerificationPage() {
 
   // image
 
-  const [LicenseImage, setLicenseImage] = useState<File>();
+  const [LicenseImage, setLicenseImage] = useState<File|null>();
   const [email, setEmail] = useState<string>("");
   const [licenseNumber, setLicenseNumner] = useState<string>("");
 
