@@ -1,6 +1,8 @@
 import React, { ChangeEvent, useState } from "react";
 import { useForm } from "react-hook-form";
 import { IoLanguageSharp } from "react-icons/io5";
+import { doctorSignUp } from "../../api/doctor";
+import { useNavigate } from "react-router-dom";
 
 
 interface FormDataFirstPage {
@@ -9,24 +11,29 @@ interface FormDataFirstPage {
   phoneNumber: string;
   specialist: string;
   fees: number;
-  // languages: string[];
+  password:string
 }
 
 function Registration() {
+  
+  const navigate=useNavigate()
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<FormDataFirstPage>();
-  const [image, setImage] = useState<File | null>(null);
-  const [baseUrl, setBaseUrl] = useState<string>("");
 
-  // const[values,setValues]=useState("")
-  // const[language,setLanguage]=useState<string[]>([])
+  const [image, setImage] = useState<File | null>(null);
+  const [baseUrl,setBaseUrl] = useState<string>("");
+
+
 
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>): void => {
+
     const file = e.target.files?.[0] || null;
     setImage(file);
+
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
@@ -35,17 +42,21 @@ function Registration() {
       };
       reader.readAsDataURL(file);
     }
+
   };
 
-  const handleFirstFormSubmit = async (data: FormDataFirstPage) => {
-    console.log(data);
+  const handleFirstFormSubmit = async (data:FormDataFirstPage) => {
+    
     try {
+
       if (!image) {
-        alert("the Licence Image is required");
+        alert("Profile Image is required");
         return;
       }
-
-      // console.log(language)
+    
+      const response= await doctorSignUp(data.email,data.name,data.specialist,data.password,data.phoneNumber,data.fees,baseUrl)
+      console.log(response)
+      navigate('/doctor/kycVerification')
     } catch (error) {
       console.log("error", error);
     }
@@ -130,6 +141,19 @@ function Registration() {
       {...register("fees", { required: true })}
     />
     {errors.fees && (
+      <small className="text-red-500 font-medium text-md">
+        This field is required
+      </small>
+    )}
+  </div>
+
+  <div className="w-full mx-auto">
+    <label className="block mb-1 text-md text-black font-medium">password</label>
+    <input
+      className="w-full bg-white text-gray-900 rounded-lg p-2.5 focus:ring-blue-500 focus:border-blue-500"
+      {...register("password", { required: true })}
+    />
+    {errors.password&& (
       <small className="text-red-500 font-medium text-md">
         This field is required
       </small>
