@@ -41,3 +41,12 @@ export const addSpecality = async (
 
 export const  findspecality = async (): Promise<ISpecality[]> =>
   await Api.get(adminRoutes.findspecality);
+
+interface deleteResponse{
+  status:boolean
+}
+
+
+export const deleteSpecality=async(id:string):Promise<deleteResponse> => {
+  return Api.patch(`${adminRoutes.deleteSpecality}/${id}`);
+};

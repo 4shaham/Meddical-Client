@@ -1,11 +1,12 @@
-import React, { ChangeEvent, useRef, useState } from "react";
+import React, { ChangeEvent, useEffect, useRef, useState } from "react";
 import { Input } from "@material-tailwind/react";
 import image from "../../assets/image.png";
 import { useForm } from "react-hook-form";
 import KycStep2 from "../../components/Doctor/KycStep2";
-import { toast } from 'react-toastify';
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { doctorKycStoreDatastep1 } from "../../api/doctor";
+import { doctorKycStoreDatastep1, getKycStatus } from "../../api/doctor";
+import axios from "axios";
 
 interface ExpeirenceData {
   startDate: Date | null;
@@ -14,16 +15,29 @@ interface ExpeirenceData {
   responsibilities?: string;
 }
 
-
-interface FormData{
-  email:string,
-  licenseNumber:string
+interface FormData {
+  email: string;
+  licenseNumber: string;
 }
 
 function KycVerificationPage() {
   // experiences
+  
+
+  useEffect(()=>{
+      const email:string|null=localStorage.getItem("kycEmail")
+      const handlefn=async()=>{
+         const response=await getKycStatus(email!=null?email:'')
+      }
+      handlefn()
+  })
+
+  
+
+
 
   // First Step
+  const [credentialErr, setCredintiaolErr] = useState<string>("");
   const [experiencesDatas, setExperiencesDatas] = useState<ExpeirenceData>({
     startDate: null,
     endDate: null,
@@ -46,62 +60,69 @@ function KycVerificationPage() {
     setexperiencesStatus(false);
   };
 
-  const{register,handleSubmit,setValue,formState:{errors}}=useForm<FormData>()
-
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm<FormData>();
 
   const [LicenseImage, setLicenseImage] = useState<File | null>();
-  const [licenseImageUrl,setLicenseImageUrl] = useState<string>("");
-  const [imageErr,setImageErr]=useState('')
+  const [licenseImageUrl, setLicenseImageUrl] = useState<string>("");
+  const [imageErr, setImageErr] = useState("");
 
   // image
 
   const [idCardImage, setIdCardImage] = useState<File | null>();
   const [idCardImageUrl, setIdCardImageUrl] = useState<string>("");
 
-
-  const handleOnSubmit=async(data:FormData)=>{
-
+  const handleOnSubmit = async (data: FormData) => {
     try {
-      if(!LicenseImage){
-        setImageErr("this field is required")
-        return 
-       }else{
-        setImageErr("")
+      if (!LicenseImage) {
+        setImageErr("this field is required");
+        return;
+      } else {
+        setImageErr("");
       }
-      
-      console.log(data,licenseImageUrl,experiencesDatas)
-      const response=await doctorKycStoreDatastep1(data.email,data.licenseNumber,licenseImageUrl,experiences)
-      console.log("next",response)
-      
-      if(response.data.status){
-          setStep(1)
-          toast.success("first step completed")
+
+      console.log(data, licenseImageUrl, experiencesDatas);
+      const response = await doctorKycStoreDatastep1(
+        data.email,
+        data.licenseNumber,
+        licenseImageUrl,
+        experiences
+      );
+      console.log("next", response);
+
+      if (response.data.status) {
+        setStep(1);
+        toast.success("first step completed");
       }
     } catch (error) {
-        console.log(error)
+      console.log(error);
+      if (axios.isAxiosError(error)) {
+        if (error.response?.data.status == false) {
+          setCredintiaolErr(error.response.data.errMessage);
+        }
+      }
     }
-  }
-
+  };
 
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>): void => {
     const file = e.target.files?.[0] || null;
     setLicenseImage(file);
     if (file) {
-        const reader = new FileReader();
-        reader.onloadend = () => {
-          const base64String = reader.result?.toString() || '';
-          setLicenseImageUrl(base64String);
-        };
-        reader.readAsDataURL(file);
-      }
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const base64String = reader.result?.toString() || "";
+        setLicenseImageUrl(base64String);
+      };
+      reader.readAsDataURL(file);
+    }
   };
-
 
   // kycData
   const [step, setStep] = useState(0);
-
-
-  
 
   return (
     <div className="w-full h-full bg-gray-200  p-14 ">
@@ -135,7 +156,7 @@ function KycVerificationPage() {
                     >
                       <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
                     </svg>
-                  ):(
+                  ) : (
                     ""
                   )}
                   Step <span className="hidden sm:inline-flex sm:ms-2">1</span>
@@ -153,34 +174,54 @@ function KycVerificationPage() {
           {step == 0 ? (
             <div>
               <form onSubmit={handleSubmit(handleOnSubmit)}>
+                {credentialErr != "" && (
+                  <div className="w-full text-center mt-2">
+                    <p  className="text-center font-medium text-red-500">{credentialErr}</p>
+                  </div>
+                )}
                 <div className="w-1/2 text-start mx-24 mb-3">
                   <label className="font-medium">Email</label>
                   <br />
                   <input
                     className="py-2 px-10 border  rounded-lg bg-gray-200 text-black b"
                     placeholder="enter your name"
-                    {...register('email',{
-                      required:true,
-                      pattern: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-                      onChange:(e):any=>setValue("email",e.target.value.trim())
+                    {...register("email", {
+                      required: true,
+                      pattern:
+                        /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                      onChange: (e): any =>
+                        setValue("email", e.target.value.trim()),
                     })}
                     name="email"
                   ></input>
-                  {errors.email?.type=="required"&&<p className="text-red-500 font-medium">This field is required</p>}
-                  {errors.email?.type=="pattern"&&<p className="text-red-500 font-medium">This Email format is not valid</p>}
+                  {errors.email?.type == "required" && (
+                    <p className="text-red-500 font-medium">
+                      This field is required
+                    </p>
+                  )}
+                  {errors.email?.type == "pattern" && (
+                    <p className="text-red-500 font-medium">
+                      This Email format is not valid
+                    </p>
+                  )}
                 </div>
                 <div className="w-1/2 text-start mx-24 mb-3">
                   <label className="font-medium">LicenseNumber</label>
                   <br />
                   <input
                     className="py-2 px-10 border  rounded-lg bg-gray-200 text-black b"
-                    {...register('licenseNumber',{
-                      required:true,
-                      onChange:(e):any=>setValue("licenseNumber",e.target.value.trim())
+                    {...register("licenseNumber", {
+                      required: true,
+                      onChange: (e): any =>
+                        setValue("licenseNumber", e.target.value.trim()),
                     })}
                     name="licenseNumber"
                   ></input>
-                  {errors.licenseNumber?.type=="required"&&<p className="text-red-500 font-medium">This field is required</p>}
+                  {errors.licenseNumber?.type == "required" && (
+                    <p className="text-red-500 font-medium">
+                      This field is required
+                    </p>
+                  )}
                 </div>
 
                 <div className="relative z-0 w-1/2 mx-24 mb-5 group mt-2">
@@ -235,10 +276,11 @@ function KycVerificationPage() {
                         />
                         add licenseImage
                       </label>
-                      
-                    </div>   
+                    </div>
                   )}
-                  {imageErr&&<p className="text-red-500">This field is required</p>}
+                  {imageErr && (
+                    <p className="text-red-500">This field is required</p>
+                  )}
                 </div>
 
                 {!experiencesStatus && (
@@ -300,9 +342,7 @@ function KycVerificationPage() {
                 )}
 
                 <div className="w-2/3 text-center mx-24 bg-gray-200 p-2 rounded-md">
-                  <label className="text-black font-medium ">
-                    experiences
-                  </label>
+                  <label className="text-black font-medium ">experiences</label>
                   <table className="border bg-white  w-full mt-2">
                     <thead className=" rounded-md font-medium">
                       <td>slNo</td>
@@ -337,7 +377,7 @@ function KycVerificationPage() {
               </form>
             </div>
           ) : (
-            <KycStep2/>
+            <KycStep2 />
           )}
         </div>
       </div>

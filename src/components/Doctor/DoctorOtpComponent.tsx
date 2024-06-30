@@ -1,28 +1,21 @@
+
 import React, { useEffect, useRef, useState, useCallback } from "react";
-import { resendOtp, verifyOtp } from "../../api/user";
-import {useNavigate} from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { login } from "../../Redux/slice/userAuthSlice";
+import {useNavigate} from "react-router-dom"
 import axios from "axios";
+import { DoctorVerifyOtp, resendOtp } from "../../api/doctor";
 
-interface root{
-   
-  otpPageVerification:{
- 
-      OtpVerifed:boolean,
-      otpType:string
+
+
+
+function DoctorOtpComponent() {
+
+    const [page,SetPage]=useState<boolean>()
+
   
-  }
-  
-
-}
-
-
-function OtpComponent() {
   const navigate = useNavigate();
-  const typeOfOtp=useSelector((state:root)=>state.otpPageVerification.otpType)
   const [buttonStatus, setButtonStatus] = useState<boolean>(false);
   const inputRef = useRef<HTMLInputElement[]>([]);
+  
   const [isLoaidng, setIsLoading] = useState<boolean>(false);
   let isFormSumbited: boolean = false;
 
@@ -31,7 +24,7 @@ function OtpComponent() {
     return savedTimer ? parseInt(savedTimer, 10) : 5;
   });
 
-  const dispatch = useDispatch();
+
   const timeOutCallback = useCallback(
     () => setTimer((currTimer) => currTimer - 1),
     []
@@ -51,6 +44,17 @@ function OtpComponent() {
   useEffect(() => {
     localStorage.setItem("timer", timer.toString());
   }, [timer]);
+
+
+  useEffect(()=>{
+    let a=localStorage.getItem("otpPage")
+    if(a=="verified"){
+        SetPage(true)
+      
+    }else{
+        navigate("/doctor/login")
+    }
+  },[])
 
   const [otp, setOtp] = useState({
     digitOne: "",
@@ -102,41 +106,23 @@ function OtpComponent() {
 
       console.log("hiiiiiii submited");
 
-      isFormSumbited = true;
+      
 
       let values = "";
       let keys = Object.values(otp);
       for (let i = 0; i < keys.length; i++) {
         values += keys[i];
       }
+      isFormSumbited = true;
+      let response= await DoctorVerifyOtp(Number(values))
+      isFormSumbited=false
 
-      const response = await verifyOtp(Number(values),typeOfOtp); 
-      isFormSumbited = false;
-      console.log(response);
-
-      if(response.data.message=="OTP verification successful of forgotPassword"){
-          
-        navigate("/updatePassword");
-
-        return
-
-      }
-
-
-      const { token } = response.data;
-
-   
-
-      if (
-        response.data.message == "the Otp verification is completed" &&
-        token
-      ) {
-        dispatch(login());
-        navigate("/");
-      }
-    } catch (error) {
+      if(response.data.status){
+         localStorage.setItem("otpPage","")
+         navigate("/doctor/kycVerification")
+       }
+    }catch (error) {
       console.log(error, "koko");
-
       if (axios.isAxiosError(error)) {
         if (error.response) {
           if (!error.response.data.status) {
@@ -145,6 +131,7 @@ function OtpComponent() {
         }
       }
     }
+
   };
 
   const handleResendOtp = async () => {
@@ -154,10 +141,10 @@ function OtpComponent() {
       const response = await resendOtp();
       setIsLoading(false)
   
-      console.log(response);
-      if (response.data.status) {
+    //   console.log(response);
+      if (response.status) {
         setTimer(60);
-        localStorage.setItem("timer", "60");
+        localStorage.setItem("timer","60");
         setButtonStatus(false);
         console.log(buttonStatus);
       }
@@ -188,6 +175,9 @@ function OtpComponent() {
   };
 
   return (
+
+
+  
     <div className="relative flex min-h-screen flex-col justify-center overflow-hidden bg-gray-50 py-12">
       <div className="relative bg-white px-6 pt-10 pb-9 shadow-xl mx-auto w-full max-w-lg rounded-2xl">
         <div className="mx-auto flex w-full max-w-md flex-col space-y-16">
@@ -266,4 +256,4 @@ function OtpComponent() {
   );
 }
 
-export default OtpComponent;
+export default DoctorOtpComponent;

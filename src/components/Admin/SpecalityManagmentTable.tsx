@@ -1,32 +1,60 @@
 import React, { useEffect, useState } from "react";
 import Card from "@mui/material/Card";
 import Typography from "@mui/material/Typography";
-import { findspecality } from "../../api/admin";
-import  Avatar  from "@mui/material/Avatar";
+import { deleteSpecality, findspecality } from "../../api/admin";
+import Avatar from '@mui/material/Avatar'
+import { useDispatch, useSelector } from "react-redux";
+import { add } from "../../Redux/slice/AdminSpecality";
 
-interface TableRow {
-  _id: string;
-  image: string;
-  name: string;
+
+
+interface Root{
+    specality:{
+      specality:[]
+    }
+}
+
+interface vlaues{
+  _id:string,
+  name:string,
+  image:string,
 }
 
 const TABLE_HEAD: string[] = ["Image", "specality Name", "Action"];
 
 
 const MyComponent: React.FC = () => {
-  const [TABLE_ROWS, setTableRow] = useState<TableRow[]>();
+ 
+
+  const states:any=useSelector<Root>((state)=>state.specality.specality)
+  const dispatch=useDispatch()
+
+  console.log(states,"hiiiiiiiii")
+  
+  const handleDelet=async(id:string)=>{
+        console.log(id)
+        try {
+           
+        const response=await deleteSpecality(id)
+
+        // if(response.data.status){
+          let array=states.filter((values:vlaues)=>values._id!=id)
+          dispatch(add(array))
+        // }
+        } catch (error) {
+           console.log(error)
+        }
+  }
 
   useEffect(() => {
     const hadnleAsyncronus = async () => {
-      let response = await findspecality();
-      console.log(response);
-      setTableRow(response.data);
+      let response:any = await findspecality();
+      dispatch(add(response.data))
     };
-
     hadnleAsyncronus();
   }, []);
 
-  console.log(TABLE_ROWS, "hiii");
+ 
 
   return (
   <div className="px-5 py-5">
@@ -50,16 +78,16 @@ const MyComponent: React.FC = () => {
           </tr>
         </thead>
         <tbody>
-          {TABLE_ROWS?.map(({ name, image }, index) => (
+          {states?.map((name:vlaues,index:number) => (
             <tr
-              key={name}
+              key={name._id}
               //   className={index % 2 === 0 ? 'bg-blue-gray-50/50' : ''}
               className="text-center"
             >
               <td className="p-4">
-                <Avatar
-                  src={image}
-                  alt={name}
+                <Avatar  
+                  src={name.image}
+                  alt={"sjsj"}
                   size="md"
                   className="border border-blue-gray-50 bg-blue-gray-50/50 object-contain p-1"
                 />
@@ -69,10 +97,9 @@ const MyComponent: React.FC = () => {
                   variant="body2"
                   color="textSecondary"
                   className="font-normal"
-                >{name}</Typography>
+                >{name.name}</Typography>
               </td>
               <td className="p-4">
-                {/* Consider adding an anchor tag with appropriate styling (Tailwind CSS or custom CSS) */}
                 <Typography
                   component="a"
                   href="#"
@@ -87,7 +114,7 @@ const MyComponent: React.FC = () => {
                   color="primary"
                   className="font-medium"
                 >
-                 <button className="bg-red-500 text-white px-5 py-1 rounded-lg">Delete</button>
+                 <button className="bg-red-500 text-white px-5 py-1 rounded-lg" onClick={()=>handleDelet(name._id)}>Delete</button>
                 </Typography>
               </td>
             </tr>
