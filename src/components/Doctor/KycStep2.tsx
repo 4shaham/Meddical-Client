@@ -13,7 +13,12 @@ interface FormData {
   fullName: string;
 }
 
-function KycStep2() {
+interface IEmail{
+   email:string,
+   callback:Function
+}
+
+function KycStep2({email,callback}:IEmail) {
   const [acheievmentsDatas, setAcheievmentDatas] = useState<ExpeirenceData>({
     date: null,
     description: "",
@@ -64,15 +69,19 @@ function KycStep2() {
       if (!idImage) {
         return;
       }
-      console.log(data, Acheievments, idImageUrl);
+      console.log(data, Acheievments, idImageUrl,email);
       const response = await doctorKycStoreDatastep2(
         data.yearsOfExperience,
         data.fullName,
         idImageUrl,
-        Acheievments
+        Acheievments,
+        email
       );
       console.log(response);
-    } catch (error) {}
+      callback(2)
+    } catch (error) {
+      console.log(error)
+    }
   };
 
   return (

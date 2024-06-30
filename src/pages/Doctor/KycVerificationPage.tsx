@@ -27,13 +27,25 @@ function KycVerificationPage() {
   useEffect(()=>{
       const email:string|null=localStorage.getItem("kycEmail")
       const handlefn=async()=>{
-         const response=await getKycStatus(email!=null?email:'')
+        try {
+          const response=await getKycStatus(email!=null?email:'')
+          console.log(response,"stages of kyc verifcation")
+          if(response.data?._id){
+             setStep(1)
+             setPropsEmail(response.data.email)
+          } 
+
+        } catch (error) {
+           console.log(error)
+        }
+       
       }
       handlefn()
   })
 
   
-
+ 
+  const[propsEmail,setPropsEmail]=useState('')
 
 
   // First Step
@@ -47,7 +59,7 @@ function KycVerificationPage() {
   const [experiences, setExperiences] = useState<ExpeirenceData[]>([]);
   const [experiencesStatus, setexperiencesStatus] = useState<boolean>(false);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange=(e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setExperiencesDatas((prevData) => ({
       ...prevData,
@@ -75,6 +87,9 @@ function KycVerificationPage() {
 
   const [idCardImage, setIdCardImage] = useState<File | null>();
   const [idCardImageUrl, setIdCardImageUrl] = useState<string>("");
+
+  
+
 
   const handleOnSubmit = async (data: FormData) => {
     try {
@@ -121,8 +136,15 @@ function KycVerificationPage() {
     }
   };
 
+  const CallbackChange=(val:number)=>{
+    setStep(val)
+    console.log(val,step)
+}
+
   // kycData
   const [step, setStep] = useState(0);
+
+
 
   return (
     <div className="w-full h-full bg-gray-200  p-14 ">
@@ -376,9 +398,12 @@ function KycVerificationPage() {
                 </div>
               </form>
             </div>
-          ) : (
-            <KycStep2 />
+          ):(
+           step==1 &&<KycStep2 email={propsEmail as string} callback={CallbackChange}/>
           )}
+          
+        
+
         </div>
       </div>
     </div>

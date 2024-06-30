@@ -50,7 +50,6 @@ function DoctorOtpComponent() {
     let a=localStorage.getItem("otpPage")
     if(a=="verified"){
         SetPage(true)
-      
     }else{
         navigate("/doctor/login")
     }

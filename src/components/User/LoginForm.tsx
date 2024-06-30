@@ -108,7 +108,7 @@ function LoginForm() {
           setIsLoading(false);
           if (error.response.data.message == "the password is not match") {
             setCredintiaolErr({
-              emailErr: "",
+              emailErr:"",
               passwordErr: "This password is not match",
             });
           } else if (error.response.data.otpVerified == "false") {

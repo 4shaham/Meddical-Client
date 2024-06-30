@@ -85,7 +85,8 @@ export const doctorKycStoreDatastep2 =(
   fullName: string,
   idCardImage:string,
   acheivemnts:IAcheivmentsData[],
-) => Api.put(doctorRoutes.kycDataStoreStep2,{yearsOfExperience,fullName,acheivemnts,idCardImage})
+  email:string
+) => Api.put(doctorRoutes.kycDataStoreStep2,{yearsOfExperience,fullName,acheivemnts,idCardImage,email})
 
 
 interface VerifyOtpResponse{
@@ -97,7 +98,16 @@ interface VerifyOtpResponse{
 
 export const DoctorVerifyOtp = async (otp:number): Promise<VerifyOtpResponse> =>  await Api.patch(doctorRoutes.verifyOtp,{otp})
 
-
 export const resendOtp=async():Promise<{status:boolean}>=>await Api.post(doctorRoutes.resendOtp)
 
 export const getKycStatus=async(email:string):Promise<IKyc>=>Api.get(`${doctorRoutes.getKycStatus}/${email}`)
+
+
+interface LoginResponse{
+  status:boolean,
+  message?:string,
+  Err?:string,
+  token?:string
+}
+
+export const signIn=async(email:string,password:string):Promise<LoginResponse>=>await Api.post(doctorRoutes.signIn,{email,password})
