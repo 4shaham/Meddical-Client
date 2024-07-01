@@ -6,7 +6,10 @@ const adminRoutes={
     getToken:'/api/admin/getToken',
     addSpecality:'/api/admin/addSpecalities',
     findspecality:'/api/admin/findAllSpecaities',
-    deleteSpecality:'/api/admin/deleteSpecality'
+    deleteSpecality:'/api/admin/deleteSpecality',
+    getNewRequestDoctors:'/api/admin/findAllNewRequestDoctor',
+    getDoctorDataVerification:'/api/admin/findeKycVerificatioData',
+    updateDoctorKycStatus:'/api/admin//doctorKycVerification',
 }
 
 export default adminRoutes

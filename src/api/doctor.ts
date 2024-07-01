@@ -16,16 +16,18 @@ interface Experiences{
 }
 
 interface IKyc{
-  _id: string;
-  email:string,
-  licenseNumber:string,
-  licenseImage:string,
-  yearsOfexperience:number,
-  identityCardImage:string,
-  achievements?:Achievements[],
-  experiences?:Experiences[],
-  step:number,
-  appliedStatus?:AppliedStatus;
+  data:{
+    _id: string;
+    email:string,
+    licenseNumber:string,
+    licenseImage:string,
+    yearsOfexperience:number,
+    identityCardImage:string,
+    achievements?:Achievements[],
+    experiences?:Experiences[],
+    step:number,
+    appliedStatus:AppliedStatus;
+  }
 }
 
 enum AppliedStatus {

@@ -51,7 +51,8 @@ function Login() {
             error.response.data.status == false &&
             error.response.data.message == "kyc status not completed"
           ) {
-            localStorage.setItem("kycEmail", data.email);
+            console.log(data.email)
+            localStorage.setItem("kycEmail",data.email);
             navigate("/doctor/kycVerification");
             return;
           }

@@ -1,7 +1,71 @@
-import React, { FC } from "react";
+import React, { FC, useEffect, useState } from "react";
 import profileImage from "../../assets/doctoProfiler.jpg";
+import { findAllNewRequestedDoctors } from "../../api/admin";
+import { Link } from "react-router-dom";
+
+interface Achievements {
+  data: Date;
+  description: string;
+  title: string;
+}
+
+interface Experiences {
+  startDate: Date;
+  hospitalName: string;
+  responsibilities: string;
+  endDate: Date;
+}
+
+enum AppliedStatus {
+  Approved = "approved",
+  Applied = "applied",
+  Rejected = "rejected",
+}
+
+interface IKyc {
+  _id: string;
+  email: string;
+  licenseNumber: string;
+  licenseImage: string;
+  yearsOfexperience: number;
+  identityCardImage: string;
+  achievements: Achievements[];
+  experiences: Experiences[];
+  step: number;
+  appliedStatus: AppliedStatus;
+}
+
+interface IDoctor {
+  _id: string;
+  name: string;
+  specialty: string;
+  email: string;
+  password: string;
+  phoneNumber: string;
+  approved: boolean;
+  fees: number;
+  image: string;
+  isBlocked: boolean;
+  otpVerified: boolean;
+}
+
+interface Response extends IKyc {
+  doctorDetails:IDoctor[];
+}
 
 const VerifyRequestPage: FC = () => {
+  const [doctors, setDoctors] = useState<Response[]>([]);
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await findAllNewRequestedDoctors();
+      console.log(data.data);
+      setDoctors(data.data);
+    };
+    fetchData();
+  }, []);
+
+ 
+
   return (
     <div className="p-2">
       <div className="header">
@@ -14,6 +78,9 @@ const VerifyRequestPage: FC = () => {
         <table className="w-full text-sm text-left rtl:text-right  text-gray-500 dark:text-gray-400">
           <thead className="text-xs  uppercase  text-black font-medium">
             <tr>
+            <th scope="col" className="px-6 py-3">
+               image
+              </th>
               <th scope="col" className="px-6 py-3">
                 Name
               </th>
@@ -29,68 +96,36 @@ const VerifyRequestPage: FC = () => {
             </tr>
           </thead>
           <tbody>
-            <tr className="bg-white border-b    hover:bg-gray-50 dark:hover:bg-gray-100">
-              <th
-                scope="row"
-                className="flex items-center px-6 py-4  text-gray-900 whitespace-nowrap "
-              >
-                <img
-                  className="w-10 h-10 rounded-full"
-                  src={profileImage}
-                  alt="Jese image"
-                />
-                <div className="ps-3">
-                  <div className="text-base font-semibold">Neil Sims</div>
-                  <div className="font-normal text-gray-500">
-                    neil.sims@flowbite.com
+            {doctors.map((values:Response, index) => (
+              <tr className="bg-white border-b    hover:bg-gray-50 dark:hover:bg-gray-100">
+                <td
+                  scope="row"
+                  className="flex items-center px-6 py-4  text-gray-900 whitespace-nowrap "
+                >
+                  <img
+                    className="w-10 h-10 rounded-full"
+                    src={values.doctorDetails[0].image}
+                    alt="Jese image"
+                  />
+
+                </td>
+                <td className="px-6 py-4"> {values.doctorDetails[0].email}</td>
+                <td className="px-6 py-4">{values.doctorDetails[0].specialty}</td>
+                <td className="px-6 py-4">
+                  <div className="flex items-center">
+                    <div className="h-2.5 w-2.5 rounded-full bg-red-500 me-2"></div>
+                    {values.appliedStatus}
                   </div>
-                </div>
-              </th>
-              <td className="px-6 py-4">React Developer</td>
-              <td className="px-6 py-4">
-                <div className="flex items-center">
-                  <div className="h-2.5 w-2.5 rounded-full bg-red-500 me-2"></div>
-                  Not completed
-                </div>
-              </td>
-              <td className="px-6 py-4">
-                {/* <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit user</a> */}
-                <button className="btn bg-btnColor py-1 px-5 text-white rounded-md">
-                  View Kyc Data
-                </button>
-              </td>
-            </tr>
-            <tr className="bg-white border-b   hover:bg-gray-50 dark:hover:bg-gray-100">
-              <th
-                scope="row"
-                className="flex items-center px-6 py-4  text-gray-900 whitespace-nowrap "
-              >
-                <img
-                  className="w-10 h-10 rounded-full"
-                  src={profileImage}
-                  alt="Jese image"
-                />
-                <div className="ps-3">
-                  <div className="text-base font-semibold">Neil Sims</div>
-                  <div className="font-normal text-gray-500">
-                    neil.sims@flowbite.com
-                  </div>
-                </div>
-              </th>
-              <td className="px-6 py-4">React Developer</td>
-              <td className="px-6 py-4">
-                <div className="flex items-center">
-                  <div className="h-2.5 w-2.5 rounded-full bg-red-500 me-2"></div>
-                  Not completed
-                </div>
-              </td>
-              <td className="px-6 py-4">
-    
-                <button className="btn bg-btnColor py-1 px-5 text-white rounded-md">
-                  View Kyc Data
-                </button>
-              </td>
-            </tr>
+                </td>
+                <td className="px-6 py-4">
+                  {/* <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit user</a> */}
+                <Link to={`/admin/kycDataView?id=${values._id}`}><button className="btn bg-btnColor py-1 px-5 text-white rounded-md">
+                    View Kyc Data
+                  </button>
+                </Link>   
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>

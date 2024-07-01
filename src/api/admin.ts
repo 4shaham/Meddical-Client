@@ -50,3 +50,12 @@ interface deleteResponse{
 export const deleteSpecality=async(id:string):Promise<deleteResponse> => {
   return Api.patch(`${adminRoutes.deleteSpecality}/${id}`);
 };
+
+export const findAllNewRequestedDoctors=async()=>await Api.get(adminRoutes.getNewRequestDoctors)
+
+
+export const findDoctorKycData=async(id:string)=>await Api.get(`${adminRoutes.getDoctorDataVerification}?id=${id}`)
+
+
+
+export const updateDoctorKycStatus=async(email:string,status:string)=>await Api.patch(adminRoutes.updateDoctorKycStatus,{email,status})

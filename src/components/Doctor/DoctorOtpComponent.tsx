@@ -118,6 +118,7 @@ function DoctorOtpComponent() {
 
       if(response.data.status){
          localStorage.setItem("otpPage","")
+         localStorage.setItem("kycEmail","");
          navigate("/doctor/kycVerification")
        }
     }catch (error) {
