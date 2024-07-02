@@ -29,7 +29,7 @@ interface addSpecalityResponse {
   };
 }
 
-export default interface ISpecality extends Document {
+ interface ISpecality {
   data:{_id: string; image: string; name: string,createdAt:string,updatedAt:string,};
 }
 
@@ -59,3 +59,16 @@ export const findDoctorKycData=async(id:string)=>await Api.get(`${adminRoutes.ge
 
 
 export const updateDoctorKycStatus=async(email:string,status:string)=>await Api.patch(adminRoutes.updateDoctorKycStatus,{email,status})
+
+
+
+// interface Isp{
+//     _id:string;
+//   image:string;
+//   name:string,
+//   isDeleted:boolean
+// }
+
+export const getEditSpecalityData=async(id:string):Promise<ISpecality>=>await Api.get(`${adminRoutes.getEditSpecalityData}?specalityId=${id}`)
+
+export const updateSpecality=async(id:string,name?:string,image?:string)=>await Api.put(adminRoutes.updateSpecality,{name,image,id})

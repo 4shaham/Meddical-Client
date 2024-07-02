@@ -11,11 +11,11 @@ function MainPage() {
     
   
   return (
-    <div className="w-full h-full flex">
+    <div className="w-full h-full flex bg-gray-100">
       <SideBar />
-      <div className="bg-white w-full">
+      <div className="bg-white w-full"> 
         <NavBar />
-        <Outlet />
+        <Outlet/>
       </div>
     </div>
   );

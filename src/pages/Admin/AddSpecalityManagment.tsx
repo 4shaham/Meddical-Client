@@ -1,7 +1,6 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, Outlet } from 'react-router-dom'
 import AddSpecalityForm from '../../components/Admin/AddSpecalityForm'
-
 function AddSpecalityManagment() {
   return (
     <div>
@@ -13,7 +12,8 @@ function AddSpecalityManagment() {
    >
     Back to
    </button></Link>
-  <AddSpecalityForm/>
+   <Outlet/>
+  {/* <AddSpecalityForm/> */}
 </div>
     </div>
   )

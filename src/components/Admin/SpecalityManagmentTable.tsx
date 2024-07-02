@@ -5,6 +5,7 @@ import { deleteSpecality, findspecality } from "../../api/admin";
 import Avatar from '@mui/material/Avatar'
 import { useDispatch, useSelector } from "react-redux";
 import { add } from "../../Redux/slice/AdminSpecality";
+import { Link } from "react-router-dom";
 
 
 
@@ -106,7 +107,7 @@ const MyComponent: React.FC = () => {
                   variant="body2"
                   color="primary"
                   className="font-medium p-4"
-                ><button className="bg-btnColor text-white px-3 py-1 rounded-lg">Edit</button>
+                ><Link to={`/admin/editSpecality?specalityId=${name._id}`}><button className="bg-btnColor text-white px-3 py-1 rounded-lg">Edit</button></Link>
                 </Typography>
                 <Typography
                   component="a"

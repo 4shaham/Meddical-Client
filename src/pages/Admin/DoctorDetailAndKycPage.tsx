@@ -109,7 +109,7 @@ function DoctorDetailAndKycPage() {
               />
             </div>
 
-            <div className="w-1/2 mx-auto">
+            <div className="w-3/2 mx-auto">
               <div className="bg-gray-200 rounded-md mt-2">
                 <h1 className="text-black text-start py-1 mx-1 font-medium">
                   DoctorName :
@@ -126,7 +126,7 @@ function DoctorDetailAndKycPage() {
                   </span>
                 </h1>
               </div>
-              <div className="bg-gray-200 rounded-md mt-2">
+              <div className="bg-gray-200 rounded-md mt-2 w-auto">
                 <h1 className="text-black text-start py-1 mx-1 font-medium">
                   Email:
                   <span className="text-black text-center mx-2">
