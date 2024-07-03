@@ -4,6 +4,7 @@ import {useNavigate} from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../Redux/slice/userAuthSlice";
 import axios from "axios";
+import { unVerifed } from "../../Redux/slice/OtpSlice";
 
 interface root{
    
@@ -19,6 +20,7 @@ interface root{
 
 
 function OtpComponent() {
+
   const navigate = useNavigate();
   const typeOfOtp=useSelector((state:root)=>state.otpPageVerification.otpType)
   const [buttonStatus, setButtonStatus] = useState<boolean>(false);
@@ -115,9 +117,8 @@ function OtpComponent() {
       console.log(response);
 
       if(response.data.message=="OTP verification successful of forgotPassword"){
-          
+         
         navigate("/updatePassword");
-
         return
 
       }
@@ -132,6 +133,7 @@ function OtpComponent() {
         token
       ) {
         dispatch(login());
+        dispatch(unVerifed())
         navigate("/");
       }
     } catch (error) {

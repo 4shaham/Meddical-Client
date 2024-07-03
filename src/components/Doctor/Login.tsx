@@ -3,6 +3,8 @@ import React, { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { signIn } from "../../api/doctor";
+import { useDispatch } from "react-redux";
+import { login } from "../../Redux/slice/DoctorAuthSlice";
 
 interface FormData {
   email: string;
@@ -11,6 +13,7 @@ interface FormData {
 
 function Login() {
   const navigate = useNavigate();
+  const dispatch=useDispatch()
   const {
     register,
     handleSubmit,
@@ -26,19 +29,20 @@ function Login() {
     try {
       console.log(data);
 
-      let response=await signIn(data.email,data.password)
-
-      if(response.status){
-         navigate("/doctor/")
+      let response = await signIn(data.email, data.password);
+      console.log(response.data.doctor,"response")
+      if (response.data.status) {
+        dispatch(login(response.data.doctor))
+        navigate("/doctor/");
       }
 
     } catch (error) {
-      console.log(error)
+      console.log(error);
       if (axios.isAxiosError(error)) {
         if (error.response) {
           if (
             error.response.data.status == false &&
-            error.response.data.message=="otp is not verified"
+            error.response.data.message == "otp is not verified"
           ) {
             let timer = 60;
             localStorage.setItem("timer", timer.toString());
@@ -47,12 +51,12 @@ function Login() {
             return;
           }
 
-          if (
+          if(
             error.response.data.status == false &&
             error.response.data.message == "kyc status not completed"
-          ) {
-            console.log(data.email)
-            localStorage.setItem("kycEmail",data.email);
+          ){
+            console.log(data.email);
+            localStorage.setItem("kycEmail", data.email);
             navigate("/doctor/kycVerification");
             return;
           }

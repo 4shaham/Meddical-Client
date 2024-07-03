@@ -113,7 +113,7 @@ function LoginForm() {
             });
           } else if (error.response.data.otpVerified == "false") {
             localStorage.setItem("timer", "60");
-            dispatch(verifed("  userEmailVerification"));
+            dispatch(verifed("userEmailVerification"));
             navigate("/otpVerification");
           } else {
             setCredintiaolErr({

@@ -5,6 +5,7 @@ import userAuthSlice from "../slice/userAuthSlice";
 import AdminAuthSlice from "../slice/AdminAuthSlice";
 import OtpSlice from "../slice/OtpSlice";
 import AdminSpecality from "../slice/AdminSpecality";
+import DoctorSlice from "../slice/DoctorAuthSlice";
 
 
 
@@ -14,8 +15,8 @@ const rootReducer = combineReducers({
   user:userAuthSlice,
   admin:AdminAuthSlice,
   otpPageVerification:OtpSlice,
-  specality:AdminSpecality
-  
+  specality:AdminSpecality,
+  doctorAuth:DoctorSlice
 });
 
 

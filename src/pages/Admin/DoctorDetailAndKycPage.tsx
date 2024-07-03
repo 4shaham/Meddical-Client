@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from "react";
 import image from "../../assets/doctoProfiler.jpg";
-import { Navigate, useLocation, useNavigate, useParams } from "react-router-dom";
+import {
+  Navigate,
+  useLocation,
+  useNavigate,
+  useParams,
+} from "react-router-dom";
 import { findDoctorKycData, updateDoctorKycStatus } from "../../api/admin";
 
 interface Achievements {
@@ -54,37 +59,34 @@ interface Response extends IKyc {
 }
 
 function DoctorDetailAndKycPage() {
-
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const query = searchParams.get("id");
   const [values, setValue] = useState<Response[]>();
-  const [selectedOption, setSelectedOption] = useState<string>('');
-  const [isLoading,setIsLoading]=useState<boolean>(false)
-  const navigate=useNavigate()
+  const [selectedOption, setSelectedOption] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const navigate = useNavigate();
 
+  const handlebuttonSubmit = async (email: string) => {
+    try {
+      console.log(email, selectedOption);
 
-  const handlebuttonSubmit=async(email:string)=>{
-      try {
-        console.log(email,selectedOption)
-      
-        if(selectedOption==""){
-           alert("choose any option to change status")
-           return
-        }
-
-        setIsLoading(true)
-        let response=await updateDoctorKycStatus(email,selectedOption)
-        setIsLoading(false)
-        console.log(response.data.status,"")
-       if(response.data.status){
-        navigate("/admin/verifyNewRequest")
-       }
-      } catch (error) {
-         console.log(error)
+      if (selectedOption == "") {
+        alert("choose any option to change status");
+        return;
       }
-  }
-   
+
+      setIsLoading(true);
+      let response = await updateDoctorKycStatus(email, selectedOption);
+      setIsLoading(false);
+      console.log(response.data.status, "");
+      if (response.data.status) {
+        navigate("/admin/verifyNewRequest");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
     console.log(query);
@@ -101,9 +103,9 @@ function DoctorDetailAndKycPage() {
       {values?.map((values, index) => (
         <div className="w-full h-screen  md:flex p-5 gap-2">
           <div className="w-full md:w-1/2 bg-white">
-            <div className="w-[20] mx-auto">
+            <div className="w-[30]  mx-auto  mb-10">
               <img
-                className="rounded-full w-[20%] mx-auto"
+                className="rounded-md w-[30%] h-[150%] mx-auto object-fit"
                 src={values.doctorDetails[0].image}
                 alt=""
               />
@@ -177,7 +179,7 @@ function DoctorDetailAndKycPage() {
                   </tr>
                 </thead>
                 <tbody>
-                  {values.experiences.map((data, index) =>(
+                  {values.experiences.map((data, index) => (
                     <tr className="bg-gray-100 border-b hover:bg-gray-50 dark:hover:bg-gray-100">
                       <td
                         scope="row"
@@ -220,7 +222,7 @@ function DoctorDetailAndKycPage() {
                   </tr>
                 </thead>
                 <tbody>
-                  {values.achievements.map((data,index)=>(
+                  {values.achievements.map((data, index) => (
                     <tr className="bg-gray-100 border-b    hover:bg-gray-50 dark:hover:bg-gray-100">
                       <td
                         scope="row"
@@ -236,20 +238,28 @@ function DoctorDetailAndKycPage() {
                 </tbody>
               </table>
             </div>
-            <div className="w-full mx-auto text-center mt-3"> 
-              <select className="bg-white border border-gray-300 rounded-md px-4 py-2 mt-3"
-                value={selectedOption} 
-                onChange={(e)=>setSelectedOption(e.target.value)}>
+            <div className="w-full mx-auto text-center mt-3 mb-5">
+              <select
+                className="bg-white border border-gray-300 rounded-md px-4 py-2 mt-3 mb-5"
+                value={selectedOption}
+                onChange={(e) => setSelectedOption(e.target.value)}
+              >
                 <option value="" disabled>
                   Select an option
                 </option>
                 <option value="rejected">Rejected</option>
                 <option value="approved">approved</option>
               </select>
-              {!isLoading?( <button className="bg-btnColor text-white rounded-md text-center px-8 py-2 mt-8" onClick={()=>handlebuttonSubmit(values.email)}>
-                Change Staus
-              </button>):(<button className="bg-btnColor text-white rounded-md text-center px-8 py-2 mt-8">
-              <svg
+              {!isLoading ? (
+                <button
+                  className="bg-btnColor text-white rounded-md text-center px-8 py-2 mt-8"
+                  onClick={() => handlebuttonSubmit(values.email)}
+                >
+                  Change Staus
+                </button>
+              ) : (
+                <button className="bg-btnColor text-white rounded-md text-center px-8 py-2 mt-8">
+                  <svg
                     aria-hidden="true"
                     role="status"
                     className="inline w-4 h-4 me-3 text-white animate-spin"
@@ -267,9 +277,8 @@ function DoctorDetailAndKycPage() {
                     />
                   </svg>
                   Loading...
-              </button>)} 
-             
-            
+                </button>
+              )}
             </div>
           </div>
 

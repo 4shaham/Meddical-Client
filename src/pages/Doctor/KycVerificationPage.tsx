@@ -22,36 +22,31 @@ interface FormData {
 
 function KycVerificationPage() {
   // experiences
-  
 
-  const [kycStatus,setKycStatus]=useState<string>('')
+  const [kycStatus, setKycStatus] = useState<string>("");
 
-  useEffect(()=>{
-      const email:string|null=localStorage.getItem("kycEmail")
-      console.log(email)
-      const handlefn=async()=>{
-        try {
-          const response=await getKycStatus(email!=null?email:'')
-          console.log(response,"stages of kyc verifcation")
-          if(response.data?._id){
-             setStep(response.data.step)
-             setPropsEmail(response.data.email)
-             setKycStatus(response.data.appliedStatus)
-          } 
-
-        } catch (error) {
-           console.log(error)
+  useEffect(() => {
+    const email: string | null = localStorage.getItem("kycEmail");
+    console.log(email);
+    const handlefn = async () => {
+      try {
+        const response = await getKycStatus(email != null ? email : "");
+        console.log(response, "stages of kyc verifcation");
+        if (response.data?._id) {
+          setStep(response.data.step);
+          setPropsEmail(response.data.email);
+          setKycStatus(response.data.appliedStatus);
         }
-       
+      } catch (error) {
+        console.log(error);
       }
-      handlefn()
-  })
+    };
+    handlefn();
+  });
 
-  
- 
-  const[propsEmail,setPropsEmail]=useState('')
+  const [propsEmail, setPropsEmail] = useState("");
 
-
+  console.log(propsEmail, "hiiiiii");
   // First Step
   const [credentialErr, setCredintiaolErr] = useState<string>("");
   const [experiencesDatas, setExperiencesDatas] = useState<ExpeirenceData>({
@@ -63,7 +58,7 @@ function KycVerificationPage() {
   const [experiences, setExperiences] = useState<ExpeirenceData[]>([]);
   const [experiencesStatus, setexperiencesStatus] = useState<boolean>(false);
 
-  const handleChange=(e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setExperiencesDatas((prevData) => ({
       ...prevData,
@@ -92,9 +87,6 @@ function KycVerificationPage() {
   const [idCardImage, setIdCardImage] = useState<File | null>();
   const [idCardImageUrl, setIdCardImageUrl] = useState<string>("");
 
-  
-
-
   const handleOnSubmit = async (data: FormData) => {
     try {
       if (!LicenseImage) {
@@ -115,7 +107,9 @@ function KycVerificationPage() {
 
       if (response.data.status) {
         setStep(1);
+        setPropsEmail(data.email);
         toast.success("first step completed");
+        localStorage.setItem("kycEmail", data.email);
       }
     } catch (error) {
       console.log(error);
@@ -129,6 +123,14 @@ function KycVerificationPage() {
 
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>): void => {
     const file = e.target.files?.[0] || null;
+
+    const ImageExtensions = ["jpg", "jpeg", "png", "gif", "webp", "svg"];
+    let type = file?.name.split(".")[1];
+    if (!ImageExtensions.includes(type as string)) {
+      toast.error("The image type is not allowed");
+      return;
+    }
+
     setLicenseImage(file);
     if (file) {
       const reader = new FileReader();
@@ -140,15 +142,13 @@ function KycVerificationPage() {
     }
   };
 
-  const CallbackChange=(val:number)=>{
-    setStep(val)
-    console.log(val,step)
-}
+  const CallbackChange = (val: number) => {
+    setStep(val);
+    console.log(val, step);
+  };
 
   // kycData
   const [step, setStep] = useState(0);
-
-
 
   return (
     <div className="w-full h-full bg-gray-200  p-14 ">
@@ -188,13 +188,15 @@ function KycVerificationPage() {
                   Step <span className="hidden sm:inline-flex sm:ms-2">1</span>
                 </span>
               </li>
-              <li  className={
-                  step != 0 && step != 1 
-                    ?"flex md:w-full items-center text-blue-600 dark:text-blue-500 sm:after:content-[''] after:w-full after:h-1 after:border-b after:border-gray-200 after:border-1 after:hidden sm:after:inline-block after:mx-6 xl:after:mx-10 dark:after:border-gray-700"
-                    :"flex md:w-full items-center   sm:after:content-[''] after:w-full after:h-1 after:border-b after:border-gray-200 after:border-1 after:hidden sm:after:inline-block after:mx-6 xl:after:mx-10 dark:after:border-gray-700"
-                }>
+              <li
+                className={
+                  step != 0 && step != 1
+                    ? "flex md:w-full items-center text-blue-600 dark:text-blue-500 sm:after:content-[''] after:w-full after:h-1 after:border-b after:border-gray-200 after:border-1 after:hidden sm:after:inline-block after:mx-6 xl:after:mx-10 dark:after:border-gray-700"
+                    : "flex md:w-full items-center   sm:after:content-[''] after:w-full after:h-1 after:border-b after:border-gray-200 after:border-1 after:hidden sm:after:inline-block after:mx-6 xl:after:mx-10 dark:after:border-gray-700"
+                }
+              >
                 <span className="flex items-center after:content-['/'] sm:after:hidden after:mx-2 after:text-gray-200 dark:after:text-gray-500">
-                 {step==2 ? (
+                  {step == 2 ? (
                     <svg
                       className="w-3.5 h-3.5 sm:w-4 sm:h-4 me-2.5"
                       aria-hidden="true"
@@ -218,18 +220,34 @@ function KycVerificationPage() {
               </li>
             </ol>
           </div>
-           {step==2 &&
-           <div className="mt-10">
-            <h1 className="text-2xl font-medium text-black text-center">KYC Status</h1>
-           {kycStatus=="applied" && <h1 className="mt-5 mx-auto w-1/2">Your KYC (Know Your Customer) application has been successfully submitted and is currently under review. The status of your application is applied</h1>} 
-           {kycStatus=="rejected" && <h1 className="mt-5 mx-auto w-1/2">We regret to inform you that your KYC (Know Your Customer) application has been rejected</h1>}
-           </div>}
+          {step == 2 && (
+            <div className="mt-10">
+              <h1 className="text-2xl font-medium text-black text-center">
+                KYC Status
+              </h1>
+              {kycStatus == "applied" && (
+                <h1 className="mt-5 mx-auto w-1/2">
+                  Your KYC (Know Your Customer) application has been
+                  successfully submitted and is currently under review. The
+                  status of your application is applied
+                </h1>
+              )}
+              {kycStatus == "rejected" && (
+                <h1 className="mt-5 mx-auto w-1/2">
+                  We regret to inform you that your KYC (Know Your Customer)
+                  application has been rejected
+                </h1>
+              )}
+            </div>
+          )}
           {step == 0 ? (
             <div>
               <form onSubmit={handleSubmit(handleOnSubmit)}>
                 {credentialErr != "" && (
                   <div className="w-full text-center mt-2">
-                    <p  className="text-center font-medium text-red-500">{credentialErr}</p>
+                    <p className="text-center font-medium text-red-500">
+                      {credentialErr}
+                    </p>
                   </div>
                 )}
                 <div className="w-1/2 text-start mx-24 mb-3">
@@ -429,12 +447,14 @@ function KycVerificationPage() {
                 </div>
               </form>
             </div>
-          ):(
-           step==1 &&<KycStep2 email={propsEmail as string} callback={CallbackChange}/>
+          ) : (
+            step == 1 && (
+              <KycStep2
+                email={propsEmail as string}
+                callback={CallbackChange}
+              />
+            )
           )}
-          
-        
-
         </div>
       </div>
     </div>

@@ -8,26 +8,26 @@ interface Achievements {
   title: string;
 }
 
-interface Experiences{
-  startDate:Date,
-  hospitalName:string,
-  responsibilities:string,
-  endDate:Date
+interface Experiences {
+  startDate: Date;
+  hospitalName: string;
+  responsibilities: string;
+  endDate: Date;
 }
 
-interface IKyc{
-  data:{
+interface IKyc {
+  data: {
     _id: string;
-    email:string,
-    licenseNumber:string,
-    licenseImage:string,
-    yearsOfexperience:number,
-    identityCardImage:string,
-    achievements?:Achievements[],
-    experiences?:Experiences[],
-    step:number,
-    appliedStatus:AppliedStatus;
-  }
+    email: string;
+    licenseNumber: string;
+    licenseImage: string;
+    yearsOfexperience: number;
+    identityCardImage: string;
+    achievements?: Achievements[];
+    experiences?: Experiences[];
+    step: number;
+    appliedStatus: AppliedStatus;
+  };
 }
 
 enum AppliedStatus {
@@ -76,40 +76,69 @@ export const doctorKycStoreDatastep1 = (
   });
 
 interface IAcheivmentsData {
-  date:Date|null;
-  description?:string;
+  date: Date | null;
+  description?: string;
   title?: string;
 }
 
-
-export const doctorKycStoreDatastep2 =(
-  yearsOfExperience:number,
+export const doctorKycStoreDatastep2 = (
+  yearsOfExperience: number,
   fullName: string,
-  idCardImage:string,
-  acheivemnts:IAcheivmentsData[],
-  email:string
-) => Api.put(doctorRoutes.kycDataStoreStep2,{yearsOfExperience,fullName,acheivemnts,idCardImage,email})
+  idCardImage: string,
+  acheivemnts: IAcheivmentsData[],
+  email: string
+) =>
+  Api.put(doctorRoutes.kycDataStoreStep2, {
+    yearsOfExperience,
+    fullName,
+    acheivemnts,
+    idCardImage,
+    email,
+  });
 
-
-interface VerifyOtpResponse{
- data:{
-  status:boolean,
-  message:string
- } 
+interface VerifyOtpResponse {
+  data: {
+    status: boolean;
+    message: string;
+  };
 }
 
-export const DoctorVerifyOtp = async (otp:number): Promise<VerifyOtpResponse> =>  await Api.patch(doctorRoutes.verifyOtp,{otp})
+export const DoctorVerifyOtp = async (
+  otp: number
+): Promise<VerifyOtpResponse> =>
+  await Api.patch(doctorRoutes.verifyOtp, { otp });
 
-export const resendOtp=async():Promise<{status:boolean}>=>await Api.post(doctorRoutes.resendOtp)
+export const resendOtp = async (): Promise<{ status: boolean }> =>
+  await Api.post(doctorRoutes.resendOtp);
 
-export const getKycStatus=async(email:string):Promise<IKyc>=>Api.get(`${doctorRoutes.getKycStatus}/${email}`)
+export const getKycStatus = async (email: string): Promise<IKyc> =>
+  Api.get(`${doctorRoutes.getKycStatus}/${email}`);
 
-
-interface LoginResponse{
-  status:boolean,
-  message?:string,
-  Err?:string,
-  token?:string
+interface IDoctorData {
+  name: string;
+  image: string;
+  email: string;
 }
 
-export const signIn=async(email:string,password:string):Promise<LoginResponse>=>await Api.post(doctorRoutes.signIn,{email,password})
+interface LoginResponse {
+  data: {
+    status: boolean;
+    message?: string;
+    Err?: string;
+    token?: string;
+    doctor?: IDoctorData;
+  };
+}
+
+export const signIn = async (
+  email: string,
+  password: string
+): Promise<LoginResponse> =>
+  await Api.post(doctorRoutes.signIn, { email, password });
+
+export const doctorLogout=async()=>await Api.post(doctorRoutes.logout)
+
+export const docotorGetToken=async()=>await Api.get(doctorRoutes.getToken)
+
+
+

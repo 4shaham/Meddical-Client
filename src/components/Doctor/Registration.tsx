@@ -4,6 +4,7 @@ import { IoLanguageSharp } from "react-icons/io5";
 import { doctorSignUp } from "../../api/doctor";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { MdDelete } from "react-icons/md";
 
 interface FormDataFirstPage {
   email: string;
@@ -30,6 +31,13 @@ function Registration() {
 
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>): void => {
     const file = e.target.files?.[0] || null;
+
+    const ImageExtensions = ["jpg", "jpeg", "png", "gif", "webp", "svg"];
+    let type = file?.name.split(".")[1];
+    if (!ImageExtensions.includes(type as string)) {
+      return;
+    }
+
     setImage(file);
 
     if (file) {
@@ -198,7 +206,8 @@ function Registration() {
 
             <div className="w-full mx-auto">
               <h1 className="text-lg font-medium mb-4">Upload Profile Image</h1>
-              <label className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-2xl cursor-pointer bg-gray-50   dark:border-gray-600 dark:hover:border-gray-500 ">
+             {!image && 
+                <label className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-2xl cursor-pointer bg-gray-50   dark:border-gray-600 dark:hover:border-gray-500 ">
                 <div className="flex flex-col items-center justify-center pt-5 pb-6">
                   <svg
                     className="w-8 h-8 mb-4 0 dark:text-gray-400"
@@ -230,13 +239,16 @@ function Registration() {
                   onChange={handleImageChange}
                 />
               </label>
+             } 
+             
               {image && (
                 <div className="mt-4">
                   <img
                     alt="Uploaded License"
                     src={URL.createObjectURL(image)}
-                    className="w-full max-h-64 object-cover"
+                    className="w-full max-h-64 object-fit"
                   />
+                  <MdDelete size={40} onClick={()=>setImage(null)} />
                 </div>
               )}
             </div>

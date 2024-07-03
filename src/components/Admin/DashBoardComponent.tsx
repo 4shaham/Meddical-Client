@@ -15,7 +15,7 @@ function DashBoardComponent() {
             <path d="M736 722c136 48 204 88.667 204 122v106H470 0V844c0-33.333 68-74 204-122 62.667-22.667 105.333-45.667 128-69s34-55 34-95c0-14.667-7.333-31-22-49s-25.333-42.333-32-73c-1.333-8-4.333-14-9-18s-9.333-6.667-14-8c-4.667-1.333-9.333-7-14-17s-7.667-24.333-9-43c0-10.667 1.667-19.333 5-26 3.333-6.667 6.333-10.667 9-12l4-4c-5.333-33.333-9.333-62.667-12-88-2.667-36 11-73.333 41-112s82.333-58 157-58 127.333 19.333 158 58 44 76 40 112l-12 88c12 5.333 18 19.333 18 42-1.333 18.667-4.333 33-9 43s-9.333 15.667-14 17c-4.667 1.333-9.333 4-14 8s-7.667 10-9 18c-5.333 32-15.667 56.667-31 74s-23 33.333-23 48c0 40 11.667 71.667 35 95s65.667 46.333 127 69" />
           </svg>{" "}
           <p className="text-black font-medium text-center">users</p>
-          <p className="text-black font-medium text-center">101</p>
+          <p className="text-black font-medium text-center">10</p>
         </div>
         <div className="bg-gray-50 h-40 shadow-2xl w-40 justify-center text-center rounded-lg ">
           <svg
@@ -31,6 +31,7 @@ function DashBoardComponent() {
           <p className="text-black font-medium text-center">11</p>
         </div>
       </div>
+    
     </div>
   );
 }

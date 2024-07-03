@@ -2,6 +2,7 @@ import React, { ChangeEvent, FormEvent, useState } from "react";
 import { useForm } from "react-hook-form";
 import { addSpecality } from "../../api/admin";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 interface IFormData {
   specalityName: string;
@@ -9,22 +10,35 @@ interface IFormData {
 }
 
 function AddSpecalityForm() {
+
   const [image, setImage] = useState<File | null>(null);
-  const [baseUrl,setBaseUrl]=useState<string>("")
-  const [specalityName,setSpecalityName]=useState<string>("")
-  const navigate=useNavigate()
+  const [baseUrl, setBaseUrl] = useState<string>("");
+  const [specalityName, setSpecalityName] = useState<string>("");
+  const navigate = useNavigate();
+  const [validationErr,setValidationErr]=useState<IFormData>()
+
 
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>): void => {
     const file = e.target.files?.[0] || null;
+    
+
+    // image validation
+    const ImageExtensions = ["jpg", "jpeg", "png", "gif", "webp", "svg"];
+    let type = file?.name.split(".")[1];
+    if (!ImageExtensions.includes(type as string)) {
+      toast.error("The image type is not allowed");
+      return;
+    }
+
     setImage(file);
     if (file) {
-        const reader = new FileReader();
-        reader.onloadend = () => {
-          const base64String = reader.result?.toString() || '';
-          setBaseUrl(base64String);
-        };
-        reader.readAsDataURL(file);
-      }
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const base64String = reader.result?.toString() || "";
+        setBaseUrl(base64String);
+      };
+      reader.readAsDataURL(file);
+    }
   };
 
   const handleFormSubmit = async (
@@ -32,29 +46,40 @@ function AddSpecalityForm() {
   ): Promise<void> => {
     e.preventDefault();
     try {
+      
+      if (specalityName == "") {
+        setValidationErr({specalityName:"This field is required",image:""})
+        toast.error("Please enter the name of specality");
+        return;
+      }else{
+        setValidationErr({specalityName:"",image:""})
+      }
 
       if (!image) {
-        alert("Please select an image to upload.");
+        setValidationErr({specalityName:"",image:"This field is required"})
+        toast.error("Please select an image to upload")
         return;
+      }else{
+        setValidationErr({specalityName:"",image:""})
       }
 
-      if(specalityName==""){
-        alert("Please enter the name of specality");
-        return;
-      }
-     
+
+   
+
       const formData = new FormData();
       formData.append("image", image);
-      formData.append('specalityName',specalityName);
-      
-      console.log("base",baseUrl)
-       
+      formData.append("specalityName", specalityName);
 
-    const response=await addSpecality(specalityName,baseUrl)
-    console.log(response)
-    if(response.data.message=="Speciality added successfully" && response.data.status){
-         navigate("/admin/specalityManagement")
-    }
+      console.log("base", baseUrl);
+
+      const response = await addSpecality(specalityName, baseUrl);
+      console.log(response);
+      if (
+        response.data.message == "Speciality added successfully" &&
+        response.data.status
+      ) {
+        navigate("/admin/specalityManagement");
+      }
     } catch (error) {
       console.log(error);
     }
@@ -72,11 +97,12 @@ function AddSpecalityForm() {
               className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-black dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
               placeholder=" "
               value={specalityName}
-              onChange={(e)=>setSpecalityName(e.target.value)}
+              onChange={(e) => setSpecalityName(e.target.value)}
             />
             <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
               Specality Name
             </label>
+           {validationErr?.specalityName && <p className="text-red-500 font-medium">{validationErr.specalityName}</p>}
           </div>
           <div className="relative z-0 w-full mb-5 group">
             <div className="flex items-center justify-center w-full">
@@ -115,6 +141,7 @@ function AddSpecalityForm() {
                 add Specality images
               </label>
             </div>
+            {validationErr?.image && <p className="text-red-500 font-medium">{validationErr.image}</p>}
             {image && (
               <div className="w-full h-full">
                 <img

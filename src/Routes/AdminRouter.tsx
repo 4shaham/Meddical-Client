@@ -22,6 +22,7 @@ function AdminRouter() {
          <Route element={<AddSpecalityManagment/>}>
            <Route path={"/admin/AddSpecalityManagment"} element={<AddSpecalityForm/>}/>
            <Route path={"/admin/EditSpecality"} element={<EditSpecalityManagment/>}/>
+           <Route path={"/admin/deletedSpecality"} element={<>hiiii</>}/>
          </Route>
         <Route path={"/admin/doctorsManagment"} element={<DashBoardComponent/>} />
         <Route path={"/admin/verifyNewRequest"} element={<VerifyRequestPage/>} />

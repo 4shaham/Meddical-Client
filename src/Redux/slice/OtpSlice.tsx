@@ -16,10 +16,13 @@ const OtpSlice=createSlice({
         verifed:(state,actions)=>{
            state.OtpVerifed=true
            state.otpType=actions.payload
+        },
+        unVerifed:(state)=>{
+            state.OtpVerifed=false
         }
     }
 })
 
 
-export const {verifed}=OtpSlice.actions
+export const {verifed,unVerifed}=OtpSlice.actions
 export default OtpSlice.reducer

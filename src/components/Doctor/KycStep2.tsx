@@ -19,6 +19,7 @@ interface IEmail{
 }
 
 function KycStep2({email,callback}:IEmail) {
+  
   const [acheievmentsDatas, setAcheievmentDatas] = useState<ExpeirenceData>({
     date: null,
     description: "",

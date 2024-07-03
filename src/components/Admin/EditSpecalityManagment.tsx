@@ -41,6 +41,13 @@ function EditSpecalityManagment() {
 
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>): void => {
     const file = e.target.files?.[0] || null;
+
+    const ImageExtensions = ["jpg", "jpeg", "png", "gif", "webp", "svg"];
+    let type = file?.name.split(".")[1];
+    if (!ImageExtensions.includes(type as string)) {
+      toast.error("The image type is not allowed");
+      return;
+    }
     setImage(file);
     if (file) {
       const reader = new FileReader();

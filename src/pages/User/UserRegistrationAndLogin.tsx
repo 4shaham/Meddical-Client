@@ -9,8 +9,8 @@ function UserRegistrationAndLogin() {
 
   return (
     <div className="">
-      <section className=" mx-auto relative p-10  h-auto w-full dark:bg-serviceColors-200  rounded-2xl">
-        <img className="absolute z-[-1] top-0 left-0 w-full h-full opacity-[100%] blur-[4px]" src={bgimage} alt="" />
+      <section className=" mx-auto relative p-10  h-auto w-full dark:bg-serviceColors-200 bg-gray-100  rounded-2xl">
+        {/* <img className="absolute z-[-1] top-0 left-0 w-full h-full opacity-[100%] blur-[4px]" src={bgimage} alt="" /> */}
         <Link to="/">
       
 
