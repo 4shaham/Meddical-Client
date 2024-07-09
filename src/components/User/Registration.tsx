@@ -183,21 +183,23 @@ function Registration() {
               className="text-center peer h-full w-full border-b border-blue-gray-200 bg-transparent pt-4 pb-1.5 font-sans text-sm font-normal text-blue-gray-700 outline-none transition-all placeholder-shown:border-blue-gray-200 focus:border-gray-900 disabled:border-0 disabled:bg-blue-gray-50"
               type="text"
               {...register("phoneNumber", {
-                required: true,
-                minLength: 10,
-                onChange:(e):any=>setValue("phoneNumber",e.target.value.trim())  
+                required:'Phone number is required',
+                onChange:(e):any=>setValue("phoneNumber",e.target.value.trim()),
+                minLength: {
+                  value:10,
+                  message: `Phone number must be ${10} digits long`,
+                },
+                maxLength: {
+                  value:10,
+                  message: `Phone number must be ${10} digits long`,
+                },
               })}
             />
-            {(errors.phoneNumber?.type == "required" && (
+            {(errors.phoneNumber && (
               <small className="block mb-2 text-sm font-medium text-red-600 text-center">
-                This field is required
+                {errors.phoneNumber.message}
               </small>
-            )) ||
-              (errors.phoneNumber?.type == "maxLength" && (
-                <small className="block mb-2 text-sm font-medium text-red-600 text-center">
-                  This age is must be greater Than 0
-                </small>
-              ))}
+            ))}
           </div>
           <div>
             <label className="block mb-2 text-sm font-medium text-center">

@@ -5,7 +5,7 @@ import { Outlet, useNavigate } from "react-router-dom";
 import UseDoctorProtoct from "../../hook/DoctorSide/useDoctorProtectRoute";
 
 function DoctorMainPage() {
-  UseDoctorProtoct();
+  // UseDoctorProtoct();
 
   return (
     <div>

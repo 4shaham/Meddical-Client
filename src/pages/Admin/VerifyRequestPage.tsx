@@ -103,7 +103,7 @@ const VerifyRequestPage: FC = () => {
                   className="flex items-center px-6 py-4  text-gray-900 whitespace-nowrap "
                 >
                   <img
-                    className="w-10 h-10 rounded-full"
+                    className="w-20 h-20 rounded-full object-fill"
                     src={values.doctorDetails[0].image}
                     alt="Jese image"
                   />

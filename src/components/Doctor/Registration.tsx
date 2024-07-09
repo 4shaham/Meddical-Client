@@ -5,6 +5,7 @@ import { doctorSignUp } from "../../api/doctor";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { MdDelete } from "react-icons/md";
+import { toast } from "react-toastify";
 
 interface FormDataFirstPage {
   email: string;
@@ -23,6 +24,7 @@ function Registration() {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm<FormDataFirstPage>();
 
@@ -35,6 +37,7 @@ function Registration() {
     const ImageExtensions = ["jpg", "jpeg", "png", "gif", "webp", "svg"];
     let type = file?.name.split(".")[1];
     if (!ImageExtensions.includes(type as string)) {
+      toast.error("The image type is not supported");
       return;
     }
 
@@ -67,18 +70,18 @@ function Registration() {
         baseUrl
       );
       console.log(response);
-      
-      if(response.data.status){
-        let timer=60
+
+      if (response.data.status) {
+        let timer = 60;
         localStorage.setItem("timer", timer.toString());
-        localStorage.setItem("otpPage","verified")
+        localStorage.setItem("otpPage", "verified");
         navigate("/doctor/otpVerifcation");
       }
     } catch (error) {
       console.log("error", error);
       if (axios.isAxiosError(error)) {
         if (error.response?.data.status == false) {
-             setCredintiaolErr(error.response.data.errMessage)
+          setCredintiaolErr(error.response.data.errMessage);
         }
       }
     }
@@ -96,12 +99,13 @@ function Registration() {
             onSubmit={handleSubmit(handleFirstFormSubmit)}
             className="space-y-6"
           >
-            {credentionErr!="" && 
-                  <div className="w-full mx-auto">
-                   <h1 className="text-red-500 text-center font-medium">{credentionErr}</h1>
-                   </div>
-            }
-           
+            {credentionErr != "" && (
+              <div className="w-full mx-auto">
+                <h1 className="text-red-500 text-center font-medium">
+                  {credentionErr}
+                </h1>
+              </div>
+            )}
 
             <div className="w-full md:w-full mx-auto">
               <label
@@ -119,11 +123,21 @@ function Registration() {
                 aria-describedby="helper-text-explanation"
                 className="w-full bg-white text-gray-900 rounded-lg p-2.5 focus:ring-blue-500 focus:border-blue-500"
                 placeholder="name@flowbite.com"
-                {...register("email", { required: true })}
+                {...register("email", {
+                  required: true,
+                  pattern: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                  onChange: (e): any =>
+                    setValue("email", e.target.value.trim()),
+                })}
               />
-              {errors.email && (
+              {errors.email?.type == "required" && (
                 <small className="text-red-500 font-medium text-md">
                   This field is required
+                </small>
+              )}
+              {errors.email?.type == "pattern" && (
+                <small className="text-red-500 font-medium text-md">
+                  Invalid email format
                 </small>
               )}
             </div>
@@ -134,7 +148,10 @@ function Registration() {
               </label>
               <input
                 className="w-full bg-white text-gray-900 rounded-lg p-2.5 focus:ring-blue-500 focus:border-blue-500"
-                {...register("name", { required: true })}
+                {...register("name", {
+                  required: true,
+                  onChange: (e): any => setValue("name", e.target.value.trim()),
+                })}
               />
               {errors.name && (
                 <small className="text-red-500 font-medium text-md">
@@ -149,11 +166,23 @@ function Registration() {
               </label>
               <input
                 className="w-full bg-white text-gray-900 rounded-lg p-2.5 focus:ring-blue-500 focus:border-blue-500"
-                {...register("phoneNumber", { required: true })}
+                {...register("phoneNumber", {
+                  required: 'Phone number is required',
+                  onChange: (e): any =>
+                    setValue("phoneNumber", e.target.value.trim()),
+                  minLength: {
+                    value:10,
+                    message: `Phone number must be ${10} digits long`,
+                  },
+                  maxLength: {
+                    value:10,
+                    message: `Phone number must be ${10} digits long`,
+                  },
+                })}
               />
               {errors.phoneNumber && (
                 <small className="text-red-500 font-medium text-md">
-                  This field is required
+                 {errors.phoneNumber.message}
                 </small>
               )}
             </div>
@@ -164,7 +193,11 @@ function Registration() {
               </label>
               <input
                 className="w-full bg-white text-gray-900 rounded-lg p-2.5 focus:ring-blue-500 focus:border-blue-500"
-                {...register("specialist", { required: true })}
+                {...register("specialist", {
+                  required: true,
+                  onChange: (e): any =>
+                    setValue("specialist", e.target.value.trim()),
+                })}
               />
               {errors.specialist && (
                 <small className="text-red-500 font-medium text-md">
@@ -180,11 +213,18 @@ function Registration() {
               <input
                 type="number"
                 className="w-full bg-gray-50 border border-gray-300 text-gray-900 rounded-lg p-2.5 focus:ring-blue-500 focus:border-blue-500"
-                {...register("fees", { required: true })}
+                {...register("fees", {
+                  required:"This field is required",
+                  min:{
+                    value:100,
+                    message:"lessthan 100 is not possible"
+                  },
+                  onChange: (e): any => setValue("fees", e.target.value.trim()),
+                })}
               />
               {errors.fees && (
                 <small className="text-red-500 font-medium text-md">
-                  This field is required
+                {errors.fees.message}
                 </small>
               )}
             </div>
@@ -195,7 +235,12 @@ function Registration() {
               </label>
               <input
                 className="w-full bg-white text-gray-900 rounded-lg p-2.5 focus:ring-blue-500 focus:border-blue-500"
-                {...register("password", { required: true })}
+                {...register("password", {
+                  required: true,
+                  onChange: (e): any =>
+                    setValue("password", e.target.value.trim()),
+                })}
+                type="password"
               />
               {errors.password && (
                 <small className="text-red-500 font-medium text-md">
@@ -206,41 +251,41 @@ function Registration() {
 
             <div className="w-full mx-auto">
               <h1 className="text-lg font-medium mb-4">Upload Profile Image</h1>
-             {!image && 
+              {!image && (
                 <label className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-2xl cursor-pointer bg-gray-50   dark:border-gray-600 dark:hover:border-gray-500 ">
-                <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                  <svg
-                    className="w-8 h-8 mb-4 0 dark:text-gray-400"
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 20 16"
-                  >
-                    <path
-                      stroke="currentColor"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
-                    />
-                  </svg>
-                  <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
-                    <span className="font-semibold">Click to upload</span> or
-                    drag and drop
-                  </p>
-                  <p className="text-xs text-gray-500 dark:text-gray-400">
-                    SVG, PNG, JPG or GIF (MAX. 800x400px)
-                  </p>
-                </div>
-                <input
-                  id="dropzone-file"
-                  type="file"
-                  className="hidden"
-                  onChange={handleImageChange}
-                />
-              </label>
-             } 
-             
+                  <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                    <svg
+                      className="w-8 h-8 mb-4 0 dark:text-gray-400"
+                      aria-hidden="true"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 20 16"
+                    >
+                      <path
+                        stroke="currentColor"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
+                      />
+                    </svg>
+                    <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                      <span className="font-semibold">Click to upload</span> or
+                      drag and drop
+                    </p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400">
+                      SVG, PNG, JPG or GIF (MAX. 800x400px)
+                    </p>
+                  </div>
+                  <input
+                    id="dropzone-file"
+                    type="file"
+                    className="hidden"
+                    onChange={handleImageChange}
+                  />
+                </label>
+              )}
+
               {image && (
                 <div className="mt-4">
                   <img
@@ -248,7 +293,7 @@ function Registration() {
                     src={URL.createObjectURL(image)}
                     className="w-full max-h-64 object-fit"
                   />
-                  <MdDelete size={40} onClick={()=>setImage(null)} />
+                  <MdDelete size={40} onClick={() => setImage(null)} />
                 </div>
               )}
             </div>

@@ -13,7 +13,6 @@ function AddSpecalityManagment() {
     Back to
    </button></Link>
    <Outlet/>
-  {/* <AddSpecalityForm/> */}
 </div>
     </div>
   )

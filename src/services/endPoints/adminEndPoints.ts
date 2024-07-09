@@ -11,7 +11,9 @@ const adminRoutes={
     getDoctorDataVerification:'/api/admin/findeKycVerificatioData',
     updateDoctorKycStatus:'/api/admin/doctorKycVerification',
     getEditSpecalityData:'/api/admin/getEditSpecalityData',
-    updateSpecality:'/api/admin/updateSpecality'
+    updateSpecality:'/api/admin/updateSpecality',
+    deletedSpecalityData:'/api/admin/deletedSpecalityData',
+    updatedDeletedSpecalityStatus:'/api/admin/restoreSpecality'
 }
 
 export default adminRoutes

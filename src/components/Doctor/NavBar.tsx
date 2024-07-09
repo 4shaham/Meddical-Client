@@ -36,15 +36,18 @@ function NavBar() {
   return (
     <div className="mx-16 my-11 flex justify-between ">
       <div className="flex gap-1">
-      {state && <img src={state.image?state.image as string:"shhsj"} className="w-14 rounded-full" alt="Avatar" />}  
-               
-         <div>
-         <h1 className="text-black text-xl font-medium">
-           Hello,Dr {state &&state.name} 
-        </h1>
-        <p className="font-medium">Thank you for joining us today</p>
-         </div>
-       
+        <img
+          src={state.image ? (state.image as string) : "shhsj"}
+          className="w-14 rounded-full"
+          alt="Avatar"
+        />
+
+        <div>
+          <h1 className="text-black text-xl font-medium">
+            Hello,Dr {state.name}
+          </h1>
+          <p className="font-medium">Thank you for joining us today</p>
+        </div>
       </div>
       <div className="">
         <div className="my-auto">

@@ -10,6 +10,7 @@ import VerifyRequestPage from "../pages/Admin/VerifyRequestPage";
 import DoctorDetailAndKycPage from "../pages/Admin/DoctorDetailAndKycPage";
 import AddSpecalityForm from "../components/Admin/AddSpecalityForm";
 import EditSpecalityManagment from "../components/Admin/EditSpecalityManagment";
+import DeleteSpecalityManagment from "../components/Admin/DeleteSpecalityManagment";
 
 
 
@@ -19,11 +20,11 @@ function AdminRouter() {
       <Route element={<MainPage/>}>
         <Route path={"/admin/specalityManagement"} element={<SpecalityManagement/>}  />
         <Route path={"/admin/"} element={<DashBoardComponent/>} />
-         <Route element={<AddSpecalityManagment/>}>
+        <Route element={<AddSpecalityManagment/>}>
            <Route path={"/admin/AddSpecalityManagment"} element={<AddSpecalityForm/>}/>
            <Route path={"/admin/EditSpecality"} element={<EditSpecalityManagment/>}/>
-           <Route path={"/admin/deletedSpecality"} element={<>hiiii</>}/>
-         </Route>
+           <Route path={"/admin/deletedSpecality"} element={<DeleteSpecalityManagment/>}/>
+        </Route>
         <Route path={"/admin/doctorsManagment"} element={<DashBoardComponent/>} />
         <Route path={"/admin/verifyNewRequest"} element={<VerifyRequestPage/>} />
         <Route path={"/admin/kycDataView"} element={<DoctorDetailAndKycPage/>}/>

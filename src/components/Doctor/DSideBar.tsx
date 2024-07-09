@@ -15,25 +15,26 @@ function DSideBar() {
     const sideBard = [
       { path: "/doctor/", element: "ManageTokens", icon: <LuLayoutDashboard /> },
       {
-        path: "",
+        path:"/doctor/",
         element: "Slot Availability",
         icon: <IoMdNotifications />,
       },
       {
-        path: "",
+        path:"/doctor/",
         element: "Patient Details",
         icon: <FaUsersRectangle />,
       },
       {
-        path: "",
+        path: "doctor/mySchedule",
         element: "Schedules Managment",
         icon:<RiCalendarScheduleFill />
       },
       {
-        path: "",
+        path:"doctor/",
         element: "view Appointments",
         icon: <MdLocalFireDepartment />,
       },
+
     ];
   
   

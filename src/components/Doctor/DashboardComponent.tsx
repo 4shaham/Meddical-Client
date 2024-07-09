@@ -119,22 +119,34 @@ function DashboardComponent() {
           </AreaChart>
         </div>
       </div>
-      <div className="w-1/3 bg-white h-full rounded-md p-2">
-          <h1 className="text-black font-bold text-center mt-1 mb-7">Today's Task</h1>
-          <div className="w-full h-96 bg-gray-100 rounded-md mt-2 text-center ">
-              <div className="w-full bg-gray-100 rounded-md">
-                 <h1 className="text-red-500 font-medium">9:00am to 1:00pm</h1>
-                 <p className="text-black font-medium">counsultaiton Time</p>
-              </div>
-              <div className="w-full bg-gray-100 rounded-md mt-2">
-                 <h1 className="text-red-500 font-medium">9:00am to 1:00pm</h1>
-                 <p className="text-black font-medium">counsultaiton Time</p>
-              </div>
-              <div className="w-full bg-gray-100 rounded-md mt-2">
-                 <h1 className="text-red-500 font-medium">9:00am to 1:00pm</h1>
-                 <p className="text-black font-medium">counsultaiton Time</p>
-              </div>
+      <div className="w-1/3 bg-white  rounded-md p-2">
+        <h1 className="text-black text-xl font-bold text-center ">
+          Today's Task
+        </h1>
+        <div className="w-full  rounded-md p-5">
+          <button className="bg-yellow-200 rounded-md py-1 w-full font-medium">
+            Add Task
+          </button>
+        </div>
+        <div className="w-full  bg-white rounded-md mt-2 text-center">
+          <div className="w-full bg-gray-100 rounded-md mt-10 flex h-auto p-1 justify-between ">
+           
+            <div className="my-auto flex gap-5">
+            <input type="checkbox" className="w-6  border border-gray-100" />
+              <p className="text-black font-medium">counsultaiton Time</p>
+            </div>
+            <div className="">
+               <small className="text-red-500">start:9:00</small>
+               <br />
+               <small>end:10:00</small>
+            </div>
+          
           </div>
+          <div className="w-full bg-gray-100 rounded-md mt-2">
+            <h1 className="text-red-500 font-medium">9:00am to 1:00pm</h1>
+            <p className="text-black font-medium">counsultaiton Time</p>
+          </div>
+        </div>
       </div>
     </div>
   );

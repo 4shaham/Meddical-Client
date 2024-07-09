@@ -17,9 +17,9 @@ function NavBar() {
 
   return (
     <div className="w-full  flex justify-between">
-      <div className="m-3 mx-10 my-7">
+      {/* <div className="m-3 mx-10 my-7">
         <h1 className="text-black text-4xl custom-font">MEDDICAL</h1>
-      </div>
+      </div> */}
 
       <div className="my-7 mx-10">
         <button

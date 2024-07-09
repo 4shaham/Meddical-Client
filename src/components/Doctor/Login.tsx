@@ -144,6 +144,7 @@ function Login() {
                   onChange: (e): any =>
                     setValue("password", e.target.value.trim()),
                 })}
+                type="password"
               />
               {errors.password?.type == "required" && (
                 <small className="text-red-500  mb-2">

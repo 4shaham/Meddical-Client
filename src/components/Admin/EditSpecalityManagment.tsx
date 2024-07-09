@@ -65,7 +65,7 @@ function EditSpecalityManagment() {
     try {
       e.preventDefault();
 
-      if (specalityName == "") {
+      if (specalityName.trim() == "") {
         toast.error("name is required")
         return;
       }

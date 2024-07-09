@@ -87,7 +87,7 @@ const handleFormsubmit= async(data:FormData)=>{
                       })}
                     />
                      {errors.confirmPassword?.type=="required" &&  <small className="text-red-500 ">This Filed is requied</small>}
-                     <small>{credentiolErr}</small>
+                     <small className="text-red-500 font-medium">{credentiolErr}</small>
                   </div>
                   <div>
 

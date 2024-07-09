@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { login } from "../Redux/slice/AdminAuthSlice";
 import Login from "../components/Doctor/Login";
 import { FaTruckMedical } from "react-icons/fa6";
+import { docotorGetToken } from "../api/doctor";
 
 
 interface rootNode{
@@ -20,16 +21,20 @@ interface rootNode{
 
 const PrivateRoutes = () => {
 
-  const auth= useSelector((state:rootNode)=>state.doctorAuth.doctor.isAuthenticated);
+    
+  console.log('hiiiiiiiii')
+
+  // const auth= useSelector((state:rootNode)=>state.doctorAuth.doctor.isAuthenticated);
   const [status,setStatus]=useState<boolean>(false)
   // const dispatch=useDispatch()
   const [loading,setIsLoading]=useState<boolean>(true)
+  console.log('response hiii')
   
   useEffect(() => {
 
     const checkAuth = async () => {
       try {
-        const response = await getToken();
+        const response = await docotorGetToken();
         console.log(response)
         setIsLoading(true)
         if (response.data) {
@@ -37,6 +42,8 @@ const PrivateRoutes = () => {
            setStatus(true)
         }
       } catch (error) {
+        console.log(error)
+        setIsLoading(false)
          setStatus(false)
       }
     };
@@ -46,12 +53,10 @@ const PrivateRoutes = () => {
   },[]);
 
   
-  if(loading){
+  if(loading && !status){
      return <div>loaidng...</div>
   }
-
-
-  return status ? <Outlet /> : <Navigate to="/admin/login" />;
+  return status ?<Outlet/>:<Navigate to="/doctor/login"/>;
 };
 export default PrivateRoutes;
 

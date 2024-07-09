@@ -49,6 +49,7 @@ const MyComponent: React.FC = () => {
 
   useEffect(() => {
     const hadnleAsyncronus = async () => {
+      console.log('hii heloo bro how are youe')
       let response:any = await findspecality();
       dispatch(add(response.data))
     };
@@ -56,8 +57,8 @@ const MyComponent: React.FC = () => {
   }, []);
 
  
-
   return (
+
   <div className="px-5 py-5">
     <Card className="h-full w-full overflow-scroll">
       <table className="w-full min-w-max table-auto  text-center">
@@ -123,7 +124,8 @@ const MyComponent: React.FC = () => {
         </tbody>
       </table>
     </Card>
-  </div>  
+  </div> 
+
   );
 };
 

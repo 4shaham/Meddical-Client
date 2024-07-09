@@ -4,7 +4,9 @@ import { IoMdNotifications } from "react-icons/io";
 import { FaUsersRectangle } from "react-icons/fa6";
 import { FaUserDoctor } from "react-icons/fa6";
 import { MdLocalFireDepartment } from "react-icons/md";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { adminLogout } from "../../api/admin";
+import { CiLogout } from "react-icons/ci";
 
 
 function SideBar() {
@@ -25,6 +27,8 @@ function SideBar() {
       element: "specality Management",
       icon: <MdLocalFireDepartment />,
     },
+   
+ 
   ];
 
 
@@ -39,9 +43,30 @@ function SideBar() {
       </div></Link> 
     ));
 
+    const navigate = useNavigate();
+  const handleLogoutButton = async () => {
+    try {
+      const response = await adminLogout();
+      if (response.data.status) {
+        navigate("/admin/login");
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  };
+
   return (
     <div className="w-[25%]  md:bg-gray-100 md:p-5 md:h-screen md:text-center">
+       <div className="m-3 mx-auto mb-11">
+        <h1 className="text-black text-4xl custom-font">MEDDICAL</h1>
+      </div>
       <div>{sideBardElements()}</div>
+      <div
+        className="mt-10 mx-auto text-md font-medium flex text-center  p-2"
+      >
+       <CiLogout /><h1 onClick={handleLogoutButton} className="-mt-1">Logout</h1>
+      </div>
+    
     </div>
   );
 }

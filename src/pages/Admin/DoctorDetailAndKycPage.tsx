@@ -7,6 +7,7 @@ import {
   useParams,
 } from "react-router-dom";
 import { findDoctorKycData, updateDoctorKycStatus } from "../../api/admin";
+import { toast } from "react-toastify";
 
 interface Achievements {
   date: string;
@@ -72,7 +73,7 @@ function DoctorDetailAndKycPage() {
       console.log(email, selectedOption);
 
       if (selectedOption == "") {
-        alert("choose any option to change status");
+        toast.error("choose any option to change status")
         return;
       }
 
@@ -100,7 +101,7 @@ function DoctorDetailAndKycPage() {
 
   return (
     <div>
-      {values?.map((values, index) => (
+      {values?.map((values,index) => (
         <div className="w-full h-screen  md:flex p-5 gap-2">
           <div className="w-full md:w-1/2 bg-white">
             <div className="w-[30]  mx-auto  mb-10">

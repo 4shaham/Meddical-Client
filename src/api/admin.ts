@@ -72,3 +72,14 @@ export const updateDoctorKycStatus=async(email:string,status:string)=>await Api.
 export const getEditSpecalityData=async(id:string):Promise<ISpecality>=>await Api.get(`${adminRoutes.getEditSpecalityData}?specalityId=${id}`)
 
 export const updateSpecality=async(id:string,name?:string,image?:string)=>await Api.put(adminRoutes.updateSpecality,{name,image,id})
+
+
+export const deletedSpecalityData=async()=>await Api.get(adminRoutes.deletedSpecalityData)
+
+export const updatedDeletedSpecalityStatus=async(id:string):Promise<DeletedSpecalityResponse>=>await Api.patch(adminRoutes.updatedDeletedSpecalityStatus,{id})
+interface DeletedSpecalityResponse{
+    data:{
+       status:boolean,
+       message:string
+    }
+}

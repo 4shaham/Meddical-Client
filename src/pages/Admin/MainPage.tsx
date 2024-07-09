@@ -12,9 +12,8 @@ function MainPage() {
   
   return (
     <div className="w-full h-full flex bg-gray-100">
-      <SideBar />
+       <SideBar />
       <div className="bg-white w-full"> 
-        <NavBar />
         <Outlet/>
       </div>
     </div>
