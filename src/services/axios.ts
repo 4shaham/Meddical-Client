@@ -29,7 +29,7 @@ Api.interceptors.request.use(
       console.log(error)  
       if (error.response && error.response.status === 500) {
         // Handle 401 Unauthorized error
-        window.location.href = '/login';
+        // window.location.href = '/login';
       }
       return Promise.reject(error);
     }

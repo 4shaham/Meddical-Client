@@ -82,3 +82,6 @@ export const googleAuth=async (email:string,userName:string,image:string)=> awai
 export const forgotPassword=async(email:string)=>await Api.post(userRoutes.forgotPassword,{email})
 
 export const updatePassword=async(password:string)=>await Api.patch(userRoutes.UpdatePassword,{password})
+
+
+export const getAllDoctors=async()=>await Api.get(userRoutes.getAllDoctors)

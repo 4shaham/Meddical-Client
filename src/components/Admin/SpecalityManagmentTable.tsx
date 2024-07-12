@@ -10,9 +10,11 @@ import { Link } from "react-router-dom";
 
 
 interface Root{
+
     specality:{
       specality:[]
     }
+    
 }
 
 interface vlaues{

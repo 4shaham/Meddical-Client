@@ -11,6 +11,7 @@ const userRoutes={
     googleAuth:'/api/googleAuth',
     forgotPassword:'/api/forgotPassword',
     UpdatePassword:'/api/updatePassword',
+    getAllDoctors:'/api/getDoctors'
 }   
 
 export default userRoutes

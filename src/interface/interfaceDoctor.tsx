@@ -9,7 +9,6 @@ export interface IAddScheduleIntervals {
 
 export interface addScheduleFormData{
     startDate:Date,
-    endDate?:Date,
     startTime:string,
     endTime:string,
 } 

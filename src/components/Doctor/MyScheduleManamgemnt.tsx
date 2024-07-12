@@ -4,8 +4,20 @@ import {
   addScheduleFormData,
 } from "../../interface/interfaceDoctor";
 import { useForm } from "react-hook-form";
+import { addSchedule } from "../../api/doctor";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 function MyScheduleManamgemnt() {
+
+ 
+
+  const navigate=useNavigate()
+  const[credentialErr,setCredintiaolErr]=useState("")
+
+
+
   const [interval, setInterval] = useState<IAddScheduleIntervals[]>();
   const [showIntevalForm, setShowIntervalForm] = useState<boolean>(false);
 
@@ -23,20 +35,33 @@ function MyScheduleManamgemnt() {
     console.log(startTime);
   };
 
-  const handleOnSubmit = () => {
-    console.log("hiiii");
+  const handleOnSubmit = async(data: addScheduleFormData) => {
+    console.log("hiiii",data);
+    try {
+      let response=await addSchedule("668244523eb2f1bd4411bf7f",data.startDate,data.startTime,data.endTime)
+      navigate("/doctor/")
+    } catch (error) {
+
+      if(axios.isAxiosError(error)){
+           console.log(error)
+          setCredintiaolErr(error.response?.data.message)
+      }
+      console.log(error)
+    }
+
+  
   };
 
   return (
-    <div className="p-5">
-      <div className="w-full bg-white h-full rounded-md p-3">
+    <div className="px-12 py-12">
+      <div className="w-2/3 mx-auto  my-auto bg-white h-auto  rounded-md p-3">
         <div>
-          <h1 className="text-black font-medium text-xl mx-4">Add Schedules</h1>
+          <h1 className="text-black text-center font-medium text-2xl mx-4">Add Schedules</h1>
         </div>
-        <div className=" bg-white p-9 mx-auto w-2/3">
+        <div className=" bg-white p-9 mx-auto  w-full">
           <form onSubmit={handleSubmit(handleOnSubmit)}>
-            <div className="mb-3">
-              <label className="text-black font-semibold">
+            <div className="mb-5">
+              <label className="text-black font-semibold mb-2">
                 select end date
               </label>
               <br />
@@ -52,44 +77,48 @@ function MyScheduleManamgemnt() {
               />
               <br />
               <small className="text-red-500 font-medium">
-                {errors.startDate?.message}
+                {errors.startDate?.message||credentialErr}
               </small>
             </div>
-            <div className="mb-3">
-              <label className="text-black font-semibold">
-                select end date
-              </label>
-              <br />
-              <input
-                type="date"
-                className="border-2 border-gray-300 rounded-sm w-2/3  h-8 bg-gray-100"
-              />
-            </div>
-            <div className="mb-3">
-              <label className="text-black font-semibold">
+            <div className="mb-5">
+              <label className="text-black font-semibold mb-2">
                 consultation Start time
               </label>
               <br />
               <input
                 type="time"
                 className="border-2 border-gray-300 rounded-sm w-1/3  h-8 bg-gray-100"
+                {...register("startTime", {
+                  required: "This field is required",
+                })}
               />
+              <br />
+              <small className="text-red-500 font-medium">
+                {errors.startTime?.message}
+              </small>
             </div>
-            <div className="mb-3">
-              <label className="text-black font-semibold">
+            <div className="mb-5">
+              <label className="text-black font-semibold mb-2">
                 consultation End time
               </label>
               <br />
               <input
                 type="time"
                 className="border-2 border-gray-300 rounded-sm w-1/3  h-8 bg-gray-100"
+                {...register("endTime", {
+                  required: "This field is required",
+                })}
               />
+              <br />
+              <small className="text-red-500 font-medium">
+                {errors.endTime?.message}
+              </small>
             </div>
             <div className="mb-3 mt-5">
               <input
                 placeholder="plese enter interval name"
                 type="text"
-                className="border border-gray-100 bg-gray-100 rounded-sm w-3/3 h-8"
+                className="border border-gray-100 bg-gray-100 rounded-md w-3/3 h-8"
               />
               <button
                 className="bg-btnColor text-white px-3 py-1"
@@ -100,7 +129,7 @@ function MyScheduleManamgemnt() {
             </div>
 
             {showIntevalForm && (
-              <div className="bg-gray-100 rounded-md w-1/3 p-2">
+              <div className="bg-gray-100 rounded-md w-1/3 p-2 mb-5">
                 <label htmlFor="" className="mx-3 font-medium">
                   start time
                 </label>
@@ -132,9 +161,9 @@ function MyScheduleManamgemnt() {
                 </button>
               </div>
             )}
-            <div className="mb-3  ">
+            <div className="mb-5">
               <button
-                className="bg-red-500  text-white w-1/3 py-1 rounded-md mt-4"
+                className="bg-red-500  text-white w-1/3 py-1 rounded-md mt-4 "
                 type="submit"
               >
                 Submit

@@ -9,7 +9,9 @@ const doctorRoutes={
    verifyOtp:'/api/doctor/otpVerification',
    resendOtp:'/api/doctor/resendOtp',
    getKycStatus:'/api/doctor/getKycStatus',
-   getToken:'/api/doctor/getToken'
+   getToken:'/api/doctor/getToken',
+   // scedule Managment 
+   addSchedule:'/api/doctor/addSchedule'
 }
 
 export default doctorRoutes

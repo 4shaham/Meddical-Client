@@ -156,23 +156,22 @@ function Registration() {
             )}
           </div>
           <div>
-            <label className="block mb-2 text-sm font-medium text-center">
-              Gender
-            </label>
-            <input
-              placeholder="Please enter your Gender"
-              className="text-center peer h-full w-full border-b border-blue-gray-200 bg-transparent pt-4 pb-1.5 font-sans text-sm font-normal text-blue-gray-700 outline-none transition-all placeholder-shown:border-blue-gray-200 focus:border-gray-900 disabled:border-0 disabled:bg-blue-gray-50"
-              type="text"
-              {...register("gender", {
-                required: true,
-                onChange:(e):any=>setValue("gender",e.target.value.trim())  
-              })}
-            />
-            {errors.gender?.type == "required" && (
-              <small className="block mb-2 text-sm font-medium text-red-600 text-center">
-                This field is required
-              </small>
-            )}
+          <select
+        className="text-center peer h-full w-full border-b border-blue-gray-200 bg-transparent pt-4 pb-1.5 font-sans text-sm font-normal text-blue-gray-700 outline-none transition-all placeholder-shown:border-blue-gray-200 focus:border-gray-900 disabled:border-0 disabled:bg-blue-gray-50"
+        {...register("gender", { required: "This field is required" })}
+        onChange={(e) => setValue("gender", e.target.value)}
+        defaultValue=""
+      >
+        <option value="" disabled>Please select your Gender</option>
+        <option value="male">Male</option>
+        <option value="female">Female</option>
+        <option value="other">Other</option>
+      </select>
+      {errors.gender && (
+        <small className="block mb-2 text-sm font-medium text-red-600 text-center">
+          {errors.gender.message}
+        </small>
+      )}
           </div>
           <div>
             <label className="block mb-2 text-sm font-medium text-center">

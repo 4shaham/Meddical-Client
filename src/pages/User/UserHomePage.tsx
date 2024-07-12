@@ -1,18 +1,27 @@
-import React, { useEffect } from "react";
-import NavBar from "../../components/User/NavBar";
+import React, { useEffect, useState } from 'react'
 import Banner from "../../components/User/Banner";
 import paiedratrics from "../../assets/paiedratrics.png";
 import CardComponent from "../../components/User/CardComponent";
 import hospital from "../../assets/hospital.jpg";
 import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-import { getToken } from "../../api/user";
-import { useDispatch } from "react-redux";
-import { login } from "../../Redux/slice/userAuthSlice";
+import { getAllDoctors, getToken } from "../../api/user";
 
-function UserHome() {
-  let val = [1, 2, 3, 4, 56, 6];
+
+
+function UserHomePage() {
+
+    
+  const[datas,setDatas]=useState([])
+  
+  useEffect (()=>{
+      const handleSyncFn=async()=>{
+         const data=await getAllDoctors()
+         setDatas(data.data)
+         console.log(data.data,"looo")
+      }
+      handleSyncFn()
+  },[])
+  
 
   var settings = {
     dots: true,
@@ -49,28 +58,14 @@ function UserHome() {
       },
     ],
   };
-
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-
-    const Response = async () => {
-      const datas = await getToken();
-      if (datas.data.status) {
-        dispatch(login());
-      }
-    };
-    Response();
-  }, []);
-
   return (
     <div>
-      <NavBar />
-      {/* <Banner/> */}
 
-      <div className="bg-serviceColors py-12 mt-10 mx-10 rounded-lg">
+        <Banner/>
+
+        <div className="bg-gray-50 py-12 mt-10 mx-10 rounded-lg">
         <div className="container mx-auto px-6 flex flex-col md:flex-row  justify-between">
-          {/* Left Section */}
+          {/* Left Section */}  
           <div className="md:w-1/2 text-center">
             <h2 className="text-center pt-14 text-3xl font-bold my-auto ">
               Our Services <br /> <span>Find the care You Need</span>
@@ -141,7 +136,8 @@ function UserHome() {
         {/* Explore All Services Button */}
       </div>
 
-      <div className=" object-fill p-6 rounded-2xl">
+
+      {/* <div className=" object-fill p-6 rounded-2xl">
         <h1 className=" text-center text-2xl font-bold mt-10 mb-7">
           Over View{" "}
         </h1>
@@ -150,23 +146,26 @@ function UserHome() {
           src={hospital}
           alt="image description"
         />
-      </div>
+      </div> */}
 
-      <div className=" bg-serviceColors w-[90%] mx-auto rounded-lg">
-        <h1 className="text-4xl text-start mx-10 pt-10">Our Doctors</h1>
-        <p className="text-2xl text-start mx-10 ">
-          we have some of best the world specality doctors around the world
-        </p>
+      <div className=" bg-gray-50 w-[90%] mx-auto rounded-lg mt-3">
+        <h1 className="text-4xl text-center mx-10 pt-10 font-medium">Meet Our Doctors</h1>
         <div className="mt-5 p-7">
           <Slider {...settings}>
-            {val.map((values, index) => (
-              <CardComponent index={index} />
+            {datas.map((values, index) => (
+              <CardComponent  index={index} datas={values}  />
             ))}
           </Slider>
         </div>
       </div>
+
+      {/* <div className='bg-white mx-10 container mx-auto gap-5 grid grid-cols-3'>
+          <div className='bg-btnColor w-2/3'>hoo</div>
+          <div className='bg-btnColor w-2/3'>hoo</div>
+          <div className='bg-btnColor w-2/3'>hoo</div>
+      </div> */}
     </div>
-  );
+  )
 }
 
-export default UserHome;
+export default UserHomePage

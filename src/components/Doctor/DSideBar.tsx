@@ -25,8 +25,8 @@ function DSideBar() {
         icon: <FaUsersRectangle />,
       },
       {
-        path: "doctor/mySchedule",
-        element: "Schedules Managment",
+        path: "/doctor/mySchedule",
+        element: "Add new Schedules",
         icon:<RiCalendarScheduleFill />
       },
       {
