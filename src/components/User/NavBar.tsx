@@ -46,10 +46,10 @@ function NavBar() {
               <Link to={"/"}>
                 <div className="flex items-center">
                   <div>
-                    <p>MED</p>
+                    <p>ME<span className="text-blue-400">D</span></p>
                   </div>
                   <div>
-                    <p className="relative flex items-center rotate-180">D</p>
+                    <p className="relative flex items-center rotate-180 text-red-600">D</p>
                   </div>
                   <div>
                     <p>ICAL</p>

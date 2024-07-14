@@ -1,20 +1,91 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import {
+  getDoctorProfile,
+  getDoctorSchedulePerticularDate,
+} from "../../api/user";
+import { useLocation } from "react-router-dom";
+import IDoctorSchedule, { IDoctor } from "../../interface/interfaceDoctor";
+import TokenBookingModal from "../../components/User/TokenBookingModal";
+
+interface TokenData {
+  doctorId: string;
+  date: string;
+  fees: number;
+  tokenNumber: string;
+}
 
 function AppointmentPage() {
+  // modal State
+
+  const [showModal, SetShowModal] = useState<boolean>(false);
+
+  //QuaryParmas
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const query: string | null = searchParams.get("doctorId");
+
+  //state for doctors and slots
+  const [doctor, setDoctor] = useState<IDoctor>();
+  // const [schedule, setSchedules] = useState<{}>();
+  const [doctorSchedule, setDoctorScehdule] = useState<IDoctorSchedule>();
+
+  // searching date
+  const [date, setDate] = useState<string>();
+
+  // for fetching DoctorProfile
+  useEffect(() => {
+    const fn = async () => {
+      try {
+        const response = await getDoctorProfile(query as string);
+        setDoctor(response.data.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fn();
+  }, []);
+
+  // handleSerachButton
+  const hanldeOnClickSerachBtn = async (id: string) => {
+    try {
+      if (!date) {
+        return;
+      }
+      const scheduleData = await getDoctorSchedulePerticularDate(date, id);
+      console.log(scheduleData.data);
+      // if (scheduleData.data == null) {
+      //   setSchedules({});
+      // }
+      setDoctorScehdule(scheduleData.data);
+      // setSchedules(scheduleData.data.slots);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleCallback = () => {
+    SetShowModal(false);
+  };
+
+  const [tokenData, setTokenData] = useState<TokenData>();
+  const showModalConfirmationBtnClick = () => {
+    SetShowModal(true);
+  };
+
   return (
     <div className="bg-white p-5">
-      <div className="w-1/3 mx-auto p-2 mb-7 mt-7 rounded-md hover:bg-blue-50">
+      <div className="w-1/3 mx-auto p-2 mb-7 mt-7 rounded-md hover:bg-blue-50  shadow-lg realitive">
         <div className="relative flex w-full max-w-[26rem] flex-col rounded-xl bg-transparent bg-clip-border text-gray-700 shadow-none">
           <div className="relative flex items-center gap-4 pt-0 pb-8 mx-0 mt-4 overflow-hidden text-gray-700 bg-transparent shadow-none rounded-xl bg-clip-border">
             <img
-              src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=1480&amp;q=80"
+              src={doctor?.image}
               alt="Tania Andrew"
               className="relative inline-block h-[58px] w-[58px] !rounded-full  object-cover object-center"
             />
             <div className="flex w-full flex-col gap-0.5">
               <div className="flex items-center justify-between">
                 <h5 className="block font-sans text-xl antialiased font-semibold leading-snug tracking-normal text-blue-gray-900">
-                  Tania Andrew
+                  {doctor?.name}
                 </h5>
                 <div className="flex items-center gap-0 5">
                   <svg
@@ -80,7 +151,7 @@ function AppointmentPage() {
                 </div>
               </div>
               <p className="block font-sans text-base antialiased font-light leading-relaxed text-blue-gray-900">
-                Frontend Lead @ Google
+                {doctor?.specialty}
               </p>
             </div>
           </div>
@@ -95,7 +166,6 @@ function AppointmentPage() {
       </div>
 
       <div className="bg-gray-100 h-20 flex items-center justify-center mb-8 mx-16 mt-20 rounded-md">
-        
         <div className="flex justify-center p-5 items-center">
           <div className="bg-white border-2 border-yellow-300 px-16 py-2">
             <h1 className="text-center font-medium  ">
@@ -106,71 +176,65 @@ function AppointmentPage() {
             type="date"
             className="bg-white border-2 border-yellow-200  px-12 py-2"
             placeholder="take any suitable date for "
+            value={date}
+            onChange={(e) => setDate(e.target.value)}
           />
-          <button className="bg-btnColor text-white px-8 py-2 border-2 border-btnColor">
+          <button
+            className="bg-btnColor text-white px-8 py-2 border-2 border-btnColor"
+            onClick={() => hanldeOnClickSerachBtn(doctor?._id as string)}
+          >
             Search
           </button>
         </div>
       </div>
 
       <div className="px-20 mb-8 mt-10">
-        <div className="container mx-auto bg-gray-200 grid grid-cols-7 gap-5 p-10 rounded-md">
-          <div className="bg-white w-full h-24 rounded-lg ">
-            <p className="text-red-500 text-center mt-1 mb-3">12:00 to 12:30</p>
-            <h1 className="text-black text-center text-2xl font-bold my-auto">
-              1
-            </h1>
+        {doctorSchedule && (
+          <div
+            className={
+              doctorSchedule.slots.length == 0
+                ? "container mx-auto bg-gray-200 gap-5 p-10 rounded-md"
+                : "container mx-auto bg-gray-200 grid grid-cols-7 gap-5 p-10 rounded-md"
+            }
+          >
+            <div className="flex gap-1">
+              <div className="w-5 h-5 bg-white rounded-xl"></div>
+              <small>Available</small>
+              <div className="w-5 h-5 bg-btnColor rounded-xl"></div>
+              <small>Booked</small>
+            </div>
+
+            {doctorSchedule.slots.map((values, index) => (
+
+              <div
+                key={index}
+                onClick={()=> showModalConfirmationBtnClick()}
+                className={
+                  values.isBooked == true
+                    ? "bg-btnColor w-full h-24 rounded-lg items-center"
+                    : "bg-white w-full h-24 rounded-lg items-center"
+                }
+              >
+                <p className="text-gray-500 text-center mt-1 mb-3">
+                  {values.startTime} To {values.endTime}
+                </p>
+                <h1 className="text-black text-center text-2xl font-bold my-auto">
+                  {values.slotNumber}
+                </h1>
+              </div>
+            ))}
+            {/* {Object.entries(schedule).length == 0 &&(
+              <p className="text-red-400 font-sans  text-center mt-4">
+                Thank you for your inquiry. Unfortunately, Dr.{" "}
+                {doctor?.specialty} does not have any available appointments on
+                the selected date. Please choose an alternative date or contact
+                our support team for further assistance.
+              </p>
+            )} */}
           </div>
-          <div className="bg-btnColor w-full h-24 rounded-lg">
-            <p className="text-white text-center mt-1 mb-3">12:00 to 12:30</p>
-            <h1 className="text-black text-center text-2xl font-bold my-auto">
-              2
-            </h1>
-          </div>
-          <div className="bg-white w-full h-24 rounded-lg ">
-            <p className="text-red-500 text-center mt-1 mb-3">12:00 to 12:30</p>
-            <h1 className="text-black text-center text-2xl font-bold my-auto">
-              3
-            </h1>
-          </div>
-          <div className="bg-white w-full h-24 rounded-lg ">
-            <p className="text-red-500 text-center mt-1 mb-3">12:00 to 12:30</p>
-            <h1 className="text-black text-center text-2xl font-bold my-auto">
-              4
-            </h1>
-          </div>
-          <div className="bg-white w-full h-24 rounded-lg ">
-            <p className="text-red-500 text-center mt-1 mb-3">12:00 to 12:30</p>
-            <h1 className="text-black text-center text-2xl font-bold my-auto">
-              5
-            </h1>
-          </div>
-          <div className="bg-white w-full h-24 rounded-lg ">
-            <p className="text-red-500 text-center mt-1 mb-3">12:00 to 12:30</p>
-            <h1 className="text-black text-center text-2xl font-bold my-auto">
-              6
-            </h1>
-          </div>
-          <div className="bg-white w-full h-24 rounded-lg ">
-            <p className="text-red-500 text-center mt-1 mb-3">12:00 to 12:30</p>
-            <h1 className="text-black text-center text-2xl font-bold my-auto">
-              7
-            </h1>
-          </div>
-          <div className="bg-white w-full h-24 rounded-lg ">
-            <p className="text-red-500 text-center mt-1 mb-3">12:00 to 12:30</p>
-            <h1 className="text-black text-center text-2xl font-bold my-auto">
-              8
-            </h1>
-          </div>
-          <div className="bg-white w-full h-24 rounded-lg ">
-            <p className="text-red-500 text-center mt-1 mb-3">12:00 to 12:30</p>
-            <h1 className="text-black text-center text-2xl font-bold my-auto">
-              9
-            </h1>
-          </div>
-        </div>
+        )}
       </div>
+      {showModal && <TokenBookingModal callback={handleCallback} />}
     </div>
   );
 }

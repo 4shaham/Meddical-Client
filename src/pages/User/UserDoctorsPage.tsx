@@ -1,17 +1,22 @@
 import React, { useEffect, useState } from "react";
 import CardComponent from "../../components/User/CardComponent";
-import { getAllDoctors } from "../../api/user";
+import { getAllDoctors, getSpecality } from "../../api/user";
 import Slider from "react-slick";
 import csp from "../../assets/paiedratrics.png";
+import { ISpecality } from "../../interface/interfaceDoctor";
+import { useNavigate } from "react-router-dom";
 
 function UserDoctorsPage() {
   const [datas, setDatas] = useState([]);
+  const [specality, setSpecality] = useState<ISpecality[]>();
+  const navigate=useNavigate()
 
   useEffect(() => {
     const handleSyncFn = async () => {
+      const specality = await getSpecality();
+      setSpecality(specality.data.data);
       const data = await getAllDoctors();
       setDatas(data.data);
-      console.log(data.data, "looo");
     };
     handleSyncFn();
   }, []);
@@ -24,6 +29,16 @@ function UserDoctorsPage() {
     slidesToScroll: 3,
   };
 
+
+
+
+  const handleViewMoreClick=(id:string)=>{
+         navigate(`/doctorprofile?doctorId=${id}`)
+  }
+
+
+
+
   return (
     <div className="w-full p-5">
       <div className="text-center">
@@ -35,46 +50,18 @@ function UserDoctorsPage() {
       <div className="w-1/2 mx-auto mt-3 mb-9">
         <div className="slider-container ">
           <Slider {...settings}>
-            <div className=" flex justify-center mx-auto  p-5">
-              <div className="flex items-center w-full  border-2 border-gray-100 rounded-xl">
-                <img
-                  src={csp}
-                  height={200}
-                  alt=""
-                  className="rounded-md mx-2 h-[150px] w-[150px]"
-                />
+            {specality?.map((values, index) => (
+              <div className="flex justify-center mx-auto p-5" key={index}>
+                <div className="bg-white-100 shadow-lg flex items-center w-full   rounded-xl hover:bg-violet-50 hover:scale-110">
+                  <img
+                    src={values.image}
+                    height={200}
+                    alt=""
+                    className="rounded-md mx-auto h-[150px] w-[150px]"
+                  />
+                </div>
               </div>
-            </div>
-            <div className=" flex justify-center mx-auto  p-5">
-              <div className="flex items-center w-full  border-2 border-gray-100 rounded-xl">
-                <img
-                  src={csp}
-                  height={200}
-                  alt=""
-                  className="rounded-md mx-2 h-[150px] w-[150px]"
-                />
-              </div>
-            </div>
-            <div className=" flex justify-center mx-auto  p-5">
-              <div className="flex items-center w-full  border-2 border-gray-100 rounded-xl">
-                <img
-                  src={csp}
-                  height={200}
-                  alt=""
-                  className="rounded-md mx-2 h-[150px] w-[150px]"
-                />
-              </div>
-            </div>
-            <div className=" flex justify-center mx-auto  p-5">
-              <div className="flex items-center w-full  border-2 border-gray-100 rounded-xl">
-                <img
-                  src={csp}
-                  height={200}
-                  alt=""
-                  className="rounded-md mx-2 h-[150px] w-[150px]"
-                />
-              </div>
-            </div>
+            ))}
           </Slider>
         </div>
       </div>
@@ -104,7 +91,7 @@ function UserDoctorsPage() {
                 Book an appintment
               </button>
               <div className="w-full bg-gray-50">
-                <h1 className="text-center text-blue-500">view more</h1>
+                <h1 className="text-center text-blue-500" onClick={()=>handleViewMoreClick(values._id)}>view more</h1>
               </div>
             </div>
           )

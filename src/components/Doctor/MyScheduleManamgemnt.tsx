@@ -10,13 +10,8 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 function MyScheduleManamgemnt() {
-
- 
-
-  const navigate=useNavigate()
-  const[credentialErr,setCredintiaolErr]=useState("")
-
-
+  const navigate = useNavigate();
+  const [credentialErr, setCredintiaolErr] = useState("");
 
   const [interval, setInterval] = useState<IAddScheduleIntervals[]>();
   const [showIntevalForm, setShowIntervalForm] = useState<boolean>(false);
@@ -35,34 +30,39 @@ function MyScheduleManamgemnt() {
     console.log(startTime);
   };
 
-  const handleOnSubmit = async(data: addScheduleFormData) => {
-    console.log("hiiii",data);
+  const handleOnSubmit = async (data: addScheduleFormData) => {
+    console.log("hiiii", data);
     try {
-      let response=await addSchedule("668244523eb2f1bd4411bf7f",data.startDate,data.startTime,data.endTime)
-      navigate("/doctor/")
+      let response = await addSchedule(
+        "668244523eb2f1bd4411bf7f",
+        data.startDate,
+        data.consultationMethod,
+        data.startTime,
+        data.endTime
+      );
+      navigate("/doctor/");
     } catch (error) {
-
-      if(axios.isAxiosError(error)){
-           console.log(error)
-          setCredintiaolErr(error.response?.data.message)
+      if (axios.isAxiosError(error)) {
+        console.log(error);
+        setCredintiaolErr(error.response?.data.message);
       }
-      console.log(error)
+      console.log(error);
     }
-
-  
   };
 
   return (
     <div className="px-12 py-12">
       <div className="w-2/3 mx-auto  my-auto bg-white h-auto  rounded-md p-3">
         <div>
-          <h1 className="text-black text-center font-medium text-2xl mx-4">Add Schedules</h1>
+          <h1 className="text-black text-center font-medium text-2xl mx-4">
+            Add Schedules
+          </h1>
         </div>
         <div className=" bg-white p-9 mx-auto  w-full">
           <form onSubmit={handleSubmit(handleOnSubmit)}>
             <div className="mb-5">
               <label className="text-black font-semibold mb-2">
-                select end date
+                select date
               </label>
               <br />
               <input
@@ -77,7 +77,28 @@ function MyScheduleManamgemnt() {
               />
               <br />
               <small className="text-red-500 font-medium">
-                {errors.startDate?.message||credentialErr}
+                {errors.startDate?.message || credentialErr}
+              </small>
+            </div>
+            <div className="mb-5">
+              <label className="text-black font-semibold mb-2">
+                Select Consultation Method
+              </label>
+              <br />
+              <select
+                className="border-2 border-gray-300 rounded-sm w-2/3 h-8 bg-gray-100"
+                {...register("consultationMethod", {
+                  required: "This field is required",
+                })}
+              >
+                <option value="">Select Option</option>
+                <option value="offline">Offline</option>
+                <option value="online">Online</option>
+                <option value="both">Both</option>
+              </select>
+              <br />
+              <small className="text-red-500 font-medium">
+                {errors.consultationMethod?.message || credentialErr}
               </small>
             </div>
             <div className="mb-5">

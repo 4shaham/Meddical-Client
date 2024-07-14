@@ -20,17 +20,21 @@ interface verifyOtpResponse {
     token?: string;
   };
 }
+
 interface resendOtp {
   data: {
     status: boolean;
   };
 }
+
 interface LogoutResponse extends resendOtp {}
+
 interface resendOtp {
   data: {
     status: boolean;
   };
 }
+
 interface getTokenRes {
   data: {
     status:boolean,
@@ -83,5 +87,10 @@ export const forgotPassword=async(email:string)=>await Api.post(userRoutes.forgo
 
 export const updatePassword=async(password:string)=>await Api.patch(userRoutes.UpdatePassword,{password})
 
-
 export const getAllDoctors=async()=>await Api.get(userRoutes.getAllDoctors)
+
+export const getDoctorProfile=async(doctorid:string)=>await Api.get(`${userRoutes.getDoctorProfile}?doctorId=${doctorid}`)
+
+export const getSpecality=async()=>await Api.get(userRoutes.getSpecalityData)
+
+export const getDoctorSchedulePerticularDate=async(date:string,id:string)=>await Api.get(`${userRoutes.getDoctorSchedulePeticularDate}?date=${date}&doctorId=${id}`)

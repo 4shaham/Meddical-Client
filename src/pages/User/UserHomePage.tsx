@@ -4,7 +4,8 @@ import paiedratrics from "../../assets/paiedratrics.png";
 import CardComponent from "../../components/User/CardComponent";
 import hospital from "../../assets/hospital.jpg";
 import Slider from "react-slick";
-import { getAllDoctors, getToken } from "../../api/user";
+import { getAllDoctors, getSpecality, getToken } from "../../api/user";
+import { ISpecality } from '../../interface/interfaceDoctor';
 
 
 
@@ -12,12 +13,24 @@ function UserHomePage() {
 
     
   const[datas,setDatas]=useState([])
+  const [specality,setSpecality]=useState<ISpecality[]>()
   
   useEffect (()=>{
       const handleSyncFn=async()=>{
+
+        try {
+           
+         const specality=await getSpecality()
+         setSpecality(specality.data.data)
+         console.log(specality.data)
          const data=await getAllDoctors()
          setDatas(data.data)
          console.log(data.data,"looo")
+
+        } catch (error) {
+           console.log(error)
+        }
+
       }
       handleSyncFn()
   },[])
@@ -77,20 +90,26 @@ function UserHomePage() {
 
           {/* Right Section */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-12 md:mt-0 md:w-1/2">
+
+          {specality?.slice(0,4)?.map((values,index)=>(
+               
+              
+              
+                <div className="bg-white  p-6 flex rounded-lg  hover:bg-gray-200 transition duration-300">
+                <div className="w-1/2">
+                  <img
+                    src={values.image}
+                    alt="Cardiology"
+                    className="w-full h-full"
+                  />
+                </div>
+                <p className="my-auto mx-auto">{values.name}</p>
+              </div>
+           ))} 
             {/* Cardiology */}
-            <div className="bg-white  p-6 flex rounded-lg  hover:bg-gray-200 transition duration-300">
-              <div className="w-1/2">
-                <img
-                  src={paiedratrics}
-                  alt="Cardiology"
-                  className="w-full h-full"
-                />
-              </div>
-
-              <p className="my-auto mx-auto">Cardiology</p>
-            </div>
+          
             {/* Dermatology */}
-            <div className="bg-white  p-6 flex rounded-lg  hover:bg-gray-200 transition duration-300">
+            {/* <div className="bg-white  p-6 flex rounded-lg  hover:bg-gray-200 transition duration-300">
               <div className="w-1/2">
                 <img
                   src={paiedratrics}
@@ -100,9 +119,9 @@ function UserHomePage() {
               </div>
 
               <p className="my-auto mx-auto">Cardiology</p>
-            </div>
+            </div> */}
             {/* ENT */}
-            <div className="bg-white  p-6 flex rounded-lg  hover:bg-gray-200 transition duration-300">
+            {/* <div className="bg-white  p-6 flex rounded-lg  hover:bg-gray-200 transition duration-300">
               <div className="w-1/2">
                 <img
                   src={paiedratrics}
@@ -112,9 +131,9 @@ function UserHomePage() {
               </div>
 
               <p className="my-auto mx-auto">Cardiology</p>
-            </div>
+            </div> */}
             {/* Paediatrics */}
-            <div className="bg-white  p-6 flex rounded-lg  hover:bg-gray-200 transition duration-300">
+            {/* <div className="bg-white  p-6 flex rounded-lg  hover:bg-gray-200 transition duration-300">
               <div className="w-1/2">
                 <img
                   src={paiedratrics}
@@ -124,7 +143,7 @@ function UserHomePage() {
               </div>
 
               <p className="my-auto mx-auto">Cardiology</p>
-            </div>
+            </div> */}
             <div className="text-center block">
               <button className="bg-white text-gray-700 px-16 py-3 rounded-md shadow-md hover:bg-btnColor hover:text-white transition duration-300">
                 Explore our all services
