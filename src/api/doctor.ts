@@ -141,5 +141,5 @@ export const doctorLogout=async()=>await Api.post(doctorRoutes.logout)
 export const docotorGetToken=async()=>await Api.get(doctorRoutes.getToken)
 export const addSchedule=async(doctorId:string,date:Date,consultationMethod:string,startTime:string,endTime:string,interval?:[])=> await Api.post(doctorRoutes.addSchedule,{doctorId,consultationMethod,date,startTime,endTime,interval})
 
-
+export const findDoctorSchedule=async()=>await Api.get(doctorRoutes.findAllSchedule)
 

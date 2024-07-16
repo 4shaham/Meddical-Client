@@ -1,3 +1,4 @@
+import { BookingData } from "../interface/interfaceDoctor";
 import Api from "../services/axios";
 import userRoutes from "../services/endPoints/userEndPoints";
 
@@ -94,3 +95,9 @@ export const getDoctorProfile=async(doctorid:string)=>await Api.get(`${userRoute
 export const getSpecality=async()=>await Api.get(userRoutes.getSpecalityData)
 
 export const getDoctorSchedulePerticularDate=async(date:string,id:string)=>await Api.get(`${userRoutes.getDoctorSchedulePeticularDate}?date=${date}&doctorId=${id}`)
+
+export const createToken=async(fees:number,typeOfConsaltation:string,schedulesId:string,slotNumber:number)=>await Api.post(userRoutes.createToken,{fees,typeOfConsaltation,schedulesId,slotNumber})
+
+export const cancelToken=async(tokenId:string)=>await Api.delete(`${userRoutes.cancelBookedToken}?tokenId=${tokenId}`)
+
+export const getBookingDataWithStatus=async(statusType:string)=>await Api.get(`${userRoutes.getBookingDataWithStatus}?statusType=${statusType}`)

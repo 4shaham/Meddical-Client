@@ -36,20 +36,37 @@ export interface ISpecality{
 }
 
 export interface slotsDate{
-  startTime:string,
-  endTime:string,
-  isBooked:boolean,
-  patientId:string,
-  slotNumber:number
+  startTime:string;
+  endTime:string;
+  isBooked:boolean;
+  slotNumber:number;
 }
 
 export default interface IDoctorSchedule{
-
   _id:string,
   doctorId:string,
   date:Date,
   consultationType:string,
   slots:slotsDate[]
 }   
+
+enum TokenStatus{
+  applied="applied",
+  visted="visted"
+}
+
+export interface BookingData{
+
+    _id:string,
+    doctorId:string,
+    date:Date,
+    userId:string,
+    conusultationType:"online"|"offline",
+    scheduleId:string,
+    slotNumber:number,
+    tokenStatus:TokenStatus,
+    isCanceled:boolean
+
+}
 
 

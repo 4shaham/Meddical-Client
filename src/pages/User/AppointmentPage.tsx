@@ -4,19 +4,14 @@ import {
   getDoctorSchedulePerticularDate,
 } from "../../api/user";
 import { useLocation } from "react-router-dom";
-import IDoctorSchedule, { IDoctor } from "../../interface/interfaceDoctor";
+import IDoctorSchedule, { IDoctor, slotsDate } from "../../interface/interfaceDoctor";
 import TokenBookingModal from "../../components/User/TokenBookingModal";
 
-interface TokenData {
-  doctorId: string;
-  date: string;
-  fees: number;
-  tokenNumber: string;
-}
+
 
 function AppointmentPage() {
-  // modal State
 
+  // modal State
   const [showModal, SetShowModal] = useState<boolean>(false);
 
   //QuaryParmas
@@ -26,6 +21,7 @@ function AppointmentPage() {
 
   //state for doctors and slots
   const [doctor, setDoctor] = useState<IDoctor>();
+
   // const [schedule, setSchedules] = useState<{}>();
   const [doctorSchedule, setDoctorScehdule] = useState<IDoctorSchedule>();
 
@@ -67,12 +63,14 @@ function AppointmentPage() {
     SetShowModal(false);
   };
 
-  const [tokenData, setTokenData] = useState<TokenData>();
-  const showModalConfirmationBtnClick = () => {
-    SetShowModal(true);
+  const [selectedSlot,setSelectedSlot] = useState<slotsDate>();
+  const showModalConfirmationBtnClick = (slotNumber:number) => {
+     setSelectedSlot(doctorSchedule?.slots[slotNumber-1])
+     SetShowModal(true);
   };
 
-  return (
+  return(
+
     <div className="bg-white p-5">
       <div className="w-1/3 mx-auto p-2 mb-7 mt-7 rounded-md hover:bg-blue-50  shadow-lg realitive">
         <div className="relative flex w-full max-w-[26rem] flex-col rounded-xl bg-transparent bg-clip-border text-gray-700 shadow-none">
@@ -205,20 +203,21 @@ function AppointmentPage() {
             </div>
 
             {doctorSchedule.slots.map((values, index) => (
-
+            
               <div
                 key={index}
-                onClick={()=> showModalConfirmationBtnClick()}
+                onClick={()=>values.isBooked!=true && showModalConfirmationBtnClick(values.slotNumber)}
                 className={
-                  values.isBooked == true
-                    ? "bg-btnColor w-full h-24 rounded-lg items-center"
-                    : "bg-white w-full h-24 rounded-lg items-center"
+                 
+                  values.isBooked==true
+                    ? "bg-btnColor w-full h-24 rounded-lg items-center cursor-pointer text-white"
+                    : "bg-white text-black w-full h-24 rounded-lg items-center cursor-pointer transition-all duration-[350ms] ease-[ease-in-out] hover:bg-btnColor hover:bg-opacity-[0.60] hover:text-white"
                 }
               >
-                <p className="text-gray-500 text-center mt-1 mb-3">
+                <p className=" text-center mt-1 mb-3">
                   {values.startTime} To {values.endTime}
                 </p>
-                <h1 className="text-black text-center text-2xl font-bold my-auto">
+                <h1 className=" text-center text-2xl font-bold my-auto">
                   {values.slotNumber}
                 </h1>
               </div>
@@ -234,7 +233,7 @@ function AppointmentPage() {
           </div>
         )}
       </div>
-      {showModal && <TokenBookingModal callback={handleCallback} />}
+      {showModal && <TokenBookingModal callback={handleCallback} doctorData={doctor!} selectedSlot={selectedSlot!} doctorSchedule={doctorSchedule!}  />}
     </div>
   );
 }

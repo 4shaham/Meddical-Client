@@ -14,7 +14,10 @@ const userRoutes={
     getAllDoctors:'/api/getDoctors',
     getDoctorProfile:'/api/getDoctorProfile',
     getSpecalityData:'/api/getSpecality',
-    getDoctorSchedulePeticularDate:'/api/doctor/findSchedulePerticularDate'
+    getDoctorSchedulePeticularDate:'/api/doctor/findSchedulePerticularDate',
+    createToken:'/api/createTokenBooking',
+    getBookingDataWithStatus:'/api/findBookingDataWithStatus',
+    cancelBookedToken:'/api/cancelTokenBooking',
 }   
 
 export default userRoutes

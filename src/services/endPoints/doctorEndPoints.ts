@@ -11,7 +11,8 @@ const doctorRoutes={
    getKycStatus:'/api/doctor/getKycStatus',
    getToken:'/api/doctor/getToken',
    // scedule Managment 
-   addSchedule:'/api/doctor/addSchedule'
+   addSchedule:'/api/doctor/addSchedule',
+   findAllSchedule:'/api/doctor/findDoctorSchedule'
 }
 
 export default doctorRoutes

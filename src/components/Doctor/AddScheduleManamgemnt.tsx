@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-function MyScheduleManamgemnt() {
+function AddScheduleManamgemnt() {
   const navigate = useNavigate();
   const [credentialErr, setCredintiaolErr] = useState("");
 
@@ -31,8 +31,8 @@ function MyScheduleManamgemnt() {
   };
 
   const handleOnSubmit = async (data: addScheduleFormData) => {
-    console.log("hiiii", data);
     try {
+
       let response = await addSchedule(
         "668244523eb2f1bd4411bf7f",
         data.startDate,
@@ -41,14 +41,22 @@ function MyScheduleManamgemnt() {
         data.endTime
       );
       navigate("/doctor/");
+
     } catch (error) {
+
       if (axios.isAxiosError(error)) {
         console.log(error);
         setCredintiaolErr(error.response?.data.message);
       }
       console.log(error);
     }
+    
   };
+
+
+  const handleShowForm=()=>{
+    setShowIntervalForm(true)
+  }
 
   return (
     <div className="px-12 py-12">
@@ -143,7 +151,7 @@ function MyScheduleManamgemnt() {
               />
               <button
                 className="bg-btnColor text-white px-3 py-1"
-                onClick={() => setShowIntervalForm(true)}
+                onClick={handleShowForm}
               >
                 Add Interval
               </button>
@@ -197,4 +205,4 @@ function MyScheduleManamgemnt() {
   );
 }
 
-export default MyScheduleManamgemnt;
+export default AddScheduleManamgemnt;

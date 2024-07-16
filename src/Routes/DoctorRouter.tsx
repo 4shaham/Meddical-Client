@@ -8,7 +8,9 @@ import KycVerificationPage from "../pages/Doctor/KycVerificationPage";
 import DoctorOtpComponent from "../components/Doctor/DoctorOtpComponent";
 import DashBoardComponent from "../components/Doctor/DashboardComponent";
 import PrivateRoutes from "./protectRoutes";
-import MyScheduleManamgemnt from "../components/Doctor/MyScheduleManamgemnt";
+import AddScheduleManamgemnt from "../components/Doctor/AddScheduleManamgemnt";
+import MyScheduleManagment from "../components/Doctor/MyScheduleManagment";
+
 
 function DoctorRouter() {
   return (
@@ -22,7 +24,8 @@ function DoctorRouter() {
         <Route element={<PrivateRoutes />}>
           <Route element={<DoctorMainPage />}>
             <Route path="/doctor/" element={<DashBoardComponent />}></Route>
-            <Route path="/doctor/mySchedule" element={<MyScheduleManamgemnt/>}></Route>
+            <Route path="/doctor/addSchedule" element={<AddScheduleManamgemnt/>}></Route>
+            <Route path="/doctor/appointmentPage" element={<MyScheduleManagment/>}/>
           </Route>
         </Route>  
           <Route

@@ -25,12 +25,12 @@ function DSideBar() {
         icon: <FaUsersRectangle />,
       },
       {
-        path: "/doctor/mySchedule",
+        path: "/doctor/addSchedule",
         element: "Add new Schedules",
         icon:<RiCalendarScheduleFill />
       },
       {
-        path:"doctor/",
+        path:"/doctor/appointmentPage",
         element: "view Appointments",
         icon: <MdLocalFireDepartment />,
       },
