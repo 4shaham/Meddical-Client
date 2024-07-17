@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 function SuccessesPage() {
   return (
@@ -16,9 +17,9 @@ function SuccessesPage() {
         <h1 className="text-black font-sans text-center text-xl mt-5">
            Your Appointment is Booked Successfully
         </h1>
-        <button className="px-10 py-1 align-center flex bg-black mx-auto mt-5 text-white rounded-md hover:translate-x-1">
+       <Link to={"/profile"}><button className="px-10 py-1 align-center flex bg-black mx-auto mt-5 text-white rounded-md hover:translate-x-1">
           Ok
-        </button>
+        </button></Link> 
       </div>
     </div>
   );

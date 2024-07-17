@@ -13,7 +13,7 @@ function DSideBar() {
     console.log("hiiii side bar")
   
     const sideBard = [
-      { path: "/doctor/", element: "ManageTokens", icon: <LuLayoutDashboard /> },
+      { path: "/doctor/manageTokens", element: "ManageTokens", icon: <LuLayoutDashboard /> },
       {
         path:"/doctor/",
         element: "Slot Availability",

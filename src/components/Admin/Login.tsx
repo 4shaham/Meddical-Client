@@ -99,6 +99,7 @@ function Login() {
                     maxLength: 10,
                     onChange:handleTrim,
                   })}
+                  type="password"
                 />
                 {errors.password && (
                   <p className="text-red-500 font-medium">

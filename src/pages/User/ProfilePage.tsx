@@ -1,7 +1,29 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { getProfileData } from "../../api/user";
+import { IUser } from "../../interface/interfaceUser";
 
 function ProfilePage() {
+
+  const [userData,setUserData]=useState<IUser>()
+
+  useEffect(()=>{
+     const handleAsyncFn=async()=>{
+        try {
+            const response=await getProfileData()  
+            setUserData(response.data.userData) 
+        } catch (error) {
+            console.log(error)
+        }  
+     }
+     handleAsyncFn()
+  },[])
+
+
+
+
+
+
   const Userpages = [
     { path: "/", element: "Medical History" },
     {
@@ -36,14 +58,14 @@ function ProfilePage() {
                 <input
                   type="text"
                   className="w-full p-2 border rounded-md"
-                  value="shaham salam"
+                  value={userData?.userName}
                   readOnly
                 />
               </div>
               <div className="mb-4">
                 <label className="block text-gray-600">Email</label>
                 <input
-                  type="email"
+                  type={userData?.email}
                   className="w-full p-2 border rounded-md"
                   value="shahamsalam123@gmail.com"
                   readOnly
@@ -63,7 +85,7 @@ function ProfilePage() {
                 <input
                   type="text"
                   className="w-full p-2 border rounded-md"
-                  value="Male"
+                  value={userData?.gender}
                   readOnly
                 />
               </div>
@@ -72,7 +94,7 @@ function ProfilePage() {
                 <input
                   type="text"
                   className="w-full p-2 border rounded-md"
-                  value="19"
+                  value={userData?.age}
                   readOnly
                 />
               </div>

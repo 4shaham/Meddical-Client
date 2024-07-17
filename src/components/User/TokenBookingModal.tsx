@@ -7,7 +7,8 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../Redux/store/store";
 import { Navigate, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { createToken } from "../../api/user";
+import { createToken, getProfileData } from "../../api/user";
+import { IUser } from "../../interface/interfaceUser";
 
 type TokenBookingModalProps = {
   callback: () => void; // Define the type for callback prop
@@ -22,16 +23,31 @@ const TokenBookingModal: React.FC<TokenBookingModalProps> = ({
   selectedSlot,
   doctorSchedule,
 }) => {
+
+
   const navigate = useNavigate();
   const userStatus = useSelector((state: RootState) => state.user.userStatus);
   const [loading, setLoading] = useState<boolean>(false);
+  const [userData,setUserData]=useState<IUser>()
 
   useEffect(() => {
     if (userStatus != true) {
       callback();
       toast.error("your must signup your accont");
     }
-  }, []);
+  },[]);
+
+  useEffect(()=>{
+     const handleAsyncFn=async()=>{
+        try {
+          const response=await getProfileData()
+          setUserData(response.data.userData)
+        } catch (error) {
+           console.log(error) 
+        }
+     }
+     handleAsyncFn()
+  },[])
 
   const [consultaionType, setConsultaionType] = useState<string>("offline");
   console.log(doctorData, selectedSlot.startTime);
@@ -75,23 +91,19 @@ const TokenBookingModal: React.FC<TokenBookingModalProps> = ({
           <div className="bg-gray-100 items-center rounded-md mt-3 h-1/3  p-8 ">
             <div className="flex w-full justify-between text-gray-500">
               <h1 className="text-start  ">name</h1>
-              <h1 className="text-end ">shaham</h1>
+              <h1 className="text-end ">{userData?.userName}</h1>
             </div>
             <div className="flex w-full justify-between text-gray-500">
               <h1 className="text-start ">Age</h1>
-              <h1 className="text-end ">12</h1>
+              <h1 className="text-end ">{userData?.age}</h1>
             </div>
             <div className="flex w-full justify-between">
               <h1 className="text-start text-gray-500 ">Gender</h1>
-              <h1 className="text-end text-gray-500 ">male</h1>
+              <h1 className="text-end text-gray-500 ">{userData?.gender}</h1>
             </div>
             <div className="flex w-full justify-between">
               <h1 className="text-start text-gray-500 ">PhoneNumber</h1>
-              <h1 className="text-end text-gray-500 ">12334545</h1>
-            </div>
-            <div className="flex w-full justify-between">
-              <h1 className="text-start text-gray-500 ">Place</h1>
-              <h1 className="text-end text-gray-500 ">kannur</h1>
+              <h1 className="text-end text-gray-500 ">{userData?.phoneNumber}</h1>
             </div>
           </div>
 
@@ -148,7 +160,7 @@ const TokenBookingModal: React.FC<TokenBookingModalProps> = ({
 
           <div className="flex justify-between">
             <button
-              className="bg-red-500 text-white px-8 rounded mt-4"
+              className="bg-red-500 text-white px-8 py-1 rounded mt-5 mb-2 mx-5"
               onClick={() => callback()}
             >
               Close
@@ -177,7 +189,7 @@ const TokenBookingModal: React.FC<TokenBookingModalProps> = ({
             </svg>
             Loading...
           </button>:  <button
-              className="bg-btnColor text-white px-8  rounded mt-5"
+              className="bg-btnColor text-white px-8 py-1 rounded mt-5 mb-2 mx-5"
               onClick={handleOnClickPay}
             >
             pay

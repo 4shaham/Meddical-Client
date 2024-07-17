@@ -5,7 +5,12 @@ import { cancelToken, getBookingDataWithStatus } from "../../api/user";
 import { BookingData } from "../../interface/interfaceDoctor";
 
 function UpComingBookingtokens() {
+
+  const [isModal,setIsModal]=useState<boolean>(false)   
   const [datas, setDatas] = useState<BookingData[]>();
+
+   
+  const[counter,setCounter]=useState(1)
 
   useEffect(() => {
     const handleFn = async () => {
@@ -18,24 +23,33 @@ function UpComingBookingtokens() {
       }
     };
     handleFn();
-  }, []);
+  }, [counter]);
 
+  const [selctedId,setSelectedId]=useState<string>()
 
-
-  const handleTokenCancelClick=async(id:string)=>{
+  const handleTokenCancelClick=async()=>{
 
       try {
-        
-        const response=await cancelToken(id)
-
-        if(response.data.message==true){
-            console.log('hiiiiiiiii')
-        }
- 
+        const response=await cancelToken(selctedId as string)
+        setCounter(counter+1)
+        setIsModal(false)
       } catch (error) {
          console.log(error)
       }
 
+  }
+
+
+  
+
+
+  const handleModal=(id:string)=>{
+      setIsModal(!isModal)
+      setSelectedId(id)
+  }
+
+  const handleBack=()=>{
+    setIsModal(!isModal)
   }
 
 
@@ -52,7 +66,7 @@ function UpComingBookingtokens() {
               >
                 <Typography
                   variant="body2"
-                  className="font-bold text-2xl  text-black"
+                  className="font-bold text-2xl  text-green"
                 >
                   Date
                 </Typography>
@@ -146,8 +160,8 @@ function UpComingBookingtokens() {
                     color="primary"
                     className="font-medium"
                   >
-                    <button className="bg-red-500 text-white px-5 py-1 rounded-lg" onClick={()=>handleTokenCancelClick(values._id)}>
-                      cancel
+                    <button className="bg-red-500 text-white px-5 py-1 rounded-lg" onClick={()=>handleModal(values._id)}>
+                      Cancel
                     </button>
                   </Typography>
                 </td>
@@ -156,6 +170,18 @@ function UpComingBookingtokens() {
           </tbody>
         </table>
       </Card>
+      {isModal && 
+            <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center  ">
+            <div className="bg-white p-5 rounded  h-auto justify-center ">
+             <p className="mb-5 mt-5 text-center">cancel your token you only get 50% of money</p>
+             <div className="flex justify-center gap-2 mb-2 mt-5">
+                <button className="bg-black px-5 py-1 text-white rounded-md" onClick={handleBack}>Back</button>
+                <button className="bg-red-500 px-5 py-1 text-white rounded-md" onClick={()=>handleTokenCancelClick()} >Confirm</button>
+             </div>
+            </div>
+           </div> 
+      }
+      
     </div>
   );
 }

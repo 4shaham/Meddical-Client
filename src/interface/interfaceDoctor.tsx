@@ -1,5 +1,6 @@
 
 export interface IAddScheduleIntervals {
+  type:string;
   startTime: string;
   endTime: string;
 }

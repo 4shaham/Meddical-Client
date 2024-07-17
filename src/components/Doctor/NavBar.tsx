@@ -38,7 +38,7 @@ function NavBar() {
       <div className="flex gap-1">
         <img
           src={state.image ? (state.image as string) : "shhsj"}
-          className="w-14 rounded-full"
+          className="w-14 rounded-full mx-2"
           alt="Avatar"
         />
 

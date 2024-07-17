@@ -18,6 +18,7 @@ const userRoutes={
     createToken:'/api/createTokenBooking',
     getBookingDataWithStatus:'/api/findBookingDataWithStatus',
     cancelBookedToken:'/api/cancelTokenBooking',
+    getProfileData:'/api//profileData'
 }   
 
 export default userRoutes

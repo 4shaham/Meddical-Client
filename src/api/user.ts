@@ -1,4 +1,5 @@
 import { BookingData } from "../interface/interfaceDoctor";
+import userAuthSlice from "../Redux/slice/userAuthSlice";
 import Api from "../services/axios";
 import userRoutes from "../services/endPoints/userEndPoints";
 
@@ -101,3 +102,5 @@ export const createToken=async(fees:number,typeOfConsaltation:string,schedulesId
 export const cancelToken=async(tokenId:string)=>await Api.delete(`${userRoutes.cancelBookedToken}?tokenId=${tokenId}`)
 
 export const getBookingDataWithStatus=async(statusType:string)=>await Api.get(`${userRoutes.getBookingDataWithStatus}?statusType=${statusType}`)
+
+export const getProfileData=async()=>await Api.get(userRoutes.getProfileData)

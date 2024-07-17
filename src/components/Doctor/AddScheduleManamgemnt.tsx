@@ -8,16 +8,19 @@ import { addSchedule } from "../../api/doctor";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 function AddScheduleManamgemnt() {
   const navigate = useNavigate();
+
   const [credentialErr, setCredintiaolErr] = useState("");
 
-  const [interval, setInterval] = useState<IAddScheduleIntervals[]>();
+  const [intervals, setIntervals] = useState<IAddScheduleIntervals[]>([]);
   const [showIntevalForm, setShowIntervalForm] = useState<boolean>(false);
 
-  const [startTime, setStartTime] = useState("");
-  const [endTime, setEndTime] = useState("");
+  const [startTime, setStartTime] = useState<string>("");
+  const [endTime, setEndTime] = useState<string>("");
+  const [intervalType, setIntervalType] = useState<string>("");
 
   const {
     register,
@@ -27,36 +30,83 @@ function AddScheduleManamgemnt() {
   } = useForm<addScheduleFormData>();
 
   const hanldeAddInterval = () => {
-    console.log(startTime);
+
+    const startTimerData =startTime.split(":");
+    const endTimeData =endTime.split(":");
+    
+    if(startTime=="" || endTime=="") {
+      toast.error("this fild is required")
+      return
+    }
+
+    // if (
+    //   startTimerData[0] <= endTimeData[0] &&
+    //   endTimeData[1] <= startTimerData[1] 
+    // ) {
+    //   toast.error("The time must be greater than startTime");
+    //   return;
+    // }
+
+
+    setIntervals((prevData) => [
+      ...prevData,
+      { type: intervalType, startTime, endTime },
+    ]);
+
+    setStartTime("");
+    setEndTime("");
+    setIntervalType("");
   };
 
   const handleOnSubmit = async (data: addScheduleFormData) => {
     try {
-
+      const today = new Date();
+      const inputDate = new Date(data.startDate);
+  
+      console.log(data.startTime, data.endTime);
+  
+      const [startHour, startMinute] = data.startTime.split(":").map(Number);
+      const [endHour, endMinute] = data.endTime.split(":").map(Number);
+  
+      if (inputDate <= today) {
+        toast.error("The date must be greater than today's date");
+        return;
+      }
+  
+      // Calculate start and end times in minutes
+      const startTimeInMinutes = startHour * 60 + startMinute;
+      const endTimeInMinutes = endHour * 60 + endMinute;
+  
+      if (endTimeInMinutes - startTimeInMinutes < 60) {
+        toast.error("The end time must be at least 1 hour after the start time");
+        return;
+      }
+  
       let response = await addSchedule(
-        "668244523eb2f1bd4411bf7f",
         data.startDate,
         data.consultationMethod,
         data.startTime,
-        data.endTime
+        data.endTime,
+        intervals
       );
       navigate("/doctor/");
-
     } catch (error) {
-
       if (axios.isAxiosError(error)) {
         console.log(error);
         setCredintiaolErr(error.response?.data.message);
       }
       console.log(error);
     }
-    
   };
+  
 
-
-  const handleShowForm=()=>{
-    setShowIntervalForm(true)
-  }
+  const handleShowForm = () => {
+    if (intervalType.trim() == "") {
+      toast.error("you enterd must be type of interval");
+      return;
+    }
+    setShowIntervalForm(true);
+  };
 
   return (
     <div className="px-12 py-12">
@@ -148,9 +198,11 @@ function AddScheduleManamgemnt() {
                 placeholder="plese enter interval name"
                 type="text"
                 className="border border-gray-100 bg-gray-100 rounded-md w-3/3 h-8"
+                onChange={(e) => setIntervalType(e.target.value)}
               />
               <button
                 className="bg-btnColor text-white px-3 py-1"
+                type="button"
                 onClick={handleShowForm}
               >
                 Add Interval
@@ -171,7 +223,7 @@ function AddScheduleManamgemnt() {
                 <label
                   htmlFor=""
                   className="
-            mx-3 font-medium"
+                   mx-3 font-medium"
                 >
                   end time{" "}
                 </label>
@@ -184,12 +236,35 @@ function AddScheduleManamgemnt() {
 
                 <button
                   className="bg-black  rounded-md text-white px-6 mt-2"
+                  type="button"
                   onClick={hanldeAddInterval}
                 >
                   Add
                 </button>
               </div>
             )}
+            <div className="mb-3 mt-5">
+  <table className="min-w-full bg-white border border-gray-300">
+    <thead>
+      <tr className="w-full bg-gray-200 text-left">
+        <th className="py-1 px-4 border-b border-gray-300">Type</th>
+        <th className="py-1 px-4 border-b border-gray-300">Start Time</th>
+        <th className="py-1 px-4 border-b border-gray-300">End Time</th>
+      </tr>
+    </thead>
+    <tbody>
+      {intervals?.map((values,index)=>
+         <tr className="hover:bg-gray-100">
+         <td className="py-2 px-4 border-b border-gray-300">{values.type}</td>
+         <td className="py-2 px-4 border-b border-gray-300">{values.startTime}</td>
+         <td className="py-2 px-4 border-b border-gray-300">{values.endTime}</td>
+       </tr>
+      )}
+      
+     
+    </tbody>
+  </table>
+</div>
             <div className="mb-5">
               <button
                 className="bg-red-500  text-white w-1/3 py-1 rounded-md mt-4 "

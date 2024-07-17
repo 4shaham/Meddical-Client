@@ -11,6 +11,7 @@ interface navItems {
 }
 
 function NavBar() {
+
   const dispatch = useDispatch();
   const userStatus = useSelector((state: RootState) => state.user.userStatus);
 
@@ -20,7 +21,7 @@ function NavBar() {
     { link: "", path: "Services" },
     { link: "", path: "About Us" },
     { link: "", path: "Contact Us" },
-    { link: "/doctors", path: "Doctors" },
+    { link: "/doctors", path: "Doctors"},
   ];
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
 
@@ -70,6 +71,15 @@ function NavBar() {
                 </li>
               </Link>
             ))}
+             {userStatus && 
+                 <Link to={"/profile"}>
+                 <li
+                   className="mx-auto text-black text-lg font-medium"
+                 >
+                   Profile
+                 </li>
+               </Link>
+             }
           </ul>
 
           <div>
@@ -108,12 +118,22 @@ function NavBar() {
         {/* Mobile Menu */}
 
         {isMenuOpen ? (
-          <ul className="block my-2 bg-serviceColors rounded-md p-2 ">
+          <ul className="block my-2 bg-gray-100 rounded-md p-2 ">
             {navItem.map((values) => (
-              <li className="mx-auto text-black text-lg font-medium">
+              <li className="mx-auto text-black text-lg font-medium mt-2">
                 {values.path}
               </li>
             ))}
+            {userStatus && 
+            <>
+              <li className="mx-auto text-black text-lg font-medium mt-2">
+                 Profile
+              </li>
+               <li className="mx-auto text-black text-lg font-medium mt-2" onClick={handleLogoout}>
+                Logout
+              </li>
+            </> 
+            }
           </ul>
         ) : null}
       </nav>
