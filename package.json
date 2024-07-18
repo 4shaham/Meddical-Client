@@ -35,6 +35,7 @@
     "recharts": "^2.12.7",
     "redux-toolkit": "^1.1.2",
     "slick-carousel": "^1.8.1",
+    "tw-elements-react": "^1.0.0-alpha-end",
     "use-react-countries": "^2.0.1"
   },
   "devDependencies": {

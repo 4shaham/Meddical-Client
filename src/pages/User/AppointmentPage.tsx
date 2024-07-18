@@ -6,6 +6,7 @@ import {
 import { useLocation } from "react-router-dom";
 import IDoctorSchedule, { IDoctor, slotsDate } from "../../interface/interfaceDoctor";
 import TokenBookingModal from "../../components/User/TokenBookingModal";
+import { toast } from "react-toastify";
 
 
 
@@ -49,11 +50,11 @@ function AppointmentPage() {
       }
       const scheduleData = await getDoctorSchedulePerticularDate(date, id);
       console.log(scheduleData.data);
-      // if (scheduleData.data == null) {
-      //   setSchedules({});
-      // }
+      if(!scheduleData.data){
+         toast.error("This day doctor is not availabl")
+      }
       setDoctorScehdule(scheduleData.data);
-      // setSchedules(scheduleData.data.slots);
+     
     } catch (error) {
       console.log(error);
     }
@@ -187,7 +188,7 @@ function AppointmentPage() {
       </div>
 
       <div className="px-20 mb-8 mt-10">
-        {doctorSchedule && (
+        {doctorSchedule &&(
           <div
             className={
               doctorSchedule.slots.length == 0
@@ -208,7 +209,6 @@ function AppointmentPage() {
                 key={index}
                 onClick={()=>values.isBooked!=true && showModalConfirmationBtnClick(values.slotNumber)}
                 className={
-                 
                   values.isBooked==true
                     ? "bg-btnColor w-full h-24 rounded-lg items-center cursor-pointer text-white"
                     : "bg-white text-black w-full h-24 rounded-lg items-center cursor-pointer transition-all duration-[350ms] ease-[ease-in-out] hover:bg-btnColor hover:bg-opacity-[0.60] hover:text-white"
@@ -222,14 +222,14 @@ function AppointmentPage() {
                 </h1>
               </div>
             ))}
-            {/* {Object.entries(schedule).length == 0 &&(
+           {doctorSchedule.slots &&(
               <p className="text-red-400 font-sans  text-center mt-4">
                 Thank you for your inquiry. Unfortunately, Dr.{" "}
                 {doctor?.specialty} does not have any available appointments on
                 the selected date. Please choose an alternative date or contact
                 our support team for further assistance.
               </p>
-            )} */}
+            )}
           </div>
         )}
       </div>

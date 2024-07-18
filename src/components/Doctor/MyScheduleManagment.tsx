@@ -57,7 +57,7 @@ function MyScheduleManagment() {
                   Provide Tokens
                 </Typography>
               </th>
-              <th
+              {/* <th
                 // key={head}
                 className="border-b border-blue-gray-100 bg-blue-gray-50 p-4 text-black"
               >
@@ -67,7 +67,7 @@ function MyScheduleManagment() {
                 >
                   Edit
                 </Typography>
-              </th>
+              </th> */}
             </tr>
           </thead>
 
@@ -104,7 +104,7 @@ function MyScheduleManagment() {
                     {values.slots.length}
                   </Typography>
                 </td>
-                <td className="p-4">
+                {/* <td className="p-4">
                   <Typography
                     component="a"
                     variant="body2"
@@ -115,7 +115,7 @@ function MyScheduleManagment() {
                       Delete
                     </button>
                   </Typography>
-                </td>
+                </td> */}
               </tr>
             ))}
           </tbody>

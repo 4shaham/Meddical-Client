@@ -14,7 +14,7 @@ function Banner() {
             Contrary to popular belief, Lorem Ipsum is not simply random text.
             It has roots in a piece.
           </p>
-          <button className="mt-6 bg-blue-500 text-white py-3 px-6 rounded hover:bg-blue-600">
+          <button className="mt-6 bg-blue-950 text-white py-3 px-6 rounded hover:bg-white hover:text-black border hover:border-black">
             Book an Appointment
           </button>
           <div className="mt-8 flex justify-around">

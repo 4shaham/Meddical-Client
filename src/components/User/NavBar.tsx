@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { RootState } from "../../Redux/store/store";
 import { logOut } from "../../api/user";
 import { logout } from "../../Redux/slice/userAuthSlice";
+import { MdOutlineMessage } from "react-icons/md";
 
 interface navItems {
   link: string;
@@ -24,7 +25,7 @@ function NavBar() {
     { link: "/doctors", path: "Doctors"},
   ];
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
-
+  const navigate=useNavigate()
   const toogleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
@@ -34,11 +35,13 @@ function NavBar() {
       const response = await logOut();
       if (response.data.status == true) {
         dispatch(logout());
+        navigate("/login")  
       }
     } catch (error) {}
   };
 
   return (
+    
     <header className="bg-bgColors w-full ">
       <nav className="p-10">
         <div className="flex items-center justify-between">
@@ -84,13 +87,20 @@ function NavBar() {
 
           <div>
             {userStatus ? (
-              <button
+
+            <div className="flex gap-1">
+                <MdOutlineMessage className="w-8 h-8 my-auto"/>
+               <button
                 className="md:bg-red-600 text-white py-2 px-4 rounded-lg"
                 onClick={handleLogoout}
               >
                 Logout
               </button>
-            ) : (
+           
+            </div>  
+             
+              
+            ):(
               <Link to={"/login"}>
                 <button className="md:bg-btnColor text-white py-2 px-4 rounded-lg">
                   Sign In

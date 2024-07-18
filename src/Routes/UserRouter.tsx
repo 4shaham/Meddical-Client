@@ -13,6 +13,8 @@ import AppointmentPage from "../pages/User/AppointmentPage";
 import SuccessesPage from "../pages/User/SuccessesPage";
 import ProfilePage from "../pages/User/ProfilePage";
 import UserAppointmentPage from "../pages/User/UserAppointmentPage";
+import UserProtectRoutes from "./UserProtectRoutes";
+import Messenger from "../pages/User/Messenger";
 
 function UserRouter() {
   return (
@@ -32,9 +34,13 @@ function UserRouter() {
             <Route path="/doctors" element={<UserDoctorsPage/>}/>
             <Route path="/doctorprofile" element={<DoctorProfilePage/>} />
             <Route path="/appointmentPage" element={<AppointmentPage/>} />
-            <Route path="/successPage" element={<SuccessesPage/>}/>
-            <Route path="/profile" element={<ProfilePage/>}/>
-            <Route path="/myAppointmentPage" element={<UserAppointmentPage/>} />
+            
+            <Route element={<UserProtectRoutes/>}>
+              <Route path="/successPage" element={<SuccessesPage/>}/>
+              <Route path="/profile" element={<ProfilePage/>}/>
+              <Route path="/myAppointmentPage" element={<UserAppointmentPage/>} />
+            </Route>  
+            <Route path="/messenger" element={<Messenger/>}/>
         </Route>
         <Route path="/updatePassword" element={<UpdatePassword />} />
       </Routes>

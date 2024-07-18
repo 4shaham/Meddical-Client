@@ -1,40 +1,31 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from "react";
 import Banner from "../../components/User/Banner";
 import paiedratrics from "../../assets/paiedratrics.png";
 import CardComponent from "../../components/User/CardComponent";
 import hospital from "../../assets/hospital.jpg";
 import Slider from "react-slick";
 import { getAllDoctors, getSpecality, getToken } from "../../api/user";
-import { ISpecality } from '../../interface/interfaceDoctor';
-
-
+import { ISpecality } from "../../interface/interfaceDoctor";
 
 function UserHomePage() {
+  const [datas, setDatas] = useState([]);
+  const [specality, setSpecality] = useState<ISpecality[]>();
 
-    
-  const[datas,setDatas]=useState([])
-  const [specality,setSpecality]=useState<ISpecality[]>()
-  
-  useEffect (()=>{
-      const handleSyncFn=async()=>{
-
-        try {
-           
-         const specality=await getSpecality()
-         setSpecality(specality.data.data)
-         console.log(specality.data)
-         const data=await getAllDoctors()
-         setDatas(data.data)
-         console.log(data.data,"looo")
-
-        } catch (error) {
-           console.log(error)
-        }
-
+  useEffect(() => {
+    const handleSyncFn = async () => {
+      try {
+        const specality = await getSpecality();
+        setSpecality(specality.data.data);
+        console.log(specality.data);
+        const data = await getAllDoctors();
+        setDatas(data.data);
+        console.log(data.data, "looo");
+      } catch (error) {
+        console.log(error);
       }
-      handleSyncFn()
-  },[])
-  
+    };
+    handleSyncFn();
+  }, []);
 
   var settings = {
     dots: true,
@@ -73,12 +64,11 @@ function UserHomePage() {
   };
   return (
     <div>
+      <Banner />
 
-        <Banner/>
-
-        <div className="bg-gray-50 py-12 mt-10 mx-10 rounded-lg">
+      <div className="bg-gray-50 py-12 mt-10 mx-10 rounded-lg">
         <div className="container mx-auto px-6 flex flex-col md:flex-row  justify-between">
-          {/* Left Section */}  
+          {/* Left Section */}
           <div className="md:w-1/2 text-center">
             <h2 className="text-center pt-14 text-3xl font-bold my-auto ">
               Our Services <br /> <span>Find the care You Need</span>
@@ -90,24 +80,20 @@ function UserHomePage() {
 
           {/* Right Section */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-12 md:mt-0 md:w-1/2">
-
-          {specality?.slice(0,4)?.map((values,index)=>(
-               
-              
-              
-                <div className="bg-white  p-6 flex rounded-lg  hover:bg-gray-200 transition duration-300">
-                <div className="w-1/2">
+            {specality?.slice(0, 4)?.map((values, index) => (
+              <div className="bg-white  p-6 flex rounded-lg  hover:bg-gradient-to-r hover:to-blue-100  hover:from-white hover:font-bold  hover:translate-x-2 transition-all duration-300 hover:shadow-xl ">
+                <div className="w-1/2" key={index}>
                   <img
                     src={values.image}
                     alt="Cardiology"
-                    className="w-full h-full"
+                    className="w-full h-full "
                   />
                 </div>
                 <p className="my-auto mx-auto">{values.name}</p>
               </div>
-           ))} 
+            ))}
             {/* Cardiology */}
-          
+
             {/* Dermatology */}
             {/* <div className="bg-white  p-6 flex rounded-lg  hover:bg-gray-200 transition duration-300">
               <div className="w-1/2">
@@ -145,16 +131,15 @@ function UserHomePage() {
               <p className="my-auto mx-auto">Cardiology</p>
             </div> */}
             <div className="text-center block">
-              <button className="bg-white text-gray-700 px-16 py-3 rounded-md shadow-md hover:bg-btnColor hover:text-white transition duration-300">
+              <button className="bg-btnColor border text-white hover:bg-white  px-16 py-3 rounded-md shadow-md hover:border-black hover:text-black transition duration-300">
                 Explore our all services
               </button>
             </div>
-          </div>
+          </div> 
         </div>
 
         {/* Explore All Services Button */}
       </div>
-
 
       {/* <div className=" object-fill p-6 rounded-2xl">
         <h1 className=" text-center text-2xl font-bold mt-10 mb-7">
@@ -168,11 +153,13 @@ function UserHomePage() {
       </div> */}
 
       <div className=" bg-gray-50 w-[90%] mx-auto rounded-lg mt-3">
-        <h1 className="text-4xl text-center mx-10 pt-10 font-medium">Meet Our Doctors</h1>
+        <h1 className="text-4xl text-center mx-10 pt-10 font-medium">
+          Meet Our Doctors
+        </h1>
         <div className="mt-5 p-7">
           <Slider {...settings}>
             {datas.map((values, index) => (
-              <CardComponent  index={index} datas={values}  />
+              <CardComponent index={index} datas={values} />
             ))}
           </Slider>
         </div>
@@ -184,7 +171,7 @@ function UserHomePage() {
           <div className='bg-btnColor w-2/3'>hoo</div>
       </div> */}
     </div>
-  )
+  );
 }
 
-export default UserHomePage
+export default UserHomePage;

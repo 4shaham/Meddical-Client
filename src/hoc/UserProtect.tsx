@@ -3,7 +3,12 @@
 // import { useNavigate } from 'react-router-dom';
 // import { Props } from 'recharts/types/container/Surface';
 
-// function UserProtect(WrappedComponent:Component) {
+// interface Props {
+//     // Define the props type for the wrapped component here
+//     // If there are no specific props, leave it as an empty interface
+// }
+
+// function UserProtect<T extends Props>(WrappedComponent:Component<T>) {
 //   return (props:Props) => {
     
 
@@ -11,9 +16,9 @@
 //     const [isAuthenticated, setIsAuthenticated]=useState<boolean>(false); 
 
 //     useEffect(() => {
-     
-//       const checkAuth = () => {
-       
+
+//       const checkAuth = () => {  
+
 //         const token = localStorage.getItem('token');
 //         if (token) {
 //           setIsAuthenticated(true);

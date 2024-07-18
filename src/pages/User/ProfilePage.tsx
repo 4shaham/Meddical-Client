@@ -51,6 +51,7 @@ function ProfilePage() {
           <div className="flex flex-col items-center p-5 mb-4">
             <div className="w-24 h-24 bg-gray-300 rounded-full flex items-center justify-center mb-4">
               <i className="fas fa-user text-4xl text-gray-500"></i>
+              {/* <img src={userData?.image} alt="" /> */}
             </div>
             <form className="w-full">
               <div className="mb-4">
@@ -65,9 +66,9 @@ function ProfilePage() {
               <div className="mb-4">
                 <label className="block text-gray-600">Email</label>
                 <input
-                  type={userData?.email}
+                  type="email"
                   className="w-full p-2 border rounded-md"
-                  value="shahamsalam123@gmail.com"
+                  value={userData?.email}
                   readOnly
                 />
               </div>
@@ -76,7 +77,7 @@ function ProfilePage() {
                 <input
                   type="text"
                   className="w-full p-2 border rounded-md"
-                  value="9895948261"
+                  value={userData?.phoneNumber}
                   readOnly
                 />
               </div>
@@ -107,7 +108,7 @@ function ProfilePage() {
             </form>
           </div>
         </div>
-        <div className="w-full md:w-1/2 flex flex-col space-y-4 mx-auto">
+        <div className="w-full md:w-1/2 flex flex-col space-y-4 mx-auto my-auto">
           {Userpages.map((values) => (
             <Link to={values.path}>
               <button className="w-full flex justify-center md:w-1/2 mx-auto p-4 bg-gray-100 rounded-md shadow-md hover:bg-gradient-to-r hover:from-white hover:to-green-300 transition-all duration-300">

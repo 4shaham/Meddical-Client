@@ -22,6 +22,7 @@ function UserHome() {
 
   return (
     <div>
+      
       <NavBar />
       <Outlet />
       {/* <Banner/> */}
