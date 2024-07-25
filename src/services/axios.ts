@@ -1,11 +1,14 @@
 
 import axios,{AxiosInstance} from "axios";
+import { useNavigate } from "react-router-dom";
 
 
 const Api:AxiosInstance=axios.create({
     baseURL:'http://localhost:4001',
     withCredentials:true
 })
+
+
 
 
 Api.interceptors.request.use(
@@ -32,11 +35,12 @@ Api.interceptors.request.use(
         console.log("internal server erorro")
         // Handle 401 Unauthorized error
         // window.location.href = '/login';
+      
       }
       return Promise.reject(error);
     }
 
-
+     
   ); 
 
 

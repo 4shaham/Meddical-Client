@@ -5,10 +5,16 @@ import { PayloadAction,createSlice } from "@reduxjs/toolkit";
 
 interface userState{
     userStatus:boolean
+    // userData:{
+    //     id:string|null
+    // }
 }
 
 const initialState:userState={
-    userStatus:false
+    userStatus:false,
+    // userData:{
+    //     id:null
+    // }
 }
 
 
@@ -19,14 +25,14 @@ const userAuthSlice=createSlice({
 
     reducers:{
         login:(state)=>{
-             
            state.userStatus=true
-
+        //    state.userData=action.payload
         },  
-        logout:(state)=>{
-               
+        logout:(state)=>{   
             state.userStatus=false
-        
+            // state.userData={
+            //     id:null
+            // }
         }
     }
 

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { IoSearchOutline } from "react-icons/io5";
 import { FaPlus, FaSmile, FaPaperPlane } from "react-icons/fa";
 import Converasation from "../../components/User/Converasation";
-import { getConverasation, getMessages } from "../../api/user";
+import { getConverasation, getMessages, storeMessage } from "../../api/user";
 import IConverasation, { IMessage } from "../../interface/chatingInterface";
 import { io } from "socket.io-client";
 // const [socket,setSocket]=useState<any>(null)
@@ -14,9 +14,14 @@ function Messenger() {
   const [converasation, setConverasation] = useState<IConverasation[]>();
   const [currentChat, setCurrentChat] = useState<IConverasation | null>(null);
   const [message, setMessage] = useState<IMessage[]>();
+  const [doctorProfile, setDoctorProfile] = useState();
+
+  // messages string/image voice
+
+  const [messages, setMessages] = useState<string>();
 
   useEffect(() => {
-    const socket = io("wss://localhost:5173");
+    const socket = io("ws://localhost:4001");
   }, []);
 
   useEffect(() => {
@@ -37,14 +42,32 @@ function Messenger() {
       console.log("dfhdhfdjfh", data.data.messages);
       setMessage(data.data.messages);
     };
+
     handleFn();
   }, [currentChat]);
 
-  const handleSubmit = () => {};
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+
+      if(messages==""){
+        return 
+      }
+
+      await storeMessage(
+        currentChat?._id as string,
+        currentChat?.members[0].userId as string,
+        messages as string
+      );
+      setMessages("");
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
-    <div className="container min-h-screen mx-auto bg-gray-100 rounded-md flex p-2 md:p-10 gap-10 ">
-      <div className="bg-white min-h-screen w-1/3 rounded-md">
+    <div className="w-full p-5 md:container max-h-screen mx-auto bg-gray-100 rounded-md flex md:p-2 md:p-10 gap-10 ">
+      <div className="bg-white min-h-screen  w-1/3 rounded-md">
         <div className="p-7">
           <h1 className="text-black text-4xl font-medium">Chats</h1>
         </div>
@@ -68,60 +91,91 @@ function Messenger() {
         </div>
       </div>
 
-      <div className="w-full bg-white rounded-md p-5 overflow-y-scroll">
+      <div className="w-full bg-white rounded-md p-5 max-h-screen ">
         {currentChat ? (
           <>
-            <div className="flex mt-2">
+            {/* <div className="flex mt-2 bg-gray-100 rounded-md p-2">
               <Avatar
                 alt="Remy Sharp"
                 src="/static/images/avatar/1.jpg"
                 sx={{ width: 56, height: 56 }}
               />
               <h1 className="mx-5 my-auto md:text-2xl"> Shaham salam</h1>
+            </div> */}
+            <div className="flex items-center mb-4 border-b pb-2">
+              {/* <Avatar alt={shahah} src={dfdfsd} className="w-10 h-10 mr-2" /> */}
+              <div className="flex-1">
+                <h2 className="text-xl font-semibold">"dkfdf"</h2>
+                <small className="text-gray-500">Members: 5</small>
+              </div>
+              <button className="text-blue-500">
+                <FaPlus />
+              </button>
             </div>
 
-            <div className="min-h-screen mt-1 rounded-md">
+            <div className="max-h-[520px] mt-1 rounded-md overflow-y-scroll p-2">
               {message?.map((val, index) => (
                 <>
                   {currentChat.members[0].userId == val.sender ? (
-                    <div className="mt-2 p-5">
-                      <div className="flex items-center">
-                        <Avatar
-                          alt="Remy Sharp"
-                          src="/static/images/avatar/1.jpg"
-                          sx={{ width: 30, height: 30 }}
-                        />
-                        <h1 className="my-auto mx-5">{val.text}</h1>
+                    <div
+                      key={index}
+                      className="mt-2 p-5 rounded-md flex items-start"
+                    >
+                      <Avatar
+                        alt="User Avatar"
+                        src="/static/images/avatar/1.jpg"
+                        sx={{ width: 30, height: 30 }}
+                      />
+                      <div className="ml-3">
+                        <div className="bg-blue-100 p-3 rounded-md">
+                          <h1 className="text-sm">{val.text}</h1>
+                          {val && (
+                            <div className="flex mt-2">
+                              {/* {val.images.map((img, i) => (
+                                      <img key={i} src={img} alt="shared" className="w-20 h-20 mr-2 rounded-lg" />
+                                    ))}*/}
+                            </div>
+                          )}
+                        </div>
+                        <small className="block text-gray-500 mt-1">
+                          {format(new Date(val.createdAt), "p")}
+                        </small>
                       </div>
-                      <small className="my-auto mx-5 text-end">
-                        {format(val.createdAt)}
-                      </small>
                     </div>
-                  ) : (
-                    <div className="text-end mt-2 p-5">
-                      <div className="flex justify-end items-center">
-                        <p className="my-auto mx-5">{val.text}</p>
-                        <Avatar
-                          alt="Remy Sharp"
-                          src="/static/images/avatar/1.jpg"
-                          sx={{ width: 30, height: 30 }}
-                        />
+                  ):(
+                    <div className="mt-2 p-5  rounded-md flex items-start justify-end">
+                      <div className="mr-3 text-right">
+                        <div className="bg-blue-100 p-3 rounded-md">
+                          <h1 className="text-sm">{val.text}</h1>
+                          {val && (
+                            <div className="flex mt-2 justify-end">
+                              {/* {message.images.map((img, i) => (
+                            <img key={i} src={img} alt="shared" className="w-20 h-20 ml-2 rounded-lg" />
+                          ))} */}
+                            </div>
+                          )}
+                        </div>
+                        <small className="block text-gray-500 mt-1">
+                          {format(new Date(val.createdAt), "p")}
+                        </small>
                       </div>
-                      <small className="my-auto mx-5 text-end">
-                        {format(val.createdAt)}
-                      </small>
+                      <Avatar
+                        alt="User Avatar"
+                        src="/static/images/avatar/1.jpg"
+                        sx={{ width: 30, height: 30 }}
+                      />
                     </div>
                   )}
                 </>
               ))}
             </div>
             {/* Right-aligned message */}
-
             <div className="flex items-center p-4 bg-gray-100 shadow rounded-lg m-2">
               <form
-                onSubmit={handleSubmit}
                 className="flex w-full items-center"
+                onSubmit={handleSubmit}
               >
+                <input type="file" name="" id="" className="hidden" />
                 <button className="text-blue-500 p-2">
                   <FaPlus />
                 </button>
@@ -129,6 +183,8 @@ function Messenger() {
                   type="text"
                   placeholder="Type a message here"
                   className="flex-grow p-2 mx-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  value={messages}
+                  onChange={(e) => setMessages(e.target.value)}
                 />
                 <button className="text-gray-500 p-2">
                   <FaSmile />

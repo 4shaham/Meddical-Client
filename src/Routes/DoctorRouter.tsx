@@ -11,6 +11,7 @@ import PrivateRoutes from "./protectRoutes";
 import AddScheduleManamgemnt from "../components/Doctor/AddScheduleManamgemnt";
 import MyScheduleManagment from "../components/Doctor/MyScheduleManagment";
 import ManageToken from "../components/Doctor/ManageToken";
+import DoctorChatUi from "../pages/Doctor/DoctorChatUi";
 
 
 function DoctorRouter() {
@@ -28,6 +29,7 @@ function DoctorRouter() {
             <Route path="/doctor/addSchedule" element={<AddScheduleManamgemnt/>}></Route>
             <Route path="/doctor/appointmentPage" element={<MyScheduleManagment/>}/>
             <Route path="/doctor/manageTokens" element={<ManageToken/>}/>
+            <Route path="/doctor/chatPage" element={<DoctorChatUi/>}/>
           </Route>
         </Route>  
           <Route

@@ -222,14 +222,6 @@ function AppointmentPage() {
                 </h1>
               </div>
             ))}
-           {doctorSchedule.slots &&(
-              <p className="text-red-400 font-sans  text-center mt-4">
-                Thank you for your inquiry. Unfortunately, Dr.{" "}
-                {doctor?.specialty} does not have any available appointments on
-                the selected date. Please choose an alternative date or contact
-                our support team for further assistance.
-              </p>
-            )}
           </div>
         )}
       </div>

@@ -13,7 +13,9 @@ const doctorRoutes={
    // scedule Managment 
    addSchedule:'/api/doctor/addSchedule',
    findAllSchedule:'/api/doctor/findDoctorSchedule',
-   findScheduleWithDate:'/api/doctor/findDoctorBookingWithDate'
+   findScheduleWithDate:'/api/doctor/findDoctorBookingWithDate',
+   // chating 
+   doctorGetConverasation:'/api/doctorGetConverasation',
 }
 
 export default doctorRoutes

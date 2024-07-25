@@ -2,11 +2,12 @@
 import React, { useEffect, useState } from 'react'
 import { getToken } from '../api/user';
 import { Navigate, Outlet } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 function UserProtectRoutes() {
 
 
-  
+  // const userRedux=useSelector((state)=>)
   const [status,setStatus]=useState<boolean>(false)
  
   const [loading,setIsLoading]=useState<boolean>(true)

@@ -105,9 +105,10 @@ export const getBookingDataWithStatus=async(statusType:string)=>await Api.get(`$
 
 export const getProfileData=async()=>await Api.get(userRoutes.getProfileData)
 
-
-export const getConverasation=async()=>await Api.get(`${userRoutes.getConverasation}?id=${"6698bfc7fe8b25e642152980"}`)
+export const getConverasation=async()=>await Api.get(userRoutes.getConverasation)
 
 export const getMessages=async(converasationId:string)=>await Api.get(`${userRoutes.getMessage}?converasationId=${converasationId}`)
 
 export const paymentChekcout=async(userId:string,fees:number,typeOfConsaltation:string,schedulesId:string,slotNumber:number)=>await Api.post(userRoutes.paymentChekcout,{userId,fees,typeOfConsaltation,schedulesId,slotNumber})
+
+export const storeMessage=async(conversationId:string,senderId:string,text:string)=>await Api.post(userRoutes.storeMessages,{conversationId,senderId,text})

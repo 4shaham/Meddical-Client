@@ -15,7 +15,7 @@ const Converasation: React.FC<Props> = ({ data }) => {
   useEffect(() => {
     console.log(data.members[0].doctorId);
 
-    const handleFn = async () => {
+    const handleFn = async() => {
       try {
         const doctorData = await getDoctorProfile(data.members[0].doctorId);
         console.log(doctorData.data.data);
@@ -25,7 +25,7 @@ const Converasation: React.FC<Props> = ({ data }) => {
       }
     };
     handleFn();
-  }, [data.members]);
+  },[data.members]);
 
 
   const onSelect=(name:string)=>{
@@ -40,7 +40,6 @@ const Converasation: React.FC<Props> = ({ data }) => {
           alt="Remy Sharp"
           src={doctorData?.image}
           sx={{ width: 56, height: 56 }}
-        
         />
         <h1 className="font-medium mx-10 md:text-xl mt-2">{doctorData?.name}</h1>
       </div>

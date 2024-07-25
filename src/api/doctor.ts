@@ -146,3 +146,5 @@ export const findDoctorSchedule=async()=>await Api.get(doctorRoutes.findAllSched
 
 export const doctorSchedule=async()=>await Api.get(doctorRoutes.findScheduleWithDate)
 
+
+export const doctorGetConverasation=async()=>await Api.get(doctorRoutes.doctorGetConverasation)
