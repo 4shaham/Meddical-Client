@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { RootState } from "../../Redux/store/store";
 import { logOut } from "../../api/user";
 import { logout } from "../../Redux/slice/userAuthSlice";
-import { MdOutlineMessage } from "react-icons/md";
+import { FaFacebookMessenger } from "react-icons/fa";
 
 interface navItems {
   link: string;
@@ -89,7 +89,7 @@ function NavBar() {
             {userStatus ? (
 
             <div className="flex gap-1">
-                <MdOutlineMessage className="w-8 h-8 my-auto"/>
+               <Link to={"/chatingPage"}><FaFacebookMessenger className="w-8 h-8 my-auto"/></Link>
                <button
                 className="md:bg-red-600 text-white py-2 px-4 rounded-lg"
                 onClick={handleLogoout}

@@ -28,6 +28,8 @@ Api.interceptors.request.use(
     (error) => {
       console.log(error)  
       if (error.response && error.response.status === 500) {
+
+        console.log("internal server erorro")
         // Handle 401 Unauthorized error
         // window.location.href = '/login';
       }

@@ -144,3 +144,5 @@ export const addSchedule=async(date:Date,consultationMethod:string,startTime:str
 
 export const findDoctorSchedule=async()=>await Api.get(doctorRoutes.findAllSchedule)
 
+export const doctorSchedule=async()=>await Api.get(doctorRoutes.findScheduleWithDate)
+

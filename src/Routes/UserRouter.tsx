@@ -40,7 +40,7 @@ function UserRouter() {
               <Route path="/profile" element={<ProfilePage/>}/>
               <Route path="/myAppointmentPage" element={<UserAppointmentPage/>} />
             </Route>  
-            <Route path="/messenger" element={<Messenger/>}/>
+            <Route path="/chatingPage" element={<Messenger/>}/>
         </Route>
         <Route path="/updatePassword" element={<UpdatePassword />} />
       </Routes>

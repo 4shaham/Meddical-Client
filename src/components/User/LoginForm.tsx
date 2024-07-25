@@ -232,7 +232,7 @@ function LoginForm() {
           )}
         </div>
       </form>
-      <p className="text-red-500 text-center mt-2">Forgot password?</p>
+      <Link to={"/forgotPassword"}><p className="text-red-500 text-center mt-2">Forgot password?</p></Link>
       <div className="flex items-center my-4">
         <div className="flex-grow border-t border-zinc-300"></div>
         <span className="mx-4 text-zinc-500">or continue with</span>

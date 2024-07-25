@@ -104,3 +104,10 @@ export const cancelToken=async(tokenId:string)=>await Api.delete(`${userRoutes.c
 export const getBookingDataWithStatus=async(statusType:string)=>await Api.get(`${userRoutes.getBookingDataWithStatus}?statusType=${statusType}`)
 
 export const getProfileData=async()=>await Api.get(userRoutes.getProfileData)
+
+
+export const getConverasation=async()=>await Api.get(`${userRoutes.getConverasation}?id=${"6698bfc7fe8b25e642152980"}`)
+
+export const getMessages=async(converasationId:string)=>await Api.get(`${userRoutes.getMessage}?converasationId=${converasationId}`)
+
+export const paymentChekcout=async(userId:string,fees:number,typeOfConsaltation:string,schedulesId:string,slotNumber:number)=>await Api.post(userRoutes.paymentChekcout,{userId,fees,typeOfConsaltation,schedulesId,slotNumber})

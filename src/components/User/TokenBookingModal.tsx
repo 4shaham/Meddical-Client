@@ -7,8 +7,10 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../Redux/store/store";
 import { Navigate, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { createToken, getProfileData } from "../../api/user";
+import { createToken, getProfileData, paymentChekcout } from "../../api/user";
 import { IUser } from "../../interface/interfaceUser";
+import {loadStripe} from '@stripe/stripe-js';
+import axios from "axios";
 
 type TokenBookingModalProps = {
   callback: () => void; // Define the type for callback prop
@@ -20,9 +22,11 @@ type TokenBookingModalProps = {
 const TokenBookingModal: React.FC<TokenBookingModalProps> = ({
   callback,
   doctorData,
-  selectedSlot,
+  selectedSlot, 
   doctorSchedule,
 }) => {
+
+  
 
 
   const navigate = useNavigate();
@@ -78,6 +82,43 @@ const TokenBookingModal: React.FC<TokenBookingModalProps> = ({
       console.log(error);
     }
   };
+
+
+  const makeaPayment = async () => {
+    try {
+
+      const stripe = await loadStripe("pk_test_51PdzTi2Mgx9NEftCeLyveEo29zJ2mygFOmBjxawVikLkqs6f7cnSvM2fxND7bMdB5K1DrCaOfGlbTsoviiP172Xb00nYW5MswS");
+     
+      if (!stripe) {
+        console.error("Stripe failed to load");
+        return;
+      }
+
+     const response=await paymentChekcout(
+      userData?._id as string,
+      doctorData.fees,
+      consultaionType,
+      doctorSchedule._id,
+      selectedSlot.slotNumber
+     )  
+      if (!response.data || !response.data.sessionId) {
+        console.error("Invalid response from API:", response);
+        return;
+      }
+      const result = await stripe.redirectToCheckout({
+        sessionId: response.data.sessionId,
+      });
+      if (result.error) {
+        console.error("Stripe checkout error:", result.error.message);
+      }
+    }catch(error) {
+      console.log("Caught error:", error);
+    }
+  };
+
+
+
+
 
   return (
     <>
@@ -190,7 +231,7 @@ const TokenBookingModal: React.FC<TokenBookingModalProps> = ({
             Loading...
           </button>:  <button
               className="bg-btnColor text-white px-8 py-1 rounded mt-5 mb-2 mx-5"
-              onClick={handleOnClickPay}
+              onClick={makeaPayment}
             >
             pay
             </button>}

@@ -62,7 +62,7 @@ const handleFormsubmit= async(data:FormData)=>{
                      password
                     </label>
                     <input
-                      type="text"
+                      type="password"
                       id="large-input"
                       className="block w-full p-4 text-black border  rounded-lg "
                       {...register("password",{
@@ -79,7 +79,7 @@ const handleFormsubmit= async(data:FormData)=>{
                       Confirm Password
                     </label>
                     <input
-                      type="text"
+                      type="password"
                       id="large-input"
                       className="block w-full p-4 text-black border  rounded-lg "
                       {...register("confirmPassword",{

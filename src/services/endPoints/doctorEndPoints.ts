@@ -12,7 +12,8 @@ const doctorRoutes={
    getToken:'/api/doctor/getToken',
    // scedule Managment 
    addSchedule:'/api/doctor/addSchedule',
-   findAllSchedule:'/api/doctor/findDoctorSchedule'
+   findAllSchedule:'/api/doctor/findDoctorSchedule',
+   findScheduleWithDate:'/api/doctor/findDoctorBookingWithDate'
 }
 
 export default doctorRoutes
