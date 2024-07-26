@@ -11,7 +11,7 @@ function UserAppointmentPage() {
   const [status, setStatus] = useState<string>(ButtonStatus.pending);
 
   return (
-    <div className="container mx-auto rounded-md h-screen">
+    <div className="container mx-auto rounded-md h-auto min-h-screen">
       <div className="flex justify-center mt-10">
         <button
           className={

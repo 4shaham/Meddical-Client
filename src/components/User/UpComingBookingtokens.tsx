@@ -30,7 +30,7 @@ function UpComingBookingtokens() {
   const handleTokenCancelClick=async()=>{
 
       try {
-        const response=await cancelToken(selctedId as string)
+        await cancelToken(selctedId as string)
         setCounter(counter+1)
         setIsModal(false)
       } catch (error) {
@@ -56,7 +56,7 @@ function UpComingBookingtokens() {
 
   return (
     <div>
-      <Card className="h-auto  w-full overflow-scroll">
+      <Card className="h-auto min-h-screen  w-full overflow-scroll">
         <table className="w-full min-w-max table-auto  text-center">
           <thead className="">
             <tr>
@@ -77,6 +77,14 @@ function UpComingBookingtokens() {
                   className="font-medium text-2lg leading-none text-black"
                 >
                   TokenNumber
+                </Typography>
+              </th>
+              <th className="border-b border-blue-gray-100 bg-blue-gray-50 p-4 text-black">
+                <Typography
+                  variant="body2"
+                  className="font-medium text-2lg leading-none text-black"
+                >
+                  Time
                 </Typography>
               </th>
               <th
@@ -133,6 +141,15 @@ function UpComingBookingtokens() {
                     className="font-normal"
                   >
                     {values.slotNumber}
+                  </Typography>
+                </td>
+                <td className="p-4">
+                  <Typography
+                    variant="body2"
+                    color="textSecondary"
+                    className="font-normal"
+                  >
+                    {values.startTime}
                   </Typography>
                 </td>
                 <td className="p-4">

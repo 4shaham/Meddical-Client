@@ -67,11 +67,15 @@ const TokenBookingModal: React.FC<TokenBookingModalProps> = ({
         return;
       }
       setLoading(true);
+      console.log(selectedSlot.startTime)
+      return
       const response = await createToken(
         doctorData.fees,
         consultaionType,
         doctorSchedule._id,
-        selectedSlot.slotNumber
+        selectedSlot.slotNumber,
+        selectedSlot.startTime,
+        selectedSlot.endTime
       );
       setLoading(false);
 
@@ -93,13 +97,15 @@ const TokenBookingModal: React.FC<TokenBookingModalProps> = ({
         console.error("Stripe failed to load");
         return;
       }
-
+      
      const response=await paymentChekcout(
       userData?._id as string,
       doctorData.fees,
       consultaionType,
       doctorSchedule._id,
-      selectedSlot.slotNumber
+      selectedSlot.slotNumber,
+      selectedSlot.startTime,
+      selectedSlot.endTime
      )  
       if (!response.data || !response.data.sessionId) {
         console.error("Invalid response from API:", response);

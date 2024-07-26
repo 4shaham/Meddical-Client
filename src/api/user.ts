@@ -97,18 +97,18 @@ export const getSpecality=async()=>await Api.get(userRoutes.getSpecalityData)
 
 export const getDoctorSchedulePerticularDate=async(date:string,id:string)=>await Api.get(`${userRoutes.getDoctorSchedulePeticularDate}?date=${date}&doctorId=${id}`)
 
-export const createToken=async(fees:number,typeOfConsaltation:string,schedulesId:string,slotNumber:number)=>await Api.post(userRoutes.createToken,{fees,typeOfConsaltation,schedulesId,slotNumber})
+export const createToken=async(fees:number,typeOfConsaltation:string,schedulesId:string,slotNumber:number,startTime:string,endTime:string)=>await Api.post(userRoutes.createToken,{fees,typeOfConsaltation,schedulesId,slotNumber,startTime,endTime})
 
 export const cancelToken=async(tokenId:string)=>await Api.delete(`${userRoutes.cancelBookedToken}?tokenId=${tokenId}`)
 
 export const getBookingDataWithStatus=async(statusType:string)=>await Api.get(`${userRoutes.getBookingDataWithStatus}?statusType=${statusType}`)
 
-export const getProfileData=async()=>await Api.get(userRoutes.getProfileData)
+export const getProfileData=async(userId?:string)=>await Api.get(`${userRoutes.getProfileData}?userId=${userId}`)
 
 export const getConverasation=async()=>await Api.get(userRoutes.getConverasation)
 
 export const getMessages=async(converasationId:string)=>await Api.get(`${userRoutes.getMessage}?converasationId=${converasationId}`)
 
-export const paymentChekcout=async(userId:string,fees:number,typeOfConsaltation:string,schedulesId:string,slotNumber:number)=>await Api.post(userRoutes.paymentChekcout,{userId,fees,typeOfConsaltation,schedulesId,slotNumber})
+export const paymentChekcout=async(userId:string,fees:number,typeOfConsaltation:string,schedulesId:string,slotNumber:number,startTime:string,endTime:string)=>await Api.post(userRoutes.paymentChekcout,{userId,fees,typeOfConsaltation,schedulesId,slotNumber,startTime,endTime})
 
 export const storeMessage=async(conversationId:string,senderId:string,text:string)=>await Api.post(userRoutes.storeMessages,{conversationId,senderId,text})

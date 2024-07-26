@@ -1,5 +1,5 @@
 import { Avatar } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { IoSearchOutline } from "react-icons/io5";
 import { FaPlus, FaSmile, FaPaperPlane } from "react-icons/fa";
 import Converasation from "../../components/User/Converasation";
@@ -11,20 +11,39 @@ import { io } from "socket.io-client";
 import { format } from "timeago.js";
 
 function Messenger() {
+
   const [converasation, setConverasation] = useState<IConverasation[]>();
   const [currentChat, setCurrentChat] = useState<IConverasation | null>(null);
   const [message, setMessage] = useState<IMessage[]>();
   const [doctorProfile, setDoctorProfile] = useState();
 
   // messages string/image voice
-
   const [messages, setMessages] = useState<string>();
 
-  useEffect(() => {
-    const socket = io("ws://localhost:4001");
-  }, []);
+  // const [soceket,setSocket]=useState<any>()
+
+
+
+  // useEffect(() => {
+  //   setSocket(io("ws://localhost:4001"))
+  //   // const socket = io("ws://localhost:4001");
+  // }, []);
+
+  const socket = io("ws://localhost:4001");   
+
+
+
+//   useEffect(() => {
+//     // Scroll to the bottom of the container when messages change
+//     if (containerRef.current) {
+//         containerRef.current.scrollTop = containerRef.current.scrollHeight;
+//     }
+// }, [messages]);
 
   useEffect(() => {
+
+
+    
     const getData = async () => {
       try {
         const data = await getConverasation();
@@ -36,24 +55,26 @@ function Messenger() {
     getData();
   }, []);
 
+  
+  
+
+
   useEffect(() => {
     const handleFn = async () => {
       const data = await getMessages(currentChat?._id as string);
-      console.log("dfhdhfdjfh", data.data.messages);
       setMessage(data.data.messages);
     };
-
     handleFn();
   }, [currentChat]);
+
+
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-
       if(messages==""){
         return 
       }
-
       await storeMessage(
         currentChat?._id as string,
         currentChat?.members[0].userId as string,
@@ -65,8 +86,21 @@ function Messenger() {
     }
   };
 
+
+ 
+
+  socket.on("message-content",(data:any)=>{
+    console.log('hidd',data)
+    if(data.message.converasationId==currentChat?._id){
+      setMessage([...message,data.message])
+    }
+   
+  })
+  
+
+
   return (
-    <div className="w-full p-5 md:container max-h-screen mx-auto bg-gray-100 rounded-md flex md:p-2 md:p-10 gap-10 ">
+    <div className="w-full p-5 md:container max-h-screen mx-auto bg-gray-100 rounded-md flex  md:p-10 gap-10 ">
       <div className="bg-white min-h-screen  w-1/3 rounded-md">
         <div className="p-7">
           <h1 className="text-black text-4xl font-medium">Chats</h1>
@@ -113,7 +147,7 @@ function Messenger() {
               </button>
             </div>
 
-            <div className="max-h-[520px] mt-1 rounded-md overflow-y-scroll p-2">
+            <div    className="max-h-[520px] mt-1 rounded-md scroll-end overflow-y-scroll p-2">
               {message?.map((val, index) => (
                 <>
                   {currentChat.members[0].userId == val.sender ? (
@@ -203,6 +237,7 @@ function Messenger() {
             Open Converasation lets Start
           </p>
         )}
+     
       </div>
     </div>
   );
