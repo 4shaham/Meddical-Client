@@ -1,3 +1,4 @@
+import { IUser } from "./interfaceUser";
 
 export interface IAddScheduleIntervals {
   type:string;
@@ -83,5 +84,13 @@ export  interface IDoctor {
   image:string;
   isBlocked:boolean;    
   otpVerified:boolean;
+}
+
+
+
+export interface IMangeTokenData extends BookingData{
+    
+   userData:IUser
+
 }
 

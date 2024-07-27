@@ -57,7 +57,7 @@ function UserDoctorsPage() {
                     src={values.image}
                     height={200}
                     alt=""
-                    className="rounded-md mx-auto h-[150px] w-[150px]"
+                    className="rounded-md  mx-auto h-[150px] w-[150px]"
                   />
                 </div>
               </div>
