@@ -112,3 +112,5 @@ export const getMessages=async(converasationId:string)=>await Api.get(`${userRou
 export const paymentChekcout=async(userId:string,fees:number,typeOfConsaltation:string,schedulesId:string,slotNumber:number,startTime:string,endTime:string)=>await Api.post(userRoutes.paymentChekcout,{userId,fees,typeOfConsaltation,schedulesId,slotNumber,startTime,endTime})
 
 export const storeMessage=async(conversationId:string,senderId:string,text:string)=>await Api.post(userRoutes.storeMessages,{conversationId,senderId,text})
+
+export const getPrescription=async(id:string)=>await Api.get(`${userRoutes.getPrescription}?id=${id}`)

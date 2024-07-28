@@ -15,6 +15,7 @@ import ProfilePage from "../pages/User/ProfilePage";
 import UserAppointmentPage from "../pages/User/UserAppointmentPage";
 import UserProtectRoutes from "./UserProtectRoutes";
 import Messenger from "../pages/User/Messenger";
+import Prescription from "../components/User/Prescription";
 
 function UserRouter() {
   return (
@@ -39,6 +40,7 @@ function UserRouter() {
               <Route path="/successPage" element={<SuccessesPage/>}/>
               <Route path="/profile" element={<ProfilePage/>}/>
               <Route path="/myAppointmentPage" element={<UserAppointmentPage/>} />
+              <Route path="/prescriptionPage" element={<Prescription/>} />
             </Route>  
             <Route path="/chatingPage" element={<Messenger/>}/>
         </Route>

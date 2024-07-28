@@ -3,6 +3,7 @@ import Card from "@mui/material/Card";
 import Typography from "@mui/material/Typography";
 import { BookingData } from "../../interface/interfaceDoctor";
 import { getBookingDataWithStatus } from "../../api/user";
+import { Link } from "react-router-dom";
 
 function PastBookingTokens() {
   const [datas, setDatas] = useState<BookingData[]>();
@@ -92,7 +93,7 @@ function PastBookingTokens() {
                     color="textSecondary"
                     className="font-normal"
                   >
-                    2020222
+                    {values.date.toString().split("T")[0]}
                   </Typography>
                 </td>
                 <td className="p-4">
@@ -101,7 +102,7 @@ function PastBookingTokens() {
                     color="textSecondary"
                     className="font-normal"
                   >
-                    10
+                    {values.startTime}
                   </Typography>
                 </td>
                 <td className="p-4">
@@ -119,7 +120,7 @@ function PastBookingTokens() {
                     color="textSecondary"
                     className="font-normal"
                   >
-                    online
+                   {values.conusultationType}
                   </Typography>
                 </td>
                 <td className="p-4">
@@ -129,9 +130,11 @@ function PastBookingTokens() {
                     color="primary"
                     className="font-medium"
                   >
-                    <button className="bg-btnColor text-white px-5 py-1 rounded-lg">
-                     Download Prescription
-                    </button>
+                   <Link to={`/prescriptionPage?id=${values._id}`}>
+                     <p>
+                     View Prescription
+                     </p>
+                   </Link> 
                   </Typography>
                 </td>
               </tr>
