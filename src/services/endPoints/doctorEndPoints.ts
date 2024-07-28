@@ -10,11 +10,10 @@ const doctorRoutes={
    resendOtp:'/api/doctor/resendOtp',
    getKycStatus:'/api/doctor/getKycStatus',
    getToken:'/api/doctor/getToken',
-   // scedule Managment 
    addSchedule:'/api/doctor/addSchedule',
    findAllSchedule:'/api/doctor/findDoctorSchedule',
    findScheduleWithDate:'/api/doctor/findDoctorBookingWithDate',
-   // chating 
+   addPrescription:"/api/doctor/addPrescription",
    doctorGetConverasation:'/api/doctorGetConverasation',
 }
 

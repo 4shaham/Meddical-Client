@@ -2,63 +2,81 @@ import { Button, Modal } from "flowbite-react";
 import React, { useState } from "react";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
 import { toast } from "react-toastify";
+import { createPrescription } from "../../api/doctor";
+import { IUser } from "../../interface/interfaceUser";
+import { IMangeTokenData } from "../../interface/interfaceDoctor";
 
 // interface Of Medicien
 
-interface Medicine {
-  medicine: string;
+export interface Medicine {
+  name:string;
   dosage: string;
-  instruction: string;
+  instructions: string;
 }
 
-export function PrescriptionModal() {
+type PrescriptionModalProps={
+     consulationPatient:IMangeTokenData[]
+     callback: () => void;
+     successesCounter:()=>void;
+};
+
+const  PrescriptionModal:React.FC<PrescriptionModalProps>=({consulationPatient,callback,successesCounter})=> {
+
   const [openModal, setOpenModal] = useState(false);
   const [showAddMedicienForm, setAddMedicienForm] = useState<boolean>(false);
 
+
   const [medicines, setMedicine] = useState<Medicine[]>([]);
   const [description, setDescription] = useState<string>();
-  const [recoveryStep, setRecoveryStep] = useState<string>();
+  const [recoveryStep,setRecoveryStep] = useState<string>();
 
   // add Medicien states
   const [med, setMed] = useState<string>();
   const [dos, setDos] = useState<string>();
   const [instruction, setInstruction] = useState<string>();
 
-  const addPrescriptionSubmit: React.FormEventHandler<HTMLFormElement> = (
+
+  const addPrescriptionSubmit: React.FormEventHandler<HTMLFormElement> = async(
     event
   ) => {
     event.preventDefault();
-    // Your submit logic here
     try {
 
-         if(!medicines || !description || !recoveryStep) {
-            toast.error("all fields are required");
-            return
-          }
-          
-
-
-
-    } catch (error){
-        console.log(error,"kjdfjdkjf")
+   
+      if (medicines.length==0 || !description || !recoveryStep) {
+        toast.error("all fields are required");
+        return;
+      }
+    
+      await createPrescription(description,medicines,recoveryStep,consulationPatient[0].userData._id,consulationPatient[0].userData.userName,consulationPatient[0]._id)
+      callback()
+      successesCounter()
+      toast.success("Prescription added successfully")
+    } catch (error) {
+      console.log(error, "kjdfjdkjf");
     }
   };
 
   const handleAddMedicine = () => {
+
     if (!med || !instruction || !dos) {
       toast.error("all fields are required koo");
       return;
     }
-    console.log("jdhf", med);
     setMedicine([
       ...medicines,
-      { medicine: med, dosage: dos, instruction: instruction },
+      { name: med, dosage: dos, instructions: instruction },
     ]);
     setMed("");
     setDos("");
     setInstruction("");
     setAddMedicienForm(false);
   };
+
+
+  const handleCloseMedicneForm=()=>{
+       setAddMedicienForm(false)
+  }
 
   return (
     <>
@@ -102,13 +120,13 @@ export function PrescriptionModal() {
                     {medicines.map((val) => (
                       <tr className="bg-gray-100">
                         <td className="font-normal text-sm text-left pl-6 py-3">
-                          {val.medicine}
+                          {val.name}
                         </td>
                         <td className="font-normal text-sm text-left pl-6 py-3">
                           {val.dosage}
                         </td>
                         <td className="font-normal text-sm text-left pl-6 py-3">
-                          {val.instruction}
+                          {val.instructions}
                         </td>
                       </tr>
                     ))}
@@ -127,7 +145,7 @@ export function PrescriptionModal() {
               </button>
 
               {showAddMedicienForm && (
-                <div className="bg-gray-100 rounded-md flex mt-2  p-2 mb-5">
+                <div className="bg-gray-100 rounded-md w-full grid grid-cols-2 mt-2 p-3 mb-5">
                   <label htmlFor="" className="mx-3 font-medium">
                     Medicine
                   </label>
@@ -156,8 +174,19 @@ export function PrescriptionModal() {
                     onChange={(e) => setInstruction(e.target.value)}
                   />
 
+                  <div>
                   <button
-                    className="bg-black  rounded-md text-white mx-auto px-6 "
+                    className="bg-red-500  rounded-md text-white  px-6 "
+                    type="button"
+                    onClick={handleCloseMedicneForm}
+                  >
+                    Cancel
+                  </button>
+                  </div>
+                 
+                  
+                  <button
+                    className="bg-black  rounded-md text-white px-6 "
                     type="button"
                     onClick={handleAddMedicine}
                   >
@@ -187,6 +216,7 @@ export function PrescriptionModal() {
               <button
                 type="button"
                 className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                onClick={callback}
               >
                 Cancel
               </button>

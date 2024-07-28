@@ -1,3 +1,4 @@
+import { Medicine } from "../components/Doctor/PrescriptionModal";
 import { IAddScheduleIntervals } from "../interface/interfaceDoctor";
 import DoctorRouter from "../Routes/DoctorRouter";
 import Api from "../services/axios";
@@ -148,3 +149,6 @@ export const doctorSchedule=async()=>await Api.get(doctorRoutes.findScheduleWith
 
 
 export const doctorGetConverasation=async()=>await Api.get(doctorRoutes.doctorGetConverasation)
+
+
+export const createPrescription=async(description:string,medicines:Medicine[],recoverySteps:string,patientId:string,patientName:string,slotId:string)=>await Api.post(doctorRoutes.addPrescription,{description,medicines,recoverySteps,patientId,patientName,slotId})

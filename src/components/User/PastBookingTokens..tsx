@@ -129,8 +129,8 @@ function PastBookingTokens() {
                     color="primary"
                     className="font-medium"
                   >
-                    <button className="bg-red-500 text-white px-5 py-1 rounded-lg">
-                      cancel
+                    <button className="bg-btnColor text-white px-5 py-1 rounded-lg">
+                     Download Prescription
                     </button>
                   </Typography>
                 </td>
