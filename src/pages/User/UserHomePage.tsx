@@ -66,7 +66,7 @@ function UserHomePage() {
     <div>
       <Banner />
 
-      <div className="bg-gray-50 py-12 mt-10 mx-10 rounded-lg">
+      <div className="bg-gray-200  py-12 mt-10 mx-10 rounded-lg">
         <div className="container mx-auto px-6 flex flex-col md:flex-row  justify-between">
           {/* Left Section */}
           <div className="md:w-1/2 text-center">
@@ -92,44 +92,6 @@ function UserHomePage() {
                 <p className="my-auto mx-auto">{values.name}</p>
               </div>
             ))}
-            {/* Cardiology */}
-
-            {/* Dermatology */}
-            {/* <div className="bg-white  p-6 flex rounded-lg  hover:bg-gray-200 transition duration-300">
-              <div className="w-1/2">
-                <img
-                  src={paiedratrics}
-                  alt="Cardiology"
-                  className="w-full h-full"
-                />
-              </div>
-
-              <p className="my-auto mx-auto">Cardiology</p>
-            </div> */}
-            {/* ENT */}
-            {/* <div className="bg-white  p-6 flex rounded-lg  hover:bg-gray-200 transition duration-300">
-              <div className="w-1/2">
-                <img
-                  src={paiedratrics}
-                  alt="Cardiology"
-                  className="w-full h-full"
-                />
-              </div>
-
-              <p className="my-auto mx-auto">Cardiology</p>
-            </div> */}
-            {/* Paediatrics */}
-            {/* <div className="bg-white  p-6 flex rounded-lg  hover:bg-gray-200 transition duration-300">
-              <div className="w-1/2">
-                <img
-                  src={paiedratrics}
-                  alt="Cardiology"
-                  className="w-full h-full"
-                />
-              </div>
-
-              <p className="my-auto mx-auto">Cardiology</p>
-            </div> */}
             <div className="text-center block">
               <button className="bg-btnColor border text-white hover:bg-white  px-16 py-3 rounded-md shadow-md hover:border-black hover:text-black transition duration-300">
                 Explore our all services

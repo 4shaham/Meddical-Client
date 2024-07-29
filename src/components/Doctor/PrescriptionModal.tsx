@@ -89,7 +89,7 @@ const  PrescriptionModal:React.FC<PrescriptionModalProps>=({consulationPatient,c
                 className="block text-gray-700 text-sm font-bold mb-2"
                 htmlFor="notes"
               >
-                Description
+               diagnosis
               </label>
               <textarea
                 id="notes"
@@ -106,7 +106,7 @@ const  PrescriptionModal:React.FC<PrescriptionModalProps>=({consulationPatient,c
                   <thead>
                     <tr>
                       <th className="font-semibold text-sm text-left pl-6 py-3">
-                        Medicien
+                        Medicine
                       </th>
                       <th className="font-semibold text-sm text-left pl-6 py-3">
                         Doos

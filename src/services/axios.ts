@@ -29,7 +29,12 @@ Api.interceptors.request.use(
       return response;
     },
     (error) => {
-      console.log(error)  
+      console.log(error)
+      if(error.response&& error.response.status==401 && error.response.data.message=="Payment"){
+           console.log('errorr')
+      }
+
+
       if (error.response && error.response.status === 500) {
 
         console.log("internal server erorro")

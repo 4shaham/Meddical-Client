@@ -35,7 +35,7 @@ function ProfilePage() {
       element: "Patient Details",
     },
     {
-      path: "/addSchedule",
+      path: "/transaction",
       element: " Transaction List",
     },
     {

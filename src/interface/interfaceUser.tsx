@@ -25,10 +25,28 @@ export interface Medicine {
     date: Date;
     doctorId:string;
     doctorName: string;
-    patientId:string;
+    pateintId:string;
     patientName: string;
+    diagnosis:string;
     medicines: Medicine[];
     recoverySteps: string[];
     slotId:string
   }
   
+
+  export interface prescriptionData extends IPrescription {
+    userData:IUser[]
+  } 
+
+
+  export interface IPaymentData{
+    _id:string,
+    tokenId:string,
+    doctorId:string,
+    transactionId:string,
+    userId:string,
+    amount:number,
+    paymentMethod:string,
+    createdAt:string,
+    updateAt:string
+  }

@@ -114,3 +114,5 @@ export const paymentChekcout=async(userId:string,fees:number,typeOfConsaltation:
 export const storeMessage=async(conversationId:string,senderId:string,text:string)=>await Api.post(userRoutes.storeMessages,{conversationId,senderId,text})
 
 export const getPrescription=async(id:string)=>await Api.get(`${userRoutes.getPrescription}?id=${id}`)
+
+export const getTransactionHistory=async()=>await Api.get(userRoutes.getTransactionHistory)

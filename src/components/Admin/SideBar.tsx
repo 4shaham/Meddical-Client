@@ -24,7 +24,12 @@ function SideBar() {
     { path: "/admin/doctorsManagment", element: "Doctors Management", icon: <FaUserDoctor /> },
     {
       path: "/admin/specalityManagement",
-      element: "specality Management",
+      element: "Specality Management",
+      icon: <MdLocalFireDepartment />,
+    },
+    {
+      path: "/admin/transactionHistory",
+      element: "Transaction History",
       icon: <MdLocalFireDepartment />,
     },
    
@@ -56,7 +61,7 @@ function SideBar() {
   };
 
   return (
-    <div className="w-[25%]  md:bg-gray-100 md:p-5 md:h-screen md:text-center">
+    <div className="w-[25%]  md:bg-gray-200 md:p-5 md:h-screen md:text-center">
        <div className="m-3 mx-auto mb-11">
         <h1 className="text-black text-4xl custom-font">MEDDICAL</h1>
       </div>

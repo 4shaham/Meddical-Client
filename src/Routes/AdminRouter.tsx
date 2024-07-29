@@ -11,6 +11,7 @@ import DoctorDetailAndKycPage from "../pages/Admin/DoctorDetailAndKycPage";
 import AddSpecalityForm from "../components/Admin/AddSpecalityForm";
 import EditSpecalityManagment from "../components/Admin/EditSpecalityManagment";
 import DeleteSpecalityManagment from "../components/Admin/DeleteSpecalityManagment";
+import TransactionHistory from "../pages/Admin/TransactionHistory";
 
 
 
@@ -28,6 +29,7 @@ function AdminRouter() {
         <Route path={"/admin/doctorsManagment"} element={<DashBoardComponent/>} />
         <Route path={"/admin/verifyNewRequest"} element={<VerifyRequestPage/>} />
         <Route path={"/admin/kycDataView"} element={<DoctorDetailAndKycPage/>}/>
+        <Route path="/admin/transactionHistory" element={<TransactionHistory/>} />
       </Route>
       
       <Route path={"/admin/login"} element={<Login/>}></Route>
