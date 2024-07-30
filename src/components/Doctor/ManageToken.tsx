@@ -127,7 +127,7 @@ function ManageToken() {
         <small>visited</small>
       </div>
 
-      <div className=" grid grid-cols-5 gap-5 p-4 mt-2  bg-gray-100 rounded-md">
+      <div className=" grid grid-cols-5 gap-5 p-4 mt-2  bg-gray-200 rounded-md">
         {slots?.map((val, index) => (
           <>
             <div

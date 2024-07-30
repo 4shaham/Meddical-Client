@@ -1,6 +1,3 @@
-
-
-
 import { PencilIcon } from "@heroicons/react/24/solid";
 import {
   ArrowDownTrayIcon,
@@ -19,71 +16,45 @@ import {
   Tooltip,
   Input,
 } from "@material-tailwind/react";
- 
-const TABLE_HEAD = ["Transaction ", "Amount", "Date", "Status", "Account", ""];
- 
-const TABLE_ROWS = [
-  {
-    img: "https://docs.material-tailwind.com/img/logos/logo-spotify.svg",
-    name: "Spotify",
-    amount: "$2,500",
-    date: "Wed 3:00pm",
-    status: "paid",
-    account: "visa",
-    accountNumber: "1234",
-    expiry: "06/2026",
-  },
-  {
-    img: "https://docs.material-tailwind.com/img/logos/logo-amazon.svg",
-    name: "Amazon",
-    amount: "$5,000",
-    date: "Wed 1:00pm",
-    status: "paid",
-    account: "master-card",
-    accountNumber: "1234",
-    expiry: "06/2026",
-  },
-  {
-    img: "https://docs.material-tailwind.com/img/logos/logo-pinterest.svg",
-    name: "Pinterest",
-    amount: "$3,400",
-    date: "Mon 7:40pm",
-    status: "pending",
-    account: "master-card",
-    accountNumber: "1234",
-    expiry: "06/2026",
-  },
-  {
-    img: "https://docs.material-tailwind.com/img/logos/logo-google.svg",
-    name: "Google",
-    amount: "$1,000",
-    date: "Wed 5:00pm",
-    status: "paid",
-    account: "visa",
-    accountNumber: "1234",
-    expiry: "06/2026",
-  },
-  {
-    img: "https://docs.material-tailwind.com/img/logos/logo-netflix.svg",
-    name: "netflix",
-    amount: "$14,000",
-    date: "Wed 3:30am",
-    status: "cancelled",
-    account: "visa",
-    accountNumber: "1234",
-    expiry: "06/2026",
-  },
-];
- 
- function TransactionHistory() {
+import { useEffect, useState } from "react";
+import { TransactionHistoryData } from "../../interface/interfaceAdmin";
+import { getTransactionHistory } from "../../api/user";
+import { getTransactionHistroyAdmin } from "../../api/admin";
+
+
+function TransactionHistory() {
+  const TABLE_HEAD = [
+    "doctorName",
+    "patientName",
+    "TransactionId",
+    "Amount",
+    "Date",
+    "Status",
+    "",
+  ];
+
+  const [transactionHistoryData, setTransactionHistoryData] =
+    useState<TransactionHistoryData[]>();
+
+  useEffect(() => {
+    const handleFn = async () => {
+      try {
+        const response = await getTransactionHistroyAdmin();
+        console.log(response.data);
+        setTransactionHistoryData(response.data.transactionData);
+      } catch (error) {}
+    };
+    handleFn();
+  }, []);
 
   return (
-   <div className="p-5">
+    <div className="p-5">
+      <h1 className="text-2xl font-medium text-center mt-4 mb-4">
+        Transaction History
+      </h1>
 
-       <h1 className="text-2xl font-medium text-center mt-4 mb-4">Transaction History</h1>
-
-    <Card className="h-full w-full">
-      {/* <CardHeader floated={false} shadow={false} className="rounded-none">
+      <Card className="h-full w-full border">
+        {/* <CardHeader floated={false} shadow={false} className="rounded-none">
         <div className="mb-4 flex flex-col justify-between gap-8 md:flex-row md:items-center bg-gray-300">
           <div>
             <Typography variant="h5" color="blue-gray">
@@ -106,133 +77,93 @@ const TABLE_ROWS = [
           </div>
         </div>
       </CardHeader> */}
-      <CardBody className="overflow-scroll px-0">
-        <table className="w-full min-w-max table-auto text-left">
-          <thead>
-            <tr>
-              {TABLE_HEAD.map((head) => (
-                <th
-                  key={head}
-                  className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4"
-                >
-                  <Typography
-                    variant="small"
-                    color="blue-gray"
-                    className="font-normal leading-none opacity-70"
+        <CardBody className="overflow-scroll px-0">
+          <table className="w-full min-w-max table-auto text-left">
+            <thead>
+              <tr>
+                {TABLE_HEAD.map((head) => (
+                  <th
+                    key={head}
+                    className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 "
                   >
-                    {head}
-                  </Typography>
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {TABLE_ROWS.map(
-              (
-                {
-                  img,
-                  name,
-                  amount,
-                  date,
-                  status,
-                  account,
-                  accountNumber,
-                  expiry,
-                },
-                index,
-              ) => {
-                const isLast = index === TABLE_ROWS.length - 1;
-                const classes = isLast
-                  ? "p-4"
-                  : "p-4 border-b border-blue-gray-50";
- 
+                    <Typography
+                      variant="small"
+                      className="font-medium text-black  leading-none  "
+                    >
+                      {head}
+                    </Typography>
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {transactionHistoryData?.map((val, index) => {
                 return (
-                  <tr key={name}>
-                    <td className={classes}>
+                  <tr key={index}>
+                     <td className="p-4 border-b border-blue-gray-50 ">
                       <div className="flex items-center gap-3">
-                        <Avatar
-                          src={img}
-                          alt={name}
-                          size="md"
-                          className="border border-blue-gray-50 bg-blue-gray-50/50 object-contain p-1"
-                        />
                         <Typography
                           variant="small"
                           color="blue-gray"
-                          className="font-bold"
+                          className="font-normal"
                         >
-                          {name}
+                          {val.doctorData.name}
                         </Typography>
                       </div>
                     </td>
-                    <td className={classes}>
-                      <Typography
-                        variant="small"
-                        color="blue-gray"
-                        className="font-normal"
-                      >
-                        {amount}
-                      </Typography>
-                    </td>
-                    <td className={classes}>
-                      <Typography
-                        variant="small"
-                        color="blue-gray"
-                        className="font-normal"
-                      >
-                        {date}
-                      </Typography>
-                    </td>
-                    <td className={classes}>
-                      <div className="w-max">
-                        <Chip
-                          size="sm"
-                          variant="ghost"
-                          value={status}
-                          color={
-                            status === "paid"
-                              ? "green"
-                              : status === "pending"
-                              ? "amber"
-                              : "red"
-                          }
-                        />
-                      </div>
-                    </td>
-                    <td className={classes}>
+                    <td className="p-4 border-b border-blue-gray-50 ">
                       <div className="flex items-center gap-3">
-                        <div className="h-9 w-12 rounded-md border border-blue-gray-50 p-1">
-                          <Avatar
-                            src={
-                              account === "visa"
-                                ? "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/logos/visa.png"
-                                : "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/logos/mastercard.png"
-                            }
-                            size="sm"
-                            alt={account}
-                            variant="square"
-                            className="h-full w-full object-contain p-1"
-                          />
-                        </div>
-                        <div className="flex flex-col">
-                          <Typography
-                            variant="small"
-                            color="blue-gray"
-                            className="font-normal capitalize"
-                          >
-                            {account.split("-").join(" ")} {accountNumber}
-                          </Typography>
-                          <Typography
-                            variant="small"
-                            color="blue-gray"
-                            className="font-normal opacity-70"
-                          >
-                            {expiry}
-                          </Typography>
-                        </div>
+                        <Typography
+                          variant="small"
+                          color="blue-gray"
+                          className="font-normal"
+                        >
+                          {val.userData.userName}
+                        </Typography>
                       </div>
                     </td>
-                    <td className={classes}>
+                    <td className="p-4 border-b border-blue-gray-50 ">
+                      <div className="flex items-center gap-3">
+                        <Typography
+                          variant="small"
+                          color="blue-gray"
+                          className="font-normal"
+                        >
+                          {val.transactionId}
+                        </Typography>
+                      </div>
+                    </td>
+                    <td className="p-4 border-b border-blue-gray-50">
+                      <Typography
+                        variant="small"
+                        color="blue-gray"
+                        className="font-normal"
+                      >
+                        {val.amount}
+                      </Typography>
+                    </td>
+                    <td className="p-4 border-b border-blue-gray-50">
+                      <Typography
+                        variant="small"
+                        color="blue-gray"
+                        className="font-normal"
+                      >
+                        {val.createdAt.split("T")[0]}
+                        <span className="text-red-400 mx-1">{`${val.createdAt.split("T")[1].split(":")[0]}:`}</span>
+                        <span className="text-red-400">{val.createdAt.split("T")[1].split(":")[1]}</span>
+                      </Typography>
+                    </td>
+                    <td className="p-4 border-b border-blue-gray-50">
+                      <Typography
+                        variant="small"
+                        color="blue-gray"
+                        className="font-normal"
+                      >
+                        Paid
+                      </Typography>
+                    </td>
+
+                    <td className="p-4 border-b border-blue-gray-50">
                       <Tooltip content="Edit User">
                         <IconButton variant="text">
                           <PencilIcon className="h-4 w-4" />
@@ -241,47 +172,44 @@ const TABLE_ROWS = [
                     </td>
                   </tr>
                 );
-              },
-            )}
-          </tbody>
-        </table>
-      </CardBody>
-      <CardFooter className="flex items-center justify-between border-t border-blue-gray-50 p-4">
-        <Button variant="outlined" size="sm">
-          Previous
-        </Button>
-        <div className="flex items-center gap-2">
-          <IconButton variant="outlined" size="sm">
-            1
-          </IconButton>
-          <IconButton variant="text" size="sm">
-            2
-          </IconButton>
-          <IconButton variant="text" size="sm">
-            3
-          </IconButton>
-          <IconButton variant="text" size="sm">
-            ...
-          </IconButton>
-          <IconButton variant="text" size="sm">
-            8
-          </IconButton>
-          <IconButton variant="text" size="sm">
-            9
-          </IconButton>
-          <IconButton variant="text" size="sm">
-            10
-          </IconButton>
-        </div>
-        <Button variant="outlined" size="sm">
-          Next
-        </Button>
-      </CardFooter>
-    </Card>
-
-    </div> 
+              })}
+            </tbody>
+          </table>
+        </CardBody>
+        <CardFooter className="flex items-center justify-between border-t border-blue-gray-50 p-4">
+          <Button variant="outlined" size="sm" className="bg-black text-white">
+            Previous
+          </Button>
+          <div className="flex items-center gap-2">
+            <IconButton variant="outlined" size="sm">
+              1
+            </IconButton>
+            <IconButton variant="text" size="sm">
+              2
+            </IconButton>
+            <IconButton variant="text" size="sm">
+              3
+            </IconButton>
+            <IconButton variant="text" size="sm">
+              ...
+            </IconButton>
+            <IconButton variant="text" size="sm">
+              8
+            </IconButton>
+            <IconButton variant="text" size="sm">
+              9
+            </IconButton>
+            <IconButton variant="text" size="sm">
+              10
+            </IconButton>
+          </div>
+          <Button variant="outlined" size="sm" className="bg-black text-white">
+            Next
+          </Button>
+        </CardFooter>
+      </Card>
+    </div>
   );
 }
- 
 
-export default TransactionHistory
+export default TransactionHistory;

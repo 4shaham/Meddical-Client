@@ -133,9 +133,7 @@ function AddScheduleManamgemnt() {
                 })}
               />
               <br />
-              <small className="text-red-500 font-medium">
-                {errors.startDate?.message || credentialErr}
-              </small>
+              
             </div>
             <div className="mb-5">
               <label className="text-black font-semibold mb-2">
@@ -154,9 +152,7 @@ function AddScheduleManamgemnt() {
                 <option value="both">Both</option>
               </select>
               <br />
-              <small className="text-red-500 font-medium">
-                {errors.consultationMethod?.message || credentialErr}
-              </small>
+             
             </div>
             <div className="mb-5">
               <label className="text-black font-semibold mb-2">
@@ -173,6 +169,9 @@ function AddScheduleManamgemnt() {
               <br />
               <small className="text-red-500 font-medium">
                 {errors.startTime?.message}
+              </small>
+              <small className="text-red-500 font-medium">
+                {errors.startDate?.message || credentialErr}
               </small>
             </div>
             <div className="mb-5">

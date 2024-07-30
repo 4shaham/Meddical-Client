@@ -48,7 +48,7 @@ function AppointmentPage() {
       if (!date) {
         return;
       }
-      const scheduleData = await getDoctorSchedulePerticularDate(date, id);
+      const scheduleData = await getDoctorSchedulePerticularDate(date,id);
       console.log(scheduleData.data);
       if(!scheduleData.data){
          toast.error("This day doctor is not availabl")

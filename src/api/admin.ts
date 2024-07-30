@@ -83,3 +83,6 @@ interface DeletedSpecalityResponse{
        message:string
     }
 }
+
+
+export const getTransactionHistroyAdmin=async()=>await Api.get(adminRoutes.getTransactionHistory)

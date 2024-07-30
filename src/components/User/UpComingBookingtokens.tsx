@@ -3,20 +3,24 @@ import Card from "@mui/material/Card";
 import Typography from "@mui/material/Typography";
 import { cancelToken, getBookingDataWithStatus } from "../../api/user";
 import { BookingData } from "../../interface/interfaceDoctor";
+import RescheduleModal from "./RescheduleModal";
 
 function UpComingBookingtokens() {
-
-  const [isModal,setIsModal]=useState<boolean>(false)   
+  const [isModal, setIsModal] = useState<boolean>(false);
+  const [rescheduleModal, setRescheduleModal] = useState(false);
   const [datas, setDatas] = useState<BookingData[]>();
 
-   
-  const[counter,setCounter]=useState(1)
+  const [counter, setCounter] = useState(1);
+  const [isSelectedToReschedule,setIsSelectedToReschedule]=useState<BookingData>()
+
+  const currentDate =Date.now();
+  
+
 
   useEffect(() => {
     const handleFn = async () => {
       try {
         const response = await getBookingDataWithStatus("pending");
-        console.log(response.data);
         setDatas(response.data);
       } catch (error) {
         console.log(error);
@@ -25,31 +29,39 @@ function UpComingBookingtokens() {
     handleFn();
   }, [counter]);
 
-  const [selctedId,setSelectedId]=useState<string>()
+  const [selctedId, setSelectedId] = useState<string>();
 
-  const handleTokenCancelClick=async()=>{
+  const handleTokenCancelClick = async () => {
+    try {
+      await cancelToken(selctedId as string);
+      setCounter(counter + 1);
+      setIsModal(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-      try {
-        await cancelToken(selctedId as string)
-        setCounter(counter+1)
-        setIsModal(false)
-      } catch (error) {
-         console.log(error)
-      }
+  const handleModal = (id: string) => {
+    setIsModal(!isModal);
+    setSelectedId(id);
+  };
 
+  const handleBack = () => {
+    setIsModal(!isModal);
+  };
+
+
+  const handleCallback=()=>{
+      setRescheduleModal(false)
   }
 
-
-  
-
-
-  const handleModal=(id:string)=>{
-      setIsModal(!isModal)
-      setSelectedId(id)
+  const handleCallbackIncrementCounter=()=>{
+      setCounter(counter+1)
   }
 
-  const handleBack=()=>{
-    setIsModal(!isModal)
+  const handleToSelectRescheduleData=(data:BookingData)=>{
+       setIsSelectedToReschedule(data)
+       setRescheduleModal(true)
   }
 
 
@@ -177,9 +189,30 @@ function UpComingBookingtokens() {
                     color="primary"
                     className="font-medium"
                   >
-                    <button className="bg-red-500 text-white px-5 py-1 rounded-lg" onClick={()=>handleModal(values._id)}>
+                    <button
+                      className="bg-red-500 text-white px-5 py-1 rounded-lg"
+                      onClick={() => handleModal(values._id)}
+                    >
                       Cancel
                     </button>
+                  </Typography>
+                </td>
+                <td className="p-4">
+                  <Typography
+                    component="a"
+                    variant="body2"
+                    color="primary"
+                    className="font-medium"
+                  >
+
+                  { new Date(values.date).getTime() > Date.now()  && 
+                     <button
+                     className="bg-btnColor text-white px-5 py-1 rounded-lg"
+                     onClick={()=>handleToSelectRescheduleData(values)}
+                   >
+                     Reschedule
+                   </button>
+                  }  
                   </Typography>
                 </td>
               </tr>
@@ -187,18 +220,33 @@ function UpComingBookingtokens() {
           </tbody>
         </table>
       </Card>
-      {isModal && 
-            <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center  ">
-            <div className="bg-white p-5 rounded  h-auto justify-center ">
-             <p className="mb-5 mt-5 text-center">cancel your token you only get 50% of money</p>
-             <div className="flex justify-center gap-2 mb-2 mt-5">
-                <button className="bg-black px-5 py-1 text-white rounded-md" onClick={handleBack}>Back</button>
-                <button className="bg-red-500 px-5 py-1 text-white rounded-md" onClick={()=>handleTokenCancelClick()} >Confirm</button>
-             </div>
+      {isModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center  ">
+          <div className="bg-white p-5 rounded  h-auto justify-center ">
+            <p className="mb-5 mt-5 text-center">
+              cancel your token you only get 50% of money
+            </p>
+            <div className="flex justify-center gap-2 mb-2 mt-5">
+              <button
+                className="bg-black px-5 py-1 text-white rounded-md"
+                onClick={handleBack}
+              >
+                Back
+              </button>
+              <button
+                className="bg-red-500 px-5 py-1 text-white rounded-md"
+                onClick={() => handleTokenCancelClick()}
+              >
+                Confirm
+              </button>
             </div>
-           </div> 
-      }
-      
+          </div>
+        </div>
+      )}
+
+      {rescheduleModal && isSelectedToReschedule && (
+          <RescheduleModal callback={handleCallback}  isSelectedToReschedule={isSelectedToReschedule}  callbackIncrementCounter={handleCallbackIncrementCounter} />
+      )}
     </div>
   );
 }

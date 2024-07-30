@@ -13,7 +13,8 @@ const adminRoutes={
     getEditSpecalityData:'/api/admin/getEditSpecalityData',
     updateSpecality:'/api/admin/updateSpecality',
     deletedSpecalityData:'/api/admin/deletedSpecalityData',
-    updatedDeletedSpecalityStatus:'/api/admin/restoreSpecality'
+    updatedDeletedSpecalityStatus:'/api/admin/restoreSpecality',
+    getTransactionHistory:'/api/admin/fetchPaymentHistory'
 }
 
 export default adminRoutes

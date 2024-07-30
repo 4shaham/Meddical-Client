@@ -26,7 +26,8 @@ const userRoutes={
     getMessage:'/api/getMessage',
     paymentChekcout:'/api/payment',
     getPrescription:"/api/getPrescriptionData",
-    getTransactionHistory:"/api/getTransactionHistory"
+    getTransactionHistory:"/api/getTransactionHistory",
+    rescheduleBooking:"/api/rescheduleBooking",
 }   
 
 export default userRoutes
