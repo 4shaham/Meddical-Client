@@ -18,8 +18,9 @@ import {
 } from "@material-tailwind/react";
 import { useEffect, useState } from "react";
 import { TransactionHistoryData } from "../../interface/interfaceAdmin";
-import { getTransactionHistory } from "../../api/user";
 import { getTransactionHistroyAdmin } from "../../api/admin";
+import { FaFileInvoice } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 
 function TransactionHistory() {
@@ -164,9 +165,9 @@ function TransactionHistory() {
                     </td>
 
                     <td className="p-4 border-b border-blue-gray-50">
-                      <Tooltip content="Edit User">
+                      <Tooltip content="invoice">
                         <IconButton variant="text">
-                          <PencilIcon className="h-4 w-4" />
+                         <Link to={`/admin/invoice?id=${val.tokenId}`}><FaFileInvoice className="h-4 w-4" /></Link> 
                         </IconButton>
                       </Tooltip>
                     </td>

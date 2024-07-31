@@ -66,7 +66,7 @@ function UserHomePage() {
     <div>
       <Banner />
 
-      <div className="bg-gray-200  py-12 mt-10 mx-10 rounded-lg">
+      <div className="bg-gray-200 shadow-xl py-12 mt-10 mx-10 rounded-lg">
         <div className="container mx-auto px-6 flex flex-col md:flex-row  justify-between">
           {/* Left Section */}
           <div className="md:w-1/2 text-center">
@@ -114,7 +114,7 @@ function UserHomePage() {
         />
       </div> */}
 
-      <div className=" bg-gray-50 w-[90%] mx-auto rounded-lg mt-3">
+      <div className=" bg-gray-100 shadow-lg w-[90%] mx-auto rounded-lg mt-3">
         <h1 className="text-4xl text-center mx-10 pt-10 font-medium">
           Meet Our Doctors
         </h1>

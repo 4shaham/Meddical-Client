@@ -1,3 +1,4 @@
+import { BookingData } from "./interfaceDoctor";
 import { IUser } from "./interfaceUser";
 
 
@@ -32,4 +33,10 @@ export  interface PaymentEntity{
 export interface TransactionHistoryData extends PaymentEntity {
   doctorData:IDoctor,
   userData:IUser
+}
+
+
+export interface InvoiceData extends PaymentEntity{
+   userData:IUser,
+   bookingData:BookingData
 }

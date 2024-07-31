@@ -47,7 +47,7 @@ function ProfilePage() {
   return (
     <div>
       <main className="flex flex-1 flex-col md:flex-row p-4">
-        <div className="md:w-1/2 mx-12 bg-gray-100 p-4 rounded-md shadow-md mb-4 md:mb-0">
+        <div className="md:w-1/2 mx-12 bg-gray-200 p-4 rounded-md shadow-md mb-4 md:mb-0">
           <div className="flex flex-col items-center p-5 mb-4">
             <div className="w-24 h-24 bg-gray-300 rounded-full flex items-center justify-center mb-4">
               <i className="fas fa-user text-4xl text-gray-500"></i>
@@ -111,7 +111,7 @@ function ProfilePage() {
         <div className="w-full md:w-1/2 flex flex-col space-y-4 mx-auto my-auto">
           {Userpages.map((values) => (
             <Link to={values.path}>
-              <button className="w-full flex justify-center md:w-1/2 mx-auto p-4 bg-gray-100 rounded-md shadow-md hover:bg-gradient-to-r hover:from-white hover:to-green-300 transition-all duration-300">
+              <button className="w-full flex justify-center md:w-1/2 mx-auto p-4 bg-gray-200 rounded-md shadow-md hover:bg-gradient-to-r hover:from-white hover:to-green-300 transition-all duration-300">
                 {values.element}
               </button>
             </Link>

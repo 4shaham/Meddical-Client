@@ -1,3 +1,4 @@
+import { BookingData } from "./interfaceDoctor";
 
 export  interface IUser  {
     _id: string;
@@ -49,4 +50,10 @@ export interface Medicine {
     paymentMethod:string,
     createdAt:string,
     updateAt:string
+  }
+
+
+  export interface InvoiceData extends IPaymentData{
+      userData:IUser,
+      bookingData:BookingData
   }

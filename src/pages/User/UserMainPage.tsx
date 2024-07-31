@@ -14,7 +14,7 @@ function UserHome() {
     const Response = async () => {
       const datas = await getToken();
       if (datas.data.status) {
-        dispatch(login());
+        dispatch(login(datas.data.decoded));
       }
     };
     Response();
@@ -38,7 +38,7 @@ function UserHome() {
 
       </div> */}
 
-      <footer className=" bg-gray-100 hover:bg-blue-50 mt-16 m-10 ">
+      <footer className=" bg-gray-200 hover:bg-blue-50 mt-16 m-10 ">
         <div className="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
           <div className="md:flex md:justify-between">
             <div className="mb-6 md:mb-0">

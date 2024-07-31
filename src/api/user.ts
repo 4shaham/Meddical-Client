@@ -118,3 +118,5 @@ export const getPrescription=async(id:string)=>await Api.get(`${userRoutes.getPr
 export const getTransactionHistory=async()=>await Api.get(userRoutes.getTransactionHistory)
 
 export const bookingReschedule=async(slotId:string,slotNumber:number,scheduleId:string,newSlotNumber:number)=>await Api.put(userRoutes.rescheduleBooking,{slotId,slotNumber,scheduleId,newSlotNumber})
+
+export const getInvoiceData=async(id:string)=>await Api.get(`${userRoutes.getInvoiceData}?id=${id}`)

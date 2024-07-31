@@ -4,6 +4,7 @@ import Typography from "@mui/material/Typography";
 import { BookingData } from "../../interface/interfaceDoctor";
 import { getBookingDataWithStatus } from "../../api/user";
 import { Link } from "react-router-dom";
+import { FaFileInvoice } from "react-icons/fa";
 
 function PastBookingTokens() {
   const [datas, setDatas] = useState<BookingData[]>();
@@ -135,6 +136,18 @@ function PastBookingTokens() {
                      View Prescription
                      </p>
                    </Link> 
+                  </Typography>
+
+
+                </td>
+                <td className="p-4">
+                  <Typography
+                    component="a"
+                    variant="body2"
+                    color="primary"
+                    className="font-medium"
+                  >
+                   <Link to={`/invoicePage?id=${values._id}`}><FaFileInvoice className="text-4xl" /></Link> 
                   </Typography>
                 </td>
               </tr>

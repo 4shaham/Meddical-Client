@@ -6,7 +6,7 @@ import { FaUserDoctor } from "react-icons/fa6";
 import { MdLocalFireDepartment } from "react-icons/md";
 import { RiCalendarScheduleFill } from "react-icons/ri";
 import { Link, Navigate, useNavigate } from "react-router-dom";
-
+import { FaFacebookMessenger } from "react-icons/fa";
 
 function DSideBar() {
   
@@ -34,6 +34,12 @@ function DSideBar() {
         element: "view Appointments",
         icon: <MdLocalFireDepartment />,
       },
+      {
+        path:"/doctor/chatPage",
+        element:"Messages",
+        icon: <FaFacebookMessenger />,
+      },
+
 
     ];
   

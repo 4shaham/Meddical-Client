@@ -17,6 +17,7 @@ import UserProtectRoutes from "./UserProtectRoutes";
 import Messenger from "../pages/User/Messenger";
 import Prescription from "../components/User/Prescription";
 import TransactionHistoryPage from "../pages/User/TransactionHistoryPage";
+import InVoicePage from "../pages/User/InVoicePage";
 
 function UserRouter() {
   return (
@@ -46,8 +47,9 @@ function UserRouter() {
             />
             <Route path="/prescriptionPage" element={<Prescription />} />
             <Route path="/transaction" element={<TransactionHistoryPage />} />
+            <Route path="/chatingPage" element={<Messenger />} />
+            <Route path="/invoicePage" element={<InVoicePage/>}/>
           </Route>
-          <Route path="/chatingPage" element={<Messenger />} />
         </Route>
         <Route path="/updatePassword" element={<UpdatePassword />} />
       </Routes>

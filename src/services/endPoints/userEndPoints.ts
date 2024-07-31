@@ -28,6 +28,8 @@ const userRoutes={
     getPrescription:"/api/getPrescriptionData",
     getTransactionHistory:"/api/getTransactionHistory",
     rescheduleBooking:"/api/rescheduleBooking",
+    getInvoiceData:"/api/getInvoiceData",
 }   
+
 
 export default userRoutes

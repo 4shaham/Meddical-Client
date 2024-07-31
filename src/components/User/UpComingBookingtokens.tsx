@@ -4,18 +4,20 @@ import Typography from "@mui/material/Typography";
 import { cancelToken, getBookingDataWithStatus } from "../../api/user";
 import { BookingData } from "../../interface/interfaceDoctor";
 import RescheduleModal from "./RescheduleModal";
+import { FaFileInvoice } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 function UpComingBookingtokens() {
+  
   const [isModal, setIsModal] = useState<boolean>(false);
   const [rescheduleModal, setRescheduleModal] = useState(false);
   const [datas, setDatas] = useState<BookingData[]>();
 
   const [counter, setCounter] = useState(1);
-  const [isSelectedToReschedule,setIsSelectedToReschedule]=useState<BookingData>()
+  const [isSelectedToReschedule, setIsSelectedToReschedule] =
+    useState<BookingData>();
 
-  const currentDate =Date.now();
-  
-
+  const currentDate = Date.now();
 
   useEffect(() => {
     const handleFn = async () => {
@@ -50,21 +52,18 @@ function UpComingBookingtokens() {
     setIsModal(!isModal);
   };
 
+  const handleCallback = () => {
+    setRescheduleModal(false);
+  };
 
-  const handleCallback=()=>{
-      setRescheduleModal(false)
-  }
+  const handleCallbackIncrementCounter = () => {
+    setCounter(counter + 1);
+  };
 
-  const handleCallbackIncrementCounter=()=>{
-      setCounter(counter+1)
-  }
-
-  const handleToSelectRescheduleData=(data:BookingData)=>{
-       setIsSelectedToReschedule(data)
-       setRescheduleModal(true)
-  }
-
-
+  const handleToSelectRescheduleData = (data: BookingData) => {
+    setIsSelectedToReschedule(data);
+    setRescheduleModal(true);
+  };
 
   return (
     <div>
@@ -131,12 +130,22 @@ function UpComingBookingtokens() {
                   className="font-medium text-2lg leading-none text-black"
                 ></Typography>
               </th>
+              <th
+                // key={head}
+                className="border-b border-blue-gray-100 bg-blue-gray-50 p-4 text-black"
+              >
+                <Typography
+                  variant="body2"
+                  className="font-medium text-2lg leading-none text-black"
+                ></Typography>
+              </th>
+             
             </tr>
           </thead>
 
           <tbody>
-            {datas?.map((values, index) => (
-              <tr className="text-center">
+            {datas?.map((values,index) => (
+              <tr className="text-center" key={index}>
                 <td className="p-4">
                   <Typography
                     variant="body2"
@@ -204,15 +213,24 @@ function UpComingBookingtokens() {
                     color="primary"
                     className="font-medium"
                   >
-
-                  { new Date(values.date).getTime() > Date.now()  && 
-                     <button
-                     className="bg-btnColor text-white px-5 py-1 rounded-lg"
-                     onClick={()=>handleToSelectRescheduleData(values)}
-                   >
-                     Reschedule
-                   </button>
-                  }  
+                    {new Date(values.date).getTime() > Date.now() && (
+                      <button
+                        className="bg-btnColor text-white px-5 py-1 rounded-lg"
+                        onClick={() => handleToSelectRescheduleData(values)}
+                      >
+                        Reschedule
+                      </button>
+                    )}
+                  </Typography>
+                </td>
+                <td className="p-4">
+                  <Typography
+                    component="a"
+                    variant="body2"
+                    color="primary"
+                    className="font-medium"
+                  >
+                   <Link to={`/invoicePage?id=${values._id}`}><FaFileInvoice className="text-4xl" /></Link> 
                   </Typography>
                 </td>
               </tr>
@@ -245,7 +263,11 @@ function UpComingBookingtokens() {
       )}
 
       {rescheduleModal && isSelectedToReschedule && (
-          <RescheduleModal callback={handleCallback}  isSelectedToReschedule={isSelectedToReschedule}  callbackIncrementCounter={handleCallbackIncrementCounter} />
+        <RescheduleModal
+          callback={handleCallback}
+          isSelectedToReschedule={isSelectedToReschedule}
+          callbackIncrementCounter={handleCallbackIncrementCounter}
+        />
       )}
     </div>
   );
