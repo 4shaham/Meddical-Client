@@ -2,13 +2,24 @@
 import React, { useEffect, useState } from 'react'
 import { getToken } from '../api/user';
 import { Navigate, Outlet } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { login } from '../Redux/slice/userAuthSlice';
+
+
+export interface DecodedJwt{
+  id:string;
+  role: string;
+  userName?:string;
+  iat: number;
+  exp: number;
+}
 
 function UserProtectRoutes() {
 
 
   // const userRedux=useSelector((state)=>)
   const [status,setStatus]=useState<boolean>(false)
+  const dispatch=useDispatch()
  
   const [loading,setIsLoading]=useState<boolean>(true)
   console.log('response hiii')
@@ -16,16 +27,19 @@ function UserProtectRoutes() {
   useEffect(() => {
 
     const checkAuth = async () => {
+
       try {
 
         const response = await getToken();
-        console.log(response)
+        console.log(response,"hiiiiiiii");
+        
+        const data:DecodedJwt= response.data.decoded as DecodedJwt
         setIsLoading(true)
         if (response.data) {
-            // dispatch(Login())
-           setStatus(true)
+            dispatch(login(data))
+            setStatus(true)
         }
-      } catch (error) {
+      }catch (error){
         console.log(error)
          setIsLoading(false)
          setStatus(false)

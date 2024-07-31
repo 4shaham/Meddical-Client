@@ -7,12 +7,19 @@ import { IDoctor } from "../../interface/interfaceDoctor";
 
 type Props = {
   data: IConverasation;
+  onlineStatus:boolean;
+  callback: (data:any) => void; 
 };
 
-const Converasation: React.FC<Props> = ({ data }) => {
+const Converasation: React.FC<Props> = ({ data,onlineStatus,callback}) => {
+
   const [doctorData, setDoctorData] = useState<IDoctor>();
 
+
+  console.log(onlineStatus,"dkfjdkjfkdjfkdjfkdjfkdjfkdjfkdj")
+
   useEffect(() => {
+
     console.log(data.members[0].doctorId);
 
     const handleFn = async() => {
@@ -34,14 +41,20 @@ const Converasation: React.FC<Props> = ({ data }) => {
 
   return (
 
-    <div className="p-2 mx-5 hover:bg-green-50 rounded-md mt-1" onClick={()=>onSelect(doctorData?.name as string)}>
+    <div className="mx-5 bg-white border shadow-xl border-gray-500 rounded-md mt-1 mb-2 p-2" onClick={()=>callback(doctorData)}>
       <div className="w-ful h-auto flex">
         <Avatar
           alt="Remy Sharp"
           src={doctorData?.image}
           sx={{ width: 56, height: 56 }}
         />
-        <h1 className="font-medium mx-10 md:text-xl mt-2">{doctorData?.name}</h1>
+
+        <div>
+         <h1 className="font-medium mx-3 md:text-lg mt-1">{doctorData?.name}</h1>
+         {onlineStatus && 
+           <h1 className="text-green-500 text-md mx-3">online</h1>
+         }
+        </div> 
       </div>
     </div>
     

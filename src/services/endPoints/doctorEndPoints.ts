@@ -15,6 +15,7 @@ const doctorRoutes={
    findScheduleWithDate:'/api/doctor/findDoctorBookingWithDate',
    addPrescription:"/api/doctor/addPrescription",
    doctorGetConverasation:'/api/doctorGetConverasation',
+   doctorUserProfileData:'/api/doctor/getUserProfileDoctor'
 }
 
 export default doctorRoutes

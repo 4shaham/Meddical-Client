@@ -3,47 +3,80 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import { IoSearchOutline } from "react-icons/io5";
 import { FaPlus, FaSmile, FaPaperPlane } from "react-icons/fa";
 import Converasation from "../../components/User/Converasation";
-import { getConverasation, getMessages, storeMessage } from "../../api/user";
+import { IoChatbubblesOutline } from 'react-icons/io5';
+import {
+  getConverasation,
+  getMessages,
+  getToken,
+  storeMessage,
+} from "../../api/user";
 import IConverasation, { IMessage } from "../../interface/chatingInterface";
-import { io } from "socket.io-client";
-// const [socket,setSocket]=useState<any>(null)
+import { io, Socket } from "socket.io-client";
+import InputEmoji from "react-input-emoji";
+
 
 import { format } from "timeago.js";
+import { useSelector } from "react-redux";
+import { RootState } from "../../Redux/store/store";
+import { DecodedJwt } from "../../Routes/UserProtectRoutes";
+import IDoctor from "../../interface/interfaceAdmin";
+
+
+interface OnlineUser{
+    id:string,
+    socketId:string
+}
+
 
 function Messenger() {
 
   const [converasation, setConverasation] = useState<IConverasation[]>();
   const [currentChat, setCurrentChat] = useState<IConverasation | null>(null);
-  const [message, setMessage] = useState<IMessage[]>();
-  const [doctorProfile, setDoctorProfile] = useState();
+  const [message, setMessage] = useState<IMessage[]>([]);
+  const [doctorProfile, setDoctorProfile] = useState<IDoctor>();
+  const socket = useRef(io("ws://localhost:4001"));
+  const scrollRef = useRef();
+  const [onlineUsers,setOnlineUsers]=useState<OnlineUser[]>([])
+  // const userId=useSelector((state:RootState)=>state.user.userData.id)
 
   // messages string/image voice
   const [messages, setMessages] = useState<string>();
 
-  // const [soceket,setSocket]=useState<any>()
+
+  const isUserOnline = (id: string, users: OnlineUser[]): boolean => {
+    return users.some(user => user.id === id);
+  };
 
 
-
-  // useEffect(() => {
-  //   setSocket(io("ws://localhost:4001"))
-  //   // const socket = io("ws://localhost:4001");
-  // }, []);
-
-  const socket = io("ws://localhost:4001");   
-
-
-
-//   useEffect(() => {
-//     // Scroll to the bottom of the container when messages change
-//     if (containerRef.current) {
-//         containerRef.current.scrollTop = containerRef.current.scrollHeight;
-//     }
-// }, [messages]);
 
   useEffect(() => {
+    var id = "";
+    const handleFn = async () => {
+      try {
+        const response = await getToken();
+        const vid: DecodedJwt = response.data.decoded as DecodedJwt;
+        console.log(vid);
+
+        id = vid.id;
+
+        socket.current.emit("addUser", id);
+        socket.current.on("getUsers", (datas) => {
+          console.log(datas,"looooooooooooo");
+          setOnlineUsers(datas)
+        });
+      } catch (error) {}
+    };
+    handleFn();
+  }, [currentChat]);
+
+  socket.current.on("lostUsers", (datas) => {
+    console.log(datas, "looooooooooooo");
+    setOnlineUsers(datas)
+    setConverasation(converasation)
+  });
 
 
-    
+  useEffect(() => {
     const getData = async () => {
       try {
         const data = await getConverasation();
@@ -55,10 +88,6 @@ function Messenger() {
     getData();
   }, []);
 
-  
-  
-
-
   useEffect(() => {
     const handleFn = async () => {
       const data = await getMessages(currentChat?._id as string);
@@ -67,59 +96,76 @@ function Messenger() {
     handleFn();
   }, [currentChat]);
 
-
-
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      if(messages==""){
-        return 
+      if (messages == "") {
+        return;
       }
-      await storeMessage(
+
+      const response = await storeMessage(
         currentChat?._id as string,
         currentChat?.members[0].userId as string,
         messages as string
       );
+      setMessage([...message, response.data.newMessage]);
+      socket.current.emit("message",{message:response.data.newMessage},currentChat?.members[0].doctorId)
       setMessages("");
     } catch (error) {
       console.log(error);
     }
   };
 
+  socket.current.on("message-content", (data: any) => {
+    console.log("hidd jfffffffffffffffffffffffffff concection closing time", data);
+    setMessage([...message, data.message]);
+  });
 
- 
+  useEffect(() => {
+    scrollRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [message]);
 
-  socket.on("message-content",(data:any)=>{
-    console.log('hidd',data)
-    if(data.message.converasationId==currentChat?._id){
-      setMessage([...message,data.message])
-    }
-   
-  })
-  
+
+
+  const handleCallBack=(data:any)=>{
+         setDoctorProfile(data)
+  }
+
+
+  // filter converasation with name  
+
+  const [drName,setDoctorName]=useState<string>("")
+
+  // const handleFilter=(event:any)=>{
+
+  //    setDoctorName(event.target.value)
+  //    converasation?.filter((val)=>val.)
+  // }
 
 
   return (
-    <div className="w-full p-5 md:container max-h-screen mx-auto bg-gray-100 rounded-md flex  md:p-10 gap-10 ">
-      <div className="bg-white min-h-screen  w-1/3 rounded-md">
-        <div className="p-7">
-          <h1 className="text-black text-4xl font-medium">Chats</h1>
-        </div>
-        <div className="relative p-3 ">
-          <h1 className="absolute   mt-2 mx-1">
-            <IoSearchOutline className="my-auto w-8 h-8 bg-gray-50" />
-          </h1>
-          <input
-            type="text"
-            className="bg-gray-50 h-10 w-full px-12 rounded-lg focus:outline-none hover:cursor-pointer"
-            placeholder="Serach here"
-          />
-        </div>
+    <div className="w-full p-5 md:container max-h-screen mx-auto bg-gray-200 rounded-md flex  md:p-10 gap-10 ">
+
+        <div className="bg-white min-h-[500px] max-h-[700px] w-1/3 rounded-md scroll-end overflow-y-scroll">
+          <div className="p-7">
+            <h1 className="text-black text-4xl font-medium">Chats</h1>
+          </div>
+          <div className="relative p-5">
+              <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                  <IoSearchOutline className="w-6 h-6 text-gray-500 mx-5" />
+              </div>
+              <input
+                  type="text"
+                  className="block w-full py-2 pl-10 pr-4 text-gray-700 bg-gray-200 border border-gray-300 rounded-lg focus:outline-none focus:bg-white focus:border-blue-500"
+                  placeholder="Search here"
+                  // onChange={(e)=>handleFilter(e)}
+              />
+          </div>
 
         <div className="mt-5">
           {converasation?.map((val, index) => (
             <div onClick={() => setCurrentChat(val)} key={index}>
-              <Converasation data={val} />
+              <Converasation data={val} onlineStatus={isUserOnline(val.members[0].doctorId,onlineUsers) } callback={handleCallBack} />
             </div>
           ))}
         </div>
@@ -128,101 +174,86 @@ function Messenger() {
       <div className="w-full bg-white rounded-md p-5 max-h-screen ">
         {currentChat ? (
           <>
-            {/* <div className="flex mt-2 bg-gray-100 rounded-md p-2">
-              <Avatar
-                alt="Remy Sharp"
-                src="/static/images/avatar/1.jpg"
-                sx={{ width: 56, height: 56 }}
-              />
-              <h1 className="mx-5 my-auto md:text-2xl"> Shaham salam</h1>
-            </div> */}
-            <div className="flex items-center mb-4 border-b pb-2">
-              {/* <Avatar alt={shahah} src={dfdfsd} className="w-10 h-10 mr-2" /> */}
+           
+            <div className="flex items-center mb-4  border-b-4 border-gray-300   pb-2">
+              <Avatar alt={"ghdjfhjh"} src={doctorProfile?.image} className="w-10 h-10 mr-2" />
               <div className="flex-1">
-                <h2 className="text-xl font-semibold">"dkfdf"</h2>
-                <small className="text-gray-500">Members: 5</small>
+                <h2 className="text-xl font-semibold">{doctorProfile?.name}</h2>
+                <small className="text-gray-500">{doctorProfile?.specialty}</small>
               </div>
               <button className="text-blue-500">
                 <FaPlus />
               </button>
             </div>
 
-            <div    className="max-h-[520px] mt-1 rounded-md scroll-end overflow-y-scroll p-2">
+            <div className="max-h-[450px] min-h-[450px] mt-1 rounded-md scroll-end overflow-y-scroll p-2">
               {message?.map((val, index) => (
-                <>
-                  {currentChat.members[0].userId == val.sender ? (
-                    <div
-                      key={index}
-                      className="mt-2 p-5 rounded-md flex items-start"
-                    >
-                      <Avatar
-                        alt="User Avatar"
-                        src="/static/images/avatar/1.jpg"
-                        sx={{ width: 30, height: 30 }}
-                      />
-                      <div className="ml-3">
-                        <div className="bg-blue-100 p-3 rounded-md">
-                          <h1 className="text-sm">{val.text}</h1>
-                          {val && (
-                            <div className="flex mt-2">
-                              {/* {val.images.map((img, i) => (
+                <div ref={scrollRef}>
+                  <>
+                    {currentChat.members[0].userId != val.sender ? (
+                      <div
+                        key={index}
+                        className="mt-2 p-5 rounded-md flex items-start"
+                      >
+                        <Avatar
+                          alt="User Avatar"
+                          src={doctorProfile?.image}
+                          sx={{ width: 30, height: 30 }}
+                        />
+                        <div className="ml-3">
+                          <div className="bg-blue-100 p-3 rounded-md">
+                            <h1 className="text-sm">{val.text}</h1>
+                            {val && (
+                              <div className="flex mt-2">
+                                {/* {val.images.map((img, i) => (
                                       <img key={i} src={img} alt="shared" className="w-20 h-20 mr-2 rounded-lg" />
                                     ))}*/}
-                            </div>
-                          )}
+                              </div>
+                            )}
+                          </div>
+                          <small className="block text-gray-500 mt-1">
+                            {format(new Date(val.createdAt), "p")}
+                          </small>
                         </div>
-                        <small className="block text-gray-500 mt-1">
-                          {format(new Date(val.createdAt), "p")}
-                        </small>
                       </div>
-                    </div>
-                  ):(
-                    <div className="mt-2 p-5  rounded-md flex items-start justify-end">
-                      <div className="mr-3 text-right">
-                        <div className="bg-blue-100 p-3 rounded-md">
-                          <h1 className="text-sm">{val.text}</h1>
-                          {val && (
-                            <div className="flex mt-2 justify-end">
-                              {/* {message.images.map((img, i) => (
-                            <img key={i} src={img} alt="shared" className="w-20 h-20 ml-2 rounded-lg" />
-                          ))} */}
-                            </div>
-                          )}
+                    ) : (
+                      <div className="mt-2 p-5  rounded-md flex items-start justify-end">
+                        <div className="mr-3 text-right">
+                          <div className="bg-blue-100 p-3 rounded-md">
+                            <h1 className="text-sm">{val.text}</h1>
+                          </div>
+                          <small className="block text-gray-500 mt-1">
+                            {format(new Date(val.createdAt), "p")}
+                          </small>
                         </div>
-                        <small className="block text-gray-500 mt-1">
-                          {format(new Date(val.createdAt), "p")}
-                        </small>
+                        <Avatar
+                          alt="User Avatar"
+                          src="/static/images/avatar/1.jpg"
+                          sx={{ width: 30, height: 30 }}
+                        />
                       </div>
-                      <Avatar
-                        alt="User Avatar"
-                        src="/static/images/avatar/1.jpg"
-                        sx={{ width: 30, height: 30 }}
-                      />
-                    </div>
-                  )}
-                </>
+                    )}
+                  </>
+                </div>
               ))}
             </div>
             {/* Right-aligned message */}
             <div className="flex items-center p-4 bg-gray-100 shadow rounded-lg m-2">
-              <form
+             
+               <form
                 className="flex w-full items-center"
                 onSubmit={handleSubmit}
               >
-                <input type="file" name="" id="" className="hidden" />
                 <button className="text-blue-500 p-2">
                   <FaPlus />
                 </button>
-                <input
-                  type="text"
-                  placeholder="Type a message here"
-                  className="flex-grow p-2 mx-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                <InputEmoji
                   value={messages}
-                  onChange={(e) => setMessages(e.target.value)}
+                  onChange={setMessages}
+                  cleanOnEnter
+                  placeholder="Type a message"
+                  inputClass="border border-black rounded-md"
                 />
-                <button className="text-gray-500 p-2">
-                  <FaSmile />
-                </button>
                 <button
                   className="text-white bg-blue-500 p-2 rounded-full ml-2"
                   type="submit"
@@ -233,11 +264,12 @@ function Messenger() {
             </div>
           </>
         ) : (
-          <p className="text-black text-center ">
-            Open Converasation lets Start
-          </p>
+          <div className="flex flex-col items-center justify-center h-2/3  text-white">
+          <IoChatbubblesOutline className="w-16 h-16 mb-4 text-gray-400" />
+          <h1 className="text-xl text-black">Open any conversation</h1>
+          <p className="mt-2  text-black">Select a chat to start messaging</p>
+      </div>
         )}
-     
       </div>
     </div>
   );

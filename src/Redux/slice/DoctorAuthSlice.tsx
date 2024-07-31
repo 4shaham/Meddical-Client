@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 interface DoctorAuth {
   doctor: {
+    id:string;
     name: string;
     email: string;
     image: string;

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { RootState } from "../../Redux/store/store";
@@ -12,9 +12,11 @@ interface navItems {
 }
 
 function NavBar() {
-
   const dispatch = useDispatch();
   const userStatus = useSelector((state: RootState) => state.user.userStatus);
+  const userData = useSelector((state: RootState) => state.user.userData.id);
+
+  console.log(userData, "this is user Data");
 
   // nav items
 
@@ -22,10 +24,10 @@ function NavBar() {
     { link: "", path: "Services" },
     { link: "", path: "About Us" },
     { link: "", path: "Contact Us" },
-    { link: "/doctors", path: "Doctors"},
+    { link: "/doctors", path: "Doctors" },
   ];
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
-  const navigate=useNavigate()
+  const navigate = useNavigate();
   const toogleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
@@ -35,13 +37,12 @@ function NavBar() {
       const response = await logOut();
       if (response.data.status == true) {
         dispatch(logout());
-        navigate("/login")  
+        navigate("/login");
       }
     } catch (error) {}
   };
 
   return (
-    
     <header className="bg-bgColors w-full ">
       <nav className="p-10">
         <div className="flex items-center justify-between">
@@ -50,10 +51,14 @@ function NavBar() {
               <Link to={"/"}>
                 <div className="flex items-center">
                   <div>
-                    <p>ME<span className="text-blue-400">D</span></p>
+                    <p>
+                      ME<span className="text-blue-400">D</span>
+                    </p>
                   </div>
                   <div>
-                    <p className="relative flex items-center rotate-180 text-red-600">D</p>
+                    <p className="relative flex items-center rotate-180 text-red-600">
+                      D
+                    </p>
                   </div>
                   <div>
                     <p>ICAL</p>
@@ -74,33 +79,29 @@ function NavBar() {
                 </li>
               </Link>
             ))}
-             {userStatus && 
-                 <Link to={"/profile"}>
-                 <li
-                   className="mx-auto text-black text-lg font-medium"
-                 >
-                   Profile
-                 </li>
-               </Link>
-             }
+            {userStatus && (
+              <Link to={"/profile"}>
+                <li className="mx-auto text-black text-lg font-medium">
+                  Profile
+                </li>
+              </Link>
+            )}
           </ul>
 
           <div>
             {userStatus ? (
-
-            <div className="flex gap-1">
-               <Link to={"/chatingPage"}><FaFacebookMessenger className="w-8 h-8 my-auto"/></Link>
-               <button
-                className="md:bg-red-600 text-white py-2 px-4 rounded-lg"
-                onClick={handleLogoout}
-              >
-                Logout
-              </button>
-           
-            </div>  
-             
-              
-            ):(
+              <div className="flex gap-1">
+                <Link to={"/chatingPage"}>
+                  <FaFacebookMessenger className="w-8 h-8 my-auto" />
+                </Link>
+                <button
+                  className="md:bg-red-600 text-white py-2 px-4 rounded-lg"
+                  onClick={handleLogoout}
+                >
+                  Logout
+                </button>
+              </div>
+            ) : (
               <Link to={"/login"}>
                 <button className="md:bg-btnColor text-white py-2 px-4 rounded-lg">
                   Sign In
@@ -134,16 +135,19 @@ function NavBar() {
                 {values.path}
               </li>
             ))}
-            {userStatus && 
-            <>
-              <li className="mx-auto text-black text-lg font-medium mt-2">
-                 Profile
-              </li>
-               <li className="mx-auto text-black text-lg font-medium mt-2" onClick={handleLogoout}>
-                Logout
-              </li>
-            </> 
-            }
+            {userStatus && (
+              <>
+                <li className="mx-auto text-black text-lg font-medium mt-2">
+                  Profile
+                </li>
+                <li
+                  className="mx-auto text-black text-lg font-medium mt-2"
+                  onClick={handleLogoout}
+                >
+                  Logout
+                </li>
+              </>
+            )}
           </ul>
         ) : null}
       </nav>

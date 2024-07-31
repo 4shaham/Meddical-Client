@@ -73,7 +73,7 @@ function LoginForm() {
       );
 
       if (ApiResponse.data.status == true) {
-        dispatch(login());
+        dispatch(login(ApiResponse.data.userData._id));
         navigate("/");
       }
     } catch (error) {
@@ -92,12 +92,13 @@ function LoginForm() {
       }
       setIsLoading(true);
       let response = await signIn(data.email, data.password);
+      console.log(response,"sucessess response login")
       setIsLoading(false);
       if (
         response.data.message == "the login sucesss" &&
         response.data.status == true
       ) {
-        dispatch(login());
+        dispatch(login(response.data.userData._id));
         navigate("/");
       }
     } catch (error) {

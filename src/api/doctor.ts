@@ -152,3 +152,5 @@ export const doctorGetConverasation=async()=>await Api.get(doctorRoutes.doctorGe
 
 
 export const createPrescription=async(description:string,medicines:Medicine[],recoverySteps:string,patientId:string,patientName:string,slotId:string)=>await Api.post(doctorRoutes.addPrescription,{description,medicines,recoverySteps,patientId,patientName,slotId})
+
+export const getUserProfileDataInChating=async(id:string)=>Api.get(`${doctorRoutes.doctorUserProfileData}?id=${id}`)  
