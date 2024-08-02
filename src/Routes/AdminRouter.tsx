@@ -13,6 +13,8 @@ import EditSpecalityManagment from "../components/Admin/EditSpecalityManagment";
 import DeleteSpecalityManagment from "../components/Admin/DeleteSpecalityManagment";
 import TransactionHistory from "../pages/Admin/TransactionHistory";
 import InvoicePage from "../pages/Admin/InvoicePage";
+import UserManagment from "../pages/Admin/UserManagment";
+import DoctorManagment from "../pages/Admin/DoctorManagment";
 
 
 
@@ -27,11 +29,12 @@ function AdminRouter() {
            <Route path={"/admin/EditSpecality"} element={<EditSpecalityManagment/>}/>
            <Route path={"/admin/deletedSpecality"} element={<DeleteSpecalityManagment/>}/>
         </Route>
-        <Route path={"/admin/doctorsManagment"} element={<DashBoardComponent/>} />
         <Route path={"/admin/verifyNewRequest"} element={<VerifyRequestPage/>} />
         <Route path={"/admin/kycDataView"} element={<DoctorDetailAndKycPage/>}/>
         <Route path="/admin/transactionHistory" element={<TransactionHistory/>} />
         <Route path='/admin/invoice' element={<InvoicePage/>} />
+        <Route path="/admin/userManagement" element={<UserManagment/>} />
+        <Route path="/admin/doctorsManagment"  element={<DoctorManagment/>} />
       </Route>
       
       <Route path={"/admin/login"} element={<Login/>}></Route>

@@ -15,7 +15,9 @@ const adminRoutes={
     deletedSpecalityData:'/api/admin/deletedSpecalityData',
     updatedDeletedSpecalityStatus:'/api/admin/restoreSpecality',
     getTransactionHistory:'/api/admin/fetchPaymentHistory',
-    getInvoiceData:'/api/admin/invoiceData'
+    getInvoiceData:'/api/admin/invoiceData',
+    getAllUsers:'/api/admin/getUsers',  
+    getAllDoctos:'/api/admin/getDoctors'
 }
 
 export default adminRoutes

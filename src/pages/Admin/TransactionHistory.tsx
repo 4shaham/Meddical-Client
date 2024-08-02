@@ -49,7 +49,7 @@ function TransactionHistory() {
   }, []);
 
   return (
-    <div className="p-5">
+    <div className="p-10">
       <h1 className="text-2xl font-medium text-center mt-4 mb-4">
         Transaction History
       </h1>

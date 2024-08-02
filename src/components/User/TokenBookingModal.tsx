@@ -162,7 +162,7 @@ const TokenBookingModal: React.FC<TokenBookingModalProps> = ({
               <h1 className="text-end text-gray-500">
                 {doctorSchedule?.date instanceof Date
                   ? doctorSchedule.date.toISOString().split("T")[0]
-                  : "N/A"}
+                  :"N/A"}
               </h1>
             </div>
             <div className="flex w-full justify-between mt-1">

@@ -23,6 +23,8 @@ const RescheduleModal: React.FC<RescheduleModalProps> = ({
   const [isConfirmationModalVisible, setIsConfirmationModalVisible] =
     useState<boolean>(false);
 
+  const [isloading, setIsloading] = useState<boolean>(false);
+
   useEffect(() => {
     const handleFn = async () => {
       const response = await getDoctorSchedulePerticularDate(
@@ -42,12 +44,14 @@ const RescheduleModal: React.FC<RescheduleModalProps> = ({
 
   const handleSumbitToBookingReschedule = async () => {
     try {
+      setIsloading(true);
       await bookingReschedule(
         isSelectedToReschedule._id,
         isSelectedToReschedule.slotNumber,
         isSelectedToReschedule.scheduleId,
         newSlotNumber as number
       );
+      setIsloading(false);
       callback();
       toast.success("successfully changed you schedule");
       callbackIncrementCounter();
@@ -117,12 +121,20 @@ const RescheduleModal: React.FC<RescheduleModalProps> = ({
               >
                 Cancel
               </button>
+              {isloading==true?
+               <button
+               className="bg-red-600 px-5 py-2 text-white rounded-md"
+             >
+               Loading  
+             </button> :
               <button
-                className="bg-red-600 px-5 py-2 text-white rounded-md"
-                onClick={handleSumbitToBookingReschedule}
-              >
-                Confirm
-              </button>
+              className="bg-red-600 px-5 py-2 text-white rounded-md"
+              onClick={handleSumbitToBookingReschedule}
+            >
+              Confirm
+            </button>
+               
+              }
             </div>
           </div>
         </div>

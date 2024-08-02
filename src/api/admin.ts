@@ -88,3 +88,8 @@ interface DeletedSpecalityResponse{
 export const getTransactionHistroyAdmin=async()=>await Api.get(adminRoutes.getTransactionHistory)
 
 export const getInvoiceData=async(id:string)=>await Api.get(`${adminRoutes.getInvoiceData}?id=${id}`)
+
+export const getAllUsers=async()=>await Api.get(adminRoutes.getAllUsers)
+
+export const getAllDoctors=async()=>await Api.get(adminRoutes.getAllDoctos)
+

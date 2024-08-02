@@ -22,5 +22,6 @@
     "noFallthroughCasesInSwitch": true
   },
   "include": ["src", "src/components/Doctor/NavBar.tsx"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "references": [{ "path": "./tsconfig.node.json" }],
+  
 }
