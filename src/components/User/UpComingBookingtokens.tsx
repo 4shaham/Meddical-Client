@@ -263,7 +263,7 @@ function UpComingBookingtokens() {
       )}
 
       {rescheduleModal && isSelectedToReschedule && (
-        <Reschedule Modal
+        <RescheduleModal
           callback={handleCallback}
           isSelectedToReschedule={isSelectedToReschedule}
           callbackIncrementCounter={handleCallbackIncrementCounter}

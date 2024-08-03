@@ -93,3 +93,10 @@ export const getAllUsers=async()=>await Api.get(adminRoutes.getAllUsers)
 
 export const getAllDoctors=async()=>await Api.get(adminRoutes.getAllDoctos)
 
+export const userBlocked=async(userId:string)=>await Api.patch(adminRoutes.userBlocked,{userId})
+
+export const userUnBlocked=async(userId:string)=>await Api.patch(adminRoutes.userUnBlocked,{userId})
+
+export const doctorBlocked=async(doctorId:string)=>await Api.patch(adminRoutes.doctorBlocked,{doctorId})
+
+export const doctorUnBlocked=async(doctorId:string)=>await Api.patch(adminRoutes.doctorUnBloced,{doctorId})

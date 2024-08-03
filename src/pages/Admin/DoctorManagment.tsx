@@ -12,10 +12,15 @@ import {
 import { Input } from "@material-tailwind/react";
 import { ImBlocked } from "react-icons/im";
 import { useEffect, useState } from "react";
-import { getAllDoctors, getAllUsers } from "../../api/admin";
+import {
+  doctorBlocked,
+  doctorUnBlocked,
+  getAllDoctors,
+} from "../../api/admin";
 import { FaUserAlt } from "react-icons/fa";
 import { IDoctor } from "../../interface/interfaceDoctor";
-// import { Button } from "";
+import { IoIosWarning } from "react-icons/io";
+import { toast } from "react-toastify";
 
 const TABLE_HEAD = [
   "Profile Image",
@@ -31,6 +36,8 @@ function DoctorManagment() {
   const [doctorDatas, setDoctorDatas] = useState<IDoctor[]>();
   const [doctors, setDoctors] = useState<IDoctor[]>();
   const [searchValues, setSearchValues] = useState<string>();
+  const [isModal, setIsModal] = useState<boolean>(false);
+  const [isSelected, setIsSelected] = useState<IDoctor>();
 
   useEffect(() => {
     const handleFn = async () => {
@@ -39,28 +46,74 @@ function DoctorManagment() {
       setDoctorDatas(response.data.doctors);
       setDoctors(response.data.doctors);
     };
-
     handleFn();
   }, []);
 
   const serachHandler = (e: any) => {
-
     const inputValue = e.target.value;
     setSearchValues(inputValue);
 
-
     if (inputValue.trim() == "") {
-      setDoctorDatas(doctorDatas);
+      setDoctors(doctorDatas);
       return;
     }
 
     const regex = new RegExp(inputValue, "i");
-    const filteredUsers = doctorDatas?.filter((user) => regex.test(user.name));
+    const filteredUsers = doctorDatas?.filter((doctor) =>
+      regex.test(doctor.name)
+    );
     setDoctors(filteredUsers);
     console.log(filteredUsers);
   };
 
+  const handleModal = (id:string) => {
+    
+    setIsModal(true);
+    setIsSelected(doctors?.find((values) => values._id == id));
+
+  };
+
+  const handleBlockedClick = async () => {
+    try {
+      if (isSelected?.isBlocked) {
+
+        await doctorUnBlocked(isSelected._id as string);
+        const fiterdDoctors = doctors?.map((val) => {
+          if (val._id == isSelected._id) {
+            val.isBlocked = false;
+            return val;
+          }
+          return val;
+        });
+        setDoctors(fiterdDoctors);
+        setIsModal(false);
+        toast.success("successfully doctor is unBolcked");
+
+      } else if (isSelected?.isBlocked == false) {
+
+        await doctorBlocked(isSelected?._id as string);
+        const fiterdDoctors = doctors?.map((val) => {
+          if (val._id == isSelected._id) {
+            val.isBlocked = true;
+            return val;
+          }
+          return val;
+        });
+        setDoctors(fiterdDoctors);
+        toast.success("successfully doctor is blocked");
+        setIsModal(false);
+
+      }
+
+    } catch (error) {
+
+      console.log(error);
+
+    }
+  };
+
   return (
+
     <div className="p-10">
       <Card className="h-full w-full">
         <CardHeader floated={false} shadow={false} className="rounded-none">
@@ -114,17 +167,26 @@ function DoctorManagment() {
                 return (
                   <tr key={index}>
                     <td className="p-5">
-                      <div className="items-center gap-3">
+                      {/* <div className="items-center gap-3">
                         {val.image ? (
-                          <Avatar
-                            src={val.image}
-                            size="md"
-                            className="border border-blue-gray-50 bg-blue-gray-50/50 object-contain p-1"
-                          />
+                          // <Avatar
+                          //   src={val.image}
+                          //   size="md"
+                          //   className="border border-blue-gray-50 bg-blue-gray-50/50 object-contain p-1"
+                          // />
+                          ""
                         ) : (
                           <FaUserAlt className="text-black text-4xl" />
                         )}
-                      </div>
+                      </div> */}
+                       <td className="p-4">
+                        <Avatar
+                          src={val.image}
+                          alt={"sjsj"}
+                          size="md"
+                          className="border border-blue-gray-50 bg-blue-gray-50/50 object-contain p-1"
+                        />
+                      </td>
                     </td>
                     <td className={classes}>
                       <Typography
@@ -156,7 +218,7 @@ function DoctorManagment() {
                       </div>
                     </td>
                     <td className={classes}>
-                      {val.isBlock == true ? (
+                      {val.isBlocked == true ? (
                         <div className="flex items-center gap-1">
                           <ImBlocked />
                           <Typography
@@ -164,7 +226,7 @@ function DoctorManagment() {
                             color="blue-gray"
                             className=" text-red-500 font-medium"
                           >
-                            Blocked
+                            InActive
                           </Typography>
                         </div>
                       ) : (
@@ -174,21 +236,35 @@ function DoctorManagment() {
                             color="blue-gray"
                             className=" text-red-500 font-medium"
                           >
-                            UnBlock
+                            Active
                           </Typography>
                         </div>
                       )}
                     </td>
                     <td className={classes}>
-                      <Tooltip content="Edit User">
-                        <Button
-                          variant="outlined"
-                          className="bg-black text-white"
-                          size="sm"
-                        >
-                          Block
-                        </Button>
-                      </Tooltip>
+                      {val.isBlocked ? (
+                        <Tooltip content="doctor block">
+                          <Button
+                            variant="outlined"
+                            className="bg-black text-white"
+                            size="sm"
+                            onClick={() => handleModal(val._id)}
+                          >
+                            unBlock
+                          </Button>
+                        </Tooltip>
+                      ) : (
+                        <Tooltip content="doctor block">
+                          <Button
+                            variant="outlined"
+                            className="bg-black text-white flex gap-1"
+                            size="sm"
+                            onClick={() => handleModal(val._id)}
+                          >
+                            <ImBlocked className="my-auto" /> Block
+                          </Button>
+                        </Tooltip>
+                      )}
                     </td>
                   </tr>
                 );
@@ -232,6 +308,37 @@ function DoctorManagment() {
           </Button>
         </CardFooter>
       </Card>
+      {isModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center  ">
+          <div className="bg-white p-5 rounded-md  h-auto w-1/3 justify-center ">
+            <div className="w-10 mx-auto">
+              <IoIosWarning className="text-center text-6xl" />
+            </div>
+
+            <p className="mb-5 mt-5 text-center">
+              Are you sure you want to block {isSelected?.name}?
+            </p>
+            <p className="mb-5 mt-5 text-center text-red-500">
+              Warning: Blocking this doctor will prevent them from accessing
+              their account.
+            </p>
+            <div className="flex justify-center gap-6 mb-2 mt-5">
+              <button
+                className="bg-black px-5 py-1 text-white rounded-md"
+                onClick={() => setIsModal(false)}
+              >
+                cancel
+              </button>
+              <button
+                className="bg-red-600 px-5 py-1 text-white rounded-md"
+                onClick={() => handleBlockedClick()}
+              >
+                Confirm
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

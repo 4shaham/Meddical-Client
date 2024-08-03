@@ -17,7 +17,11 @@ const adminRoutes={
     getTransactionHistory:'/api/admin/fetchPaymentHistory',
     getInvoiceData:'/api/admin/invoiceData',
     getAllUsers:'/api/admin/getUsers',  
-    getAllDoctos:'/api/admin/getDoctors'
+    getAllDoctos:'/api/admin/getDoctors',
+    userBlocked:'/api/admin/userBlocked',
+    userUnBlocked:'/api/admin/userUnBlocked',
+    doctorBlocked:'/api/admin/doctorBlocked',
+    doctorUnBloced:'/api/admin/doctorUnBlocked'
 }
 
 export default adminRoutes

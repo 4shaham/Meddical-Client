@@ -13,51 +13,105 @@ import { Input } from "@material-tailwind/react";
 import { ImBlocked } from "react-icons/im";
 import { useEffect, useState } from "react";
 import { IUser } from "../../interface/interfaceUser";
-import { getAllUsers } from "../../api/admin";
+import { getAllUsers, userBlocked, userUnBlocked } from "../../api/admin";
 import { FaUserAlt } from "react-icons/fa";
+import { toast } from "react-toastify";
+import { IoIosWarning } from "react-icons/io";
 // import { Button } from "";
 
 const TABLE_HEAD = ["Profile Image", "Email", "Name", "Status", "Action", ""];
 
 function UserManagment() {
-  
-  const[userDatas,setUserDatas]=useState<IUser[]>()
+  const [userDatas, setUserDatas] = useState<IUser[]>();
   const [users, setUsers] = useState<IUser[]>();
   const [searchValues, setSearchValues] = useState<string>();
-  
+  const [isModal, setIsModal] = useState<boolean>(false);
+  const [isSelected, setIsSelected] = useState<IUser>();
 
   useEffect(() => {
     const handleFn = async () => {
       const response = await getAllUsers();
       console.log(response.data.users);
-      setUserDatas(response.data.users)
+      setUserDatas(response.data.users);
       setUsers(response.data.users);
-    
-     
-
     };
 
     handleFn();
   }, []);
 
   const serachHandler = (e: any) => {
-    
     const inputValue = e.target.value;
     setSearchValues(inputValue);
-    console.log(inputValue,"values")
-    
-    if(inputValue.trim()==""){
-      
-           setUsers(userDatas)
-           return
-    }
- 
-    const regex = new RegExp(inputValue, 'i');
-    const filteredUsers =userDatas?.filter((user) => regex.test(user.userName));
-    setUsers(filteredUsers)
-    console.log(filteredUsers);
-    
 
+    if (inputValue.trim() == "") {
+      setUsers(userDatas);
+      return;
+    }
+
+    const regex = new RegExp(inputValue, "i");
+    const filteredUsers = userDatas?.filter((user) =>
+      regex.test(user.userName)
+    );
+    setUsers(filteredUsers);
+  };
+
+  const handleOpenModal = (userId: string) => {
+    setIsModal(true);
+    setIsSelected(users?.find((val) => val._id == userId));
+  };
+
+  const handleConfirmBtn = async () => {
+    try {
+      if (isSelected?.isBlock) {
+        await userUnBlocked(isSelected._id as string);
+
+        const datas = users?.map((val) => {
+          if (val._id == isSelected._id) {
+            val.isBlock = false;
+            return val;
+          }
+
+          return val;
+        });
+        setUsers(datas);
+        const userdatas = userDatas?.map((val) => {
+          if (val._id == isSelected._id) {
+            val.isBlock = false;
+            return val;
+          }
+
+          return val;
+        });
+        setUserDatas(userdatas);
+        setIsModal(false);
+
+        toast.success("user unBlocked is successfully updated");
+      } else if (isSelected?.isBlock == false) {
+        await userBlocked(isSelected._id as string);
+        const datas = users?.map((val) => {
+          if (val._id == isSelected._id) {
+            val.isBlock = true;
+            return val;
+          }
+
+          return val;
+        });
+        setUsers(datas);
+        const userdatas = userDatas?.map((val) => {
+          if (val._id == isSelected._id) {
+            val.isBlock = true;
+            return val;
+          }
+
+          return val;
+        });
+        setUserDatas(userdatas);
+        setIsModal(false);
+        toast.success("user Blocked is successfully updted");
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -113,18 +167,16 @@ function UserManagment() {
                   : "p-4 border-b border-blue-gray-50";
                 return (
                   <tr key={index}>
-                    <td className="p-5">
-                      <div className="items-center gap-3">
-                        {val.image?
-                           <Avatar
-                           src={"/static/images/avatar/1.jpg"}
-                           size="md"
-                           className="border border-blue-gray-50 bg-blue-gray-50/50 object-contain p-1"
-                         />
-                        :<FaUserAlt className="text-black text-4xl"/>}
-                       
-                      </div>
-                    </td>
+                  
+                      <td className="p-4">
+                        {/* <Avatar
+                          src={val.image}
+                          alt={"sjsj"}
+                          size="md"
+                          className="border border-blue-gray-50 bg-blue-gray-50/50 object-contain p-1"
+                        /> */}
+                      </td>
+               
                     <td className={classes}>
                       <Typography
                         variant="small"
@@ -154,7 +206,7 @@ function UserManagment() {
                             color="blue-gray"
                             className=" text-red-500 font-medium"
                           >
-                            Blocked
+                            InActive
                           </Typography>
                         </div>
                       ) : (
@@ -164,21 +216,31 @@ function UserManagment() {
                             color="blue-gray"
                             className=" text-red-500 font-medium"
                           >
-                            UnBlock
+                            Active
                           </Typography>
                         </div>
                       )}
                     </td>
                     <td className={classes}>
-                      <Tooltip content="Edit User">
+                      {val.isBlock ? (
                         <Button
                           variant="outlined"
                           className="bg-black text-white"
                           size="sm"
+                          onClick={() => handleOpenModal(val._id)}
+                        >
+                          UnBlock
+                        </Button>
+                      ) : (
+                        <Button
+                          variant="outlined"
+                          className="bg-black text-white"
+                          size="sm"
+                          onClick={() => handleOpenModal(val._id)}
                         >
                           Block
                         </Button>
-                      </Tooltip>
+                      )}
                     </td>
                   </tr>
                 );
@@ -189,7 +251,7 @@ function UserManagment() {
         <CardFooter className="flex items-center justify-between border-t border-blue-gray-50 p-4">
           <Button variant="outlined" size="sm" className="bg-black text-white">
             Previous
-          </Button> 
+          </Button>
           <div className="flex items-center gap-2">
             <IconButton variant="outlined" size="sm">
               1
@@ -206,7 +268,11 @@ function UserManagment() {
             <IconButton variant="text" size="sm">
               8
             </IconButton>
-            <IconButton variant="text" size="sm" className="hover:bg-slate-400 my-auto p-2">
+            <IconButton
+              variant="text"
+              size="sm"
+              className="hover:bg-slate-400 my-auto p-2"
+            >
               9
             </IconButton>
             <IconButton variant="text" size="sm">
@@ -218,6 +284,37 @@ function UserManagment() {
           </Button>
         </CardFooter>
       </Card>
+      {isModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center  ">
+          <div className="bg-white p-5 rounded-md  h-auto w-1/3 justify-center ">
+            <div className="w-10 mx-auto">
+              <IoIosWarning className="text-center text-6xl" />
+            </div>
+
+            <p className="mb-5 mt-5 text-center">
+              Are you sure you want to block {isSelected?.userName}?
+            </p>
+            <p className="mb-5 mt-5 text-center text-red-500">
+              Warning: Blocking this doctor will prevent them from accessing
+              their account.
+            </p>
+            <div className="flex justify-center gap-6 mb-2 mt-5">
+              <button
+                className="bg-black px-5 py-1 text-white rounded-md"
+                onClick={() => setIsModal(false)}
+              >
+                cancel
+              </button>
+              <button
+                className="bg-red-600 px-5 py-1 text-white rounded-md"
+                onClick={handleConfirmBtn}
+              >
+                Confirm
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
