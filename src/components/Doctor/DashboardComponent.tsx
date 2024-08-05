@@ -9,7 +9,10 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-const data = [
+
+
+
+const data1 = [
   {
     name: "Page A",
     uv: 4000,
@@ -85,7 +88,7 @@ function DashboardComponent() {
           <AreaChart
             width={900}
             height={350}
-            data={data}
+            data={data1}
             margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
           >
             <defs>

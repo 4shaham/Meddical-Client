@@ -1,4 +1,8 @@
 import React from "react";
+import { PieChart } from "@mui/x-charts/PieChart";
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+
+
 
 function DashBoardComponent() {
   return (
@@ -31,7 +35,32 @@ function DashBoardComponent() {
           <p className="text-black font-medium text-center">11</p>
         </div>
       </div>
-    
+
+      <div className="mt-10 p-5 w-full flex ">
+        <div className="mt-10 w-1/2 mx-auto">
+          <h1 className="text-center font-medium mb-2 text-xl">
+            Percentage of Doctors per Specialty
+          </h1>
+
+          <PieChart
+            className="w-full mx-auto"
+            series={[
+              {
+                data: [
+                  { id: 0, value: 10, label: "cardiology" },
+                  { id: 1, value: 15, label: "piadratrics" },
+                  { id: 2, value: 20, label: "aurthology" },
+                  { id: 4, value: 20, label: "end" },
+                ],
+              },
+            ]}
+            width={700}
+            height={400}
+          />
+        </div>
+        
+      </div>
+      
     </div>
   );
 }

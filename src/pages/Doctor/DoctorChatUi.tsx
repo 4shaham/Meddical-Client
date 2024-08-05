@@ -82,6 +82,11 @@ function DoctorChatUi() {
   },[]);
 
   useEffect(()=>{
+
+    if(!currentChat){
+      return
+    }
+
     const handleFn = async () => {
       const data = await getMessages(currentChat?._id as string);
       setMessage(data.data.messages);

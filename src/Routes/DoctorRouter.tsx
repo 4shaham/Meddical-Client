@@ -12,6 +12,7 @@ import AddScheduleManamgemnt from "../components/Doctor/AddScheduleManamgemnt";
 import MyScheduleManagment from "../components/Doctor/MyScheduleManagment";
 import ManageToken from "../components/Doctor/ManageToken";
 import DoctorChatUi from "../pages/Doctor/DoctorChatUi";
+import VedioCall from "../components/Doctor/VedioCall";
 
 
 function DoctorRouter() {
@@ -41,6 +42,8 @@ function DoctorRouter() {
           path="/doctor/kycVerification"
           element={<KycVerificationPage />}
         />
+        <Route path="/vedioCallRoom" element={<VedioCall/>} />
+        
       </Routes>
     </div>
   );

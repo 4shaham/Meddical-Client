@@ -22,7 +22,7 @@ type PrescriptionModalProps={
 
 const  PrescriptionModal:React.FC<PrescriptionModalProps>=({consulationPatient,callback,successesCounter})=> {
 
-  const [openModal, setOpenModal] = useState(false);
+  const [openModal,setOpenModal] = useState(false);
   const [showAddMedicienForm, setAddMedicienForm] = useState<boolean>(false);
 
 

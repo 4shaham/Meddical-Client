@@ -184,6 +184,8 @@ function DoctorManagment() {
                           src={val.image}
                           alt={"sjsj"}
                           size="md"
+                          width={80}
+                          height={80}
                           className="border border-blue-gray-50 bg-blue-gray-50/50 object-contain p-1"
                         />
                       </td>

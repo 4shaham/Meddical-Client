@@ -53,6 +53,7 @@ function Messenger() {
     var id = "";
     const handleFn = async () => {
       try {
+
         const response = await getToken();
         const vid: DecodedJwt = response.data.decoded as DecodedJwt;
         console.log(vid);
@@ -67,7 +68,7 @@ function Messenger() {
       } catch (error) {}
     };
     handleFn();
-  }, [currentChat]);
+  },[currentChat]);
 
   socket.current.on("lostUsers", (datas) => {
     console.log(datas, "looooooooooooo");
@@ -89,12 +90,17 @@ function Messenger() {
   }, []);
 
   useEffect(() => {
+
+    if(!currentChat){
+      return
+    } 
+
     const handleFn = async () => {
       const data = await getMessages(currentChat?._id as string);
       setMessage(data.data.messages);
     };
     handleFn();
-  }, [currentChat]);
+  },[currentChat]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

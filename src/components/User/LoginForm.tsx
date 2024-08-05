@@ -9,6 +9,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { GoogleLogin, CredentialResponse } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
 import { JwtPayload } from "jwt-decode";
+import { toast } from "react-toastify";
 
 interface CredentialPayload extends JwtPayload {
   iss: string;
@@ -102,6 +103,7 @@ function LoginForm() {
         navigate("/");
       }
     } catch (error) {
+      console.log("error")
       if (axios.isAxiosError(error)) {
         if (error.response) {
           setIsLoading(false);
@@ -115,8 +117,13 @@ function LoginForm() {
             dispatch(verifed("userEmailVerification"));
             navigate("/otpVerification");
           } else {
+            
+            if(error.response.data.message=="this user is blocked"){
+              toast.error("This email user is blocked")
+            }
+
             setCredintiaolErr({
-              emailErr: "This Email user is not found",
+              emailErr:error.response.data.message,
               passwordErr: "",
             });
           }

@@ -1,52 +1,97 @@
+import { navigation } from "@material-tailwind/react/types/components/carousel";
+import axios, { AxiosInstance } from "axios";
+import store from "../Redux/store/store";
+import { useDispatch } from "react-redux";
+import { logout } from "../Redux/slice/userAuthSlice";
+import { toast } from "react-toastify";
 
-import axios,{AxiosInstance} from "axios";
-import { useNavigate } from "react-router-dom";
+const Api: AxiosInstance = axios.create({
+  baseURL: "http://localhost:4001",
+  withCredentials: true,
+});
 
+export const axiosInterceptor = (navigate: any) => {
+  const dispatch = useDispatch();
 
-const Api:AxiosInstance=axios.create({
-    baseURL:'http://localhost:4001',
-    withCredentials:true
-})
+  console.log("Setting up Axios interceptor");
 
-
-
-
-Api.interceptors.request.use(
+  Api.interceptors.request.use(
     (config) => {
-      console.log('Request:', config);
+      console.log("Request:", config);
       return config;
     },
     (error) => {
-      // Handle request error
-      console.log(error)
+      console.log("Request error:", error);
       return Promise.reject(error);
     }
   );
 
   Api.interceptors.response.use(
     (response) => {
-      console.log('Response:', response);
+      console.log("Response:", response);
       return response;
     },
     (error) => {
-      console.log(error)
-      if(error.response&& error.response.status==401 && error.response.data.message=="Payment"){
-           console.log('errorr')
-      }
+      console.log("Response error:", error);
+      if (error.response) {
+        if (error.response.status === 401) {
+          if (error.response.data.message == "Admin is not authenticated") {
+            alert("admin is not authenticated");
+            return;
+          }
 
-
-      if (error.response && error.response.status === 500) {
-
-        console.log("internal server erorro")
-        // Handle 401 Unauthorized error
-        // window.location.href = '/login';
-      
+          if (
+            error.response.data.messsage == "user is blocked" ||
+            error.response.data.message == "userTokenExpired"
+          ) {
+            dispatch(logout());
+            navigate("/");
+          }
+        } else if (error.response.status === 500) {
+          navigate("/internalServerError");
+          console.log("Internal server error");
+        }
       }
       return Promise.reject(error);
     }
+  );
+};
 
-     
-  ); 
+// Api.interceptors.request.use(
+//     (config) => {
+//       console.log('Request:', config);
+//       return config;
+//     },
+//     (error) => {
+//       // Handle request error
+//       console.log(error)
+//       return Promise.reject(error);
+//     }
+//   );
 
+//   Api.interceptors.response.use(
+//     (response) => {
+//       console.log('Response:', response);
+//       return response;
+//     },
+//     (error) => {
+//       console.log(error)
+//       if(error.response&& error.response.status==401 && error.response.data.message=="Payment"){
+//            console.log('errorr')
+//       }
 
-export default Api
+//       if (error.response && error.response.status === 500) {
+
+//         alert("hiiiii")
+//         console.log("internal server erorro")
+
+//         // Handle 401 Unauthorized error
+//         // window.location.href = '/login';
+
+//       }
+//       return Promise.reject(error);
+//     }
+
+//   );
+
+export default Api;

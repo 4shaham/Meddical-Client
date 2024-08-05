@@ -5,6 +5,7 @@ import { IUser } from "../../interface/interfaceUser";
 
 function ProfilePage() {
 
+  const [userImutableData,setUserImutableData]=useState<IUser>()
   const [userData,setUserData]=useState<IUser>()
 
   useEffect(()=>{
@@ -12,6 +13,8 @@ function ProfilePage() {
         try {
             const response=await getProfileData()  
             setUserData(response.data.userData) 
+            setUserImutableData(response.data.userData)
+
         } catch (error) {
             console.log(error)
         }  
@@ -19,6 +22,11 @@ function ProfilePage() {
      handleAsyncFn()
   },[])
 
+
+
+  const handleBtnSaveChange=()=>{
+
+  }
 
 
 
@@ -61,6 +69,7 @@ function ProfilePage() {
                   className="w-full p-2 border rounded-md"
                   value={userData?.userName}
                   readOnly
+                  // onChange={(e)=>setUserData(userData?.userName=e.target.value)}
                 />
               </div>
               <div className="mb-4">
