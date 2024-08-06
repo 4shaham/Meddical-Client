@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { signIn } from "../../api/doctor";
 import { useDispatch } from "react-redux";
 import { login } from "../../Redux/slice/DoctorAuthSlice";
+import { toast } from "react-toastify";
 
 interface FormData {
   email: string;
@@ -64,6 +65,12 @@ function Login() {
           if (error.response.data.status == false && error.response.data.Err) {
             setCredintiaolErr(error.response.data.Err);
           }
+          
+          if(error.response.data.message=="doctor is blocked"){
+             toast.error("This docotr is blocked")
+          }
+
+
         }
       }
     }

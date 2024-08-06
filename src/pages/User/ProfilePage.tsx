@@ -2,32 +2,52 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getProfileData } from "../../api/user";
 import { IUser } from "../../interface/interfaceUser";
+import doctorImage3 from "../../assets/docterimage3.jpg"
+import { toast } from "react-toastify";
 
 function ProfilePage() {
+  const [userData, setUserData] = useState<IUser>();
 
-  const [userImutableData,setUserImutableData]=useState<IUser>()
-  const [userData,setUserData]=useState<IUser>()
+  const [name, setName] = useState<string>();
+  const [phoneNumber, setPhoneNumber] = useState<string>();
+  const [gender, setGender] = useState<string>();
+  const [age, setAge] = useState<number>();
+  const [image, setImage] = useState<string | null>();
 
-  useEffect(()=>{
-     const handleAsyncFn=async()=>{
-        try {
-            const response=await getProfileData()  
-            setUserData(response.data.userData) 
-            setUserImutableData(response.data.userData)
+  useEffect(() => {
+    const handleAsyncFn = async () => {
+      try {
+        const response = await getProfileData();
+        setUserData(response.data.userData);
+        const data: IUser = response.data.userData;
+        setName(data.userName);
+        setPhoneNumber(data.phoneNumber);
+        setGender(data.gender);
+        setAge(data.age);
+        setImage(data.image);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    handleAsyncFn();
+  }, []);
 
-        } catch (error) {
-            console.log(error)
-        }  
+  const handleSubmit=async(e:React.FormEvent<HTMLFormElement>)=>{
+     e.preventDefault()
+     try {
+
+      if(name==userData?.userName&&phoneNumber==userData?.phoneNumber&&age==userData?.age){
+         toast.error("no changes in your profile")
+         return
+      }
+      
+     } catch (error) {
+        
      }
-     handleAsyncFn()
-  },[])
+  };
 
 
-
-  const handleBtnSaveChange=()=>{
-
-  }
-
+  
 
 
 
@@ -57,19 +77,26 @@ function ProfilePage() {
       <main className="flex flex-1 flex-col md:flex-row p-4">
         <div className="md:w-1/2 mx-12 bg-gray-200 p-4 rounded-md shadow-md mb-4 md:mb-0">
           <div className="flex flex-col items-center p-5 mb-4">
-            <div className="w-24 h-24 bg-gray-300 rounded-full flex items-center justify-center mb-4">
-              <i className="fas fa-user text-4xl text-gray-500"></i>
-              {/* <img src={userData?.image} alt="" /> */}
+            <div className="relative w-24 h-24 mb-4">
+              <img
+                src={image?image:doctorImage3}
+                alt="Profile"
+                className="w-full h-full object-cover rounded-full"
+              />
+              <input
+                type="file"
+                accept="image/*"
+                className="absolute inset-0 opacity-0 cursor-pointer"
+              />
             </div>
-            <form className="w-full">
+            <form className="w-full" onSubmit={handleSubmit}>
               <div className="mb-4">
                 <label className="block text-gray-600">Name</label>
                 <input
                   type="text"
                   className="w-full p-2 border rounded-md"
-                  value={userData?.userName}
-                  readOnly
-                  // onChange={(e)=>setUserData(userData?.userName=e.target.value)}
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
                 />
               </div>
               <div className="mb-4">
@@ -78,16 +105,15 @@ function ProfilePage() {
                   type="email"
                   className="w-full p-2 border rounded-md"
                   value={userData?.email}
-                  readOnly
                 />
               </div>
               <div className="mb-4">
                 <label className="block text-gray-600">Phone Number</label>
                 <input
-                  type="text"
+                  type="number"
                   className="w-full p-2 border rounded-md"
-                  value={userData?.phoneNumber}
-                  readOnly
+                  value={phoneNumber}
+                  onChange={(e) => setPhoneNumber(e.target.value)}
                 />
               </div>
               <div className="mb-4">
@@ -95,21 +121,20 @@ function ProfilePage() {
                 <input
                   type="text"
                   className="w-full p-2 border rounded-md"
-                  value={userData?.gender}
-                  readOnly
+                  value={gender}
                 />
               </div>
               <div className="mb-4">
                 <label className="block text-gray-600">Age</label>
                 <input
-                  type="text"
+                  type="number"
                   className="w-full p-2 border rounded-md"
-                  value={userData?.age}
-                  readOnly
+                  value={age}
+                  onChange={(e) => setAge(Number(e.target.value))}
                 />
               </div>
               <button
-                type="button"
+                type="submit"
                 className="w-full p-2 bg-btnColor text-white rounded-md"
               >
                 Save Changes

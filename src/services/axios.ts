@@ -1,9 +1,10 @@
-import { navigation } from "@material-tailwind/react/types/components/carousel";
+
 import axios, { AxiosInstance } from "axios";
-import store from "../Redux/store/store";
 import { useDispatch } from "react-redux";
 import { logout } from "../Redux/slice/userAuthSlice";
 import { toast } from "react-toastify";
+// import {logout} from "../Redux/slice/DoctorAuthSlice"
+
 
 const Api: AxiosInstance = axios.create({
   baseURL: "http://localhost:4001",
@@ -15,29 +16,34 @@ export const axiosInterceptor = (navigate: any) => {
 
   console.log("Setting up Axios interceptor");
 
-  Api.interceptors.request.use(
-    (config) => {
-      console.log("Request:", config);
-      return config;
-    },
-    (error) => {
-      console.log("Request error:", error);
-      return Promise.reject(error);
-    }
-  );
+  // Api.interceptors.request.use(
+  //   (config) => {
+  //     console.log("Request:", config);
+  //     return config;
+  //   },
+  //   (error) => {
+  //     console.log("Request error:", error);
+  //     return Promise.reject(error);
+  //   }
+  // );
 
   Api.interceptors.response.use(
     (response) => {
       console.log("Response:", response);
       return response;
     },
-    (error) => {
+    async(error) => {
       console.log("Response error:", error);
       if (error.response) {
         if (error.response.status === 401) {
+
           if (error.response.data.message == "Admin is not authenticated") {
-            alert("admin is not authenticated");
-            return;
+             alert("admin is not authenticated");
+             return;
+          }  
+
+          if(error.response.data.message=="doctor is blocked" || error.response.data.message=="doctor token is expired"){
+             navigate("/doctor/login")  
           }
 
           if (

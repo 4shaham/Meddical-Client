@@ -3,12 +3,19 @@ import { IMangeTokenData } from "../../interface/interfaceDoctor";
 import { doctorSchedule, findDoctorSchedule } from "../../api/doctor";
 import Typography from "@mui/material/Typography";
 import PrescriptionModal from "./PrescriptionModal";
+import { input } from "@material-tailwind/react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 function ManageToken() {
   const [slots, setSlots] = useState<IMangeTokenData[]>();
   const [status, setStatus] = useState<string>("pending");
   const [showModal, setShowModal] = useState<boolean>(false);
   const [counter, setCounter] = useState<number>(0);
   const [onCounsultationPatient, setConsultaionPatient] = useState<any>();
+  const [roomNumber, setRoomNumber] = useState<string>("");
+  const [createRoomForm, setCreateRoomForm] = useState<boolean>(false);
+  const navigate=useNavigate()
+
 
   useEffect(() => {
     const handleFn = async () => {
@@ -29,6 +36,17 @@ function ManageToken() {
   const handleSuccessesCounter = () => {
     setCounter(counter + 1);
   };
+
+  const handleClickCreateRoom=(id:string)=>{
+     
+    if(roomNumber==""||roomNumber?.length<=5){
+        toast.error("the room number is minimum in 6 characters")  
+        navigate(`/vedioCallRoom?roomId=${id}`)
+        return
+     } 
+     setCreateRoomForm(false)
+
+  }
 
   return (
     <div className="m-5 bg-white p-5 rounded-md min-h-screen">
@@ -83,18 +101,47 @@ function ManageToken() {
                   )}
                 </div>
                 <div className="flex justify-between mt-4">
-                  {val.conusultationType == "online" && (
-                    <button className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600">
-                      Send That link
-                    </button>
-                  )}
+                  <>
+                    {createRoomForm && (
+                      <div className="bg-gray-100 p-4 rounded-lg shadow-md w-full max-w-sm mx-auto">
+                        <div className="mb-4">
+                          <label className="block text-gray-700 text-sm font-bold mb-2">
+                            Room Number
+                          </label>
+                          <input
+                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            type="text"
+                            onChange={(e) => setRoomNumber(e.target.value)}
+                            value={roomNumber}
+                            placeholder="Enter room number"
+                          />
+                        </div>
+                        <button
+                          className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600"
+                          onClick={()=>handleClickCreateRoom(val._id)}
+                        >
+                          create 
+                        </button>
+                      </div>
+                    )}
+                    {val.conusultationType == "online" && !createRoomForm && (
+                      <button
+                        className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600"
+                        onClick={() => setCreateRoomForm(true)}
+                      >
+                        Create Room
+                      </button>
+                    )}
+                  </>
 
+                  <div>
                   <button
                     className="bg-btnColor text-white py-2 px-4 rounded-lg "
                     onClick={() => setShowModal(true)}
                   >
                     create Prescription
                   </button>
+                  </div>
                 </div>
               </div>
             </div>

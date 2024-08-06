@@ -37,13 +37,11 @@ function DoctorRouter() {
             path="/doctor/otpVerifcation"
             element={<DoctorOtpComponent />}
           />
-        
         <Route
           path="/doctor/kycVerification"
-          element={<KycVerificationPage />}
+          element={<KycVerificationPage/>}
         />
-        <Route path="/vedioCallRoom" element={<VedioCall/>} />
-        
+        <Route path="/vedioCallRoom" element={<VedioCall/>} />                    
       </Routes>
     </div>
   );

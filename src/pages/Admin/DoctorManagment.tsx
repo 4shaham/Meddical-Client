@@ -11,7 +11,7 @@ import {
 } from "@material-tailwind/react";
 import { Input } from "@material-tailwind/react";
 import { ImBlocked } from "react-icons/im";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   doctorBlocked,
   doctorUnBlocked,
@@ -39,8 +39,19 @@ function DoctorManagment() {
   const [isModal, setIsModal] = useState<boolean>(false);
   const [isSelected, setIsSelected] = useState<IDoctor>();
 
-  useEffect(() => {
+  // useEffect(() => {
+  //   const handleFn =async()=>{
+  //     const response = await getAllDoctors();
+  //     console.log(response.data.doctors);
+  //     setDoctorDatas(response.data.doctors);
+  //     setDoctors(response.data.doctors);
+  //   };
+  //   handleFn();
+  // },[]);
+     
+  useEffect(() => { 
     const handleFn = async () => {
+      console.log("Component mounted");
       const response = await getAllDoctors();
       console.log(response.data.doctors);
       setDoctorDatas(response.data.doctors);
@@ -150,7 +161,7 @@ function DoctorManagment() {
                     <Typography
                       variant="small"
                       color="blue-gray"
-                      className="fleading-none opacity-70 font-medium"
+                      className="fleading-none opacity-70 font-medium "
                     >
                       {head}
                     </Typography>
@@ -162,11 +173,11 @@ function DoctorManagment() {
               {doctors?.map((val, index) => {
                 const isLast = index === doctors.length - 1;
                 const classes = isLast
-                  ? "p-4"
-                  : "p-4 border-b border-blue-gray-50";
+                  ? "p-2"
+                  : "p-2 border-b border-blue-gray-50";
                 return (
                   <tr key={index}>
-                    <td className="p-5">
+                    <td className="p-1">
                       {/* <div className="items-center gap-3">
                         {val.image ? (
                           // <Avatar
@@ -179,7 +190,7 @@ function DoctorManagment() {
                           <FaUserAlt className="text-black text-4xl" />
                         )}
                       </div> */}
-                       <td className="p-4">
+                       <td className="p-1">
                         <Avatar
                           src={val.image}
                           alt={"sjsj"}
@@ -345,4 +356,4 @@ function DoctorManagment() {
   );
 }
 
-export default DoctorManagment;
+export default React.memo(DoctorManagment) ;
