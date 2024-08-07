@@ -7,6 +7,7 @@ import { MdLocalFireDepartment } from "react-icons/md";
 import { RiCalendarScheduleFill } from "react-icons/ri";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import { FaFacebookMessenger } from "react-icons/fa";
+import { CgProfile } from "react-icons/cg";
 
 function DSideBar() {
   
@@ -39,11 +40,13 @@ function DSideBar() {
         element:"Messages",
         icon: <FaFacebookMessenger />,
       },
-
+      {
+        path:"/doctor/profile",
+        element:"Profile",
+        icon: <CgProfile />,
+      }
 
     ];
-  
-  
   
     const sideBardElements = () =>
       sideBard.map((values, index) => (

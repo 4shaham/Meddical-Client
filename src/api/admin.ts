@@ -100,3 +100,5 @@ export const userUnBlocked=async(userId:string)=>await Api.patch(adminRoutes.use
 export const doctorBlocked=async(doctorId:string)=>await Api.patch(adminRoutes.doctorBlocked,{doctorId})
 
 export const doctorUnBlocked=async(doctorId:string)=>await Api.patch(adminRoutes.doctorUnBloced,{doctorId})
+
+export const specalityChartData=async()=>await Api.get(adminRoutes.specalityChartData)

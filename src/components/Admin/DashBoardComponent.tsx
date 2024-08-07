@@ -1,10 +1,49 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { PieChart } from "@mui/x-charts/PieChart";
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { specalityChartData } from "../../api/admin";
+import { SpecialityChart } from "../../interface/interfaceAdmin";
+import { BarChart } from "@mui/x-charts/BarChart";
 
-
+interface ChartData {
+  id: number;
+  value: number;
+  label: string;
+}
 
 function DashBoardComponent() {
+  const [chartValue, setChartValues] = useState<ChartData[]>();
+  const [totalDoctor, setTotalDoctor] = useState<number>();
+
+  useEffect(() => {
+    const handleFn = async () => {
+      try {
+        const response = await specalityChartData();
+        let data: SpecialityChart[] = response.data.specalityChartData;
+        let total = data.reduce(
+          (total: number, values: SpecialityChart) => values.totalCount + total,
+          0
+        );
+        let chartData: ChartData[] = [];
+        setTotalDoctor(total);
+        for (let val of data) {
+          console.log((val.totalCount / total) * 100);
+          let percentage = (val.totalCount / total) * 100;
+          const chartDataItem: ChartData = {
+            id: 0,
+            value: percentage,
+            label: val._id,
+          };
+          chartData.push(chartDataItem);
+        }
+        setChartValues(chartData);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    handleFn();
+  }, []);
+
   return (
     <div className="bg-red mt-5 rounded-lg">
       <div className="mx-auto flex justify-center gap-20  ">
@@ -32,12 +71,12 @@ function DashBoardComponent() {
             <path d="M224 256c70.7 0 128-57.3 128-128S294.7 0 224 0 96 57.3 96 128s57.3 128 128 128zm-96 55.2C54 332.9 0 401.3 0 482.3 0 498.7 13.3 512 29.7 512h388.6c16.4 0 29.7-13.3 29.7-29.7 0-81-54-149.4-128-171.1V362c27.6 7.1 48 32.2 48 62v40c0 8.8-7.2 16-16 16h-16c-8.8 0-16-7.2-16-16s7.2-16 16-16v-24c0-17.7-14.3-32-32-32s-32 14.3-32 32v24c8.8 0 16 7.2 16 16s-7.2 16-16 16h-16c-8.8 0-16-7.2-16-16v-40c0-29.8 20.4-54.9 48-62v-57.1c-6-.6-12.1-.9-18.3-.9h-91.4c-6.2 0-12.3.3-18.3.9v65.4c23.1 6.9 40 28.3 40 53.7 0 30.9-25.1 56-56 56s-56-25.1-56-56c0-25.4 16.9-46.8 40-53.7v-59.1zM144 448c13.3 0 24-10.7 24-24s-10.7-24-24-24-24 10.7-24 24 10.7 24 24 24z" />
           </svg>
           <p className="text-black font-medium text-center">Doctors</p>
-          <p className="text-black font-medium text-center">11</p>
+          <p className="text-black font-medium text-center">{totalDoctor}</p>
         </div>
       </div>
 
-      <div className="mt-10 p-5 w-full flex ">
-        <div className="mt-10 w-1/2 mx-auto">
+      <div className="mt-10 p-5 w-full flex gap-3 ">
+        <div className="mt-10 w-1/3">
           <h1 className="text-center font-medium mb-2 text-xl">
             Percentage of Doctors per Specialty
           </h1>
@@ -46,21 +85,36 @@ function DashBoardComponent() {
             className="w-full mx-auto"
             series={[
               {
-                data: [
-                  { id: 0, value: 10, label: "cardiology" },
-                  { id: 1, value: 15, label: "piadratrics" },
-                  { id: 2, value: 20, label: "aurthology" },
-                  { id: 4, value: 20, label: "end" },
-                ],
+                data: chartValue ? chartValue : [],
               },
             ]}
-            width={700}
-            height={400}
+            width={500}
+            height={300}
           />
         </div>
-        
+
+        <div className="mt-10 w-2/3 mx-2">
+         
+        </div>
       </div>
-      
+
+      <div>
+      <BarChart
+            className="mx-auto"
+            xAxis={[
+              { scaleType: "band", data: ["group A", "group B", "group C","group d"] },
+            ]}
+            series={[
+              { data: [4, 3, 5,1] },
+              { data: [1, 6, 3,1] },
+              { data: [2, 5, 6,1] } ,
+             { data: [2, 5, 6,1] },
+            ]}
+            // width={400}
+            height={300}
+          />
+      </div>
+
     </div>
   );
 }

@@ -40,3 +40,8 @@ export interface InvoiceData extends PaymentEntity{
    userData:IUser,
    bookingData:BookingData
 }
+
+export interface SpecialityChart {
+  _id: string;
+  totalCount: number;
+}

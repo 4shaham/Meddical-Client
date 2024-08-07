@@ -10,7 +10,7 @@ function DoctorMainPage() {
   return (
     <div>
       <div className="w-full  bg-red-500 flex">
-        <div className="w-[20%] h-auto bg-white ">
+        <div className="w-[20%] h-auto bg-gray-200">
           <div className="text-blue-500 items-center justify-center text-center my-11">
             <h1 className="custom-font text-4xl text-black">MEDDICAL</h1>
           </div>

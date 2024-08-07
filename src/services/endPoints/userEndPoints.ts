@@ -29,6 +29,7 @@ const userRoutes={
     getTransactionHistory:"/api/getTransactionHistory",
     rescheduleBooking:"/api/rescheduleBooking",
     getInvoiceData:"/api/getInvoiceData",
+    updateUserProfile:"/api/updateProfile"
 }   
 
 

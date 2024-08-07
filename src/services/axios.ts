@@ -38,8 +38,7 @@ export const axiosInterceptor = (navigate: any) => {
         if (error.response.status === 401) {
 
           if (error.response.data.message == "Admin is not authenticated") {
-             alert("admin is not authenticated");
-             return;
+             navigate("/admin/login")
           }  
 
           if(error.response.data.message=="doctor is blocked" || error.response.data.message=="doctor token is expired"){

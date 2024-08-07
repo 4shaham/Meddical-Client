@@ -18,6 +18,7 @@ import DoctorManagment from "../pages/Admin/DoctorManagment";
 
 
 
+
 function AdminRouter() {
   return (
     <Routes>
@@ -35,6 +36,7 @@ function AdminRouter() {
         <Route path='/admin/invoice' element={<InvoicePage/>} />
         <Route path="/admin/userManagement" element={<UserManagment/>} />
         <Route path="/admin/doctorsManagment"  element={<DoctorManagment/>} />
+      
       </Route>
       
       <Route path={"/admin/login"} element={<Login/>}></Route>

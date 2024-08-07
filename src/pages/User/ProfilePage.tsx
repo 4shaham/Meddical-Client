@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { getProfileData } from "../../api/user";
+import { getProfileData, updateUserProfile } from "../../api/user";
 import { IUser } from "../../interface/interfaceUser";
-import doctorImage3 from "../../assets/docterimage3.jpg"
+import doctorImage3 from "../../assets/docterimage3.jpg";
 import { toast } from "react-toastify";
 
 function ProfilePage() {
@@ -12,9 +12,12 @@ function ProfilePage() {
   const [phoneNumber, setPhoneNumber] = useState<string>();
   const [gender, setGender] = useState<string>();
   const [age, setAge] = useState<number>();
-  const [image, setImage] = useState<string | null>();
+  const [image, setImage] = useState<File | null>();
+  const [imageSrc, setImageSrc] = useState<string | null>();
+  const [baseUrl, setBaseUrl] = useState<string>();
 
   useEffect(() => {
+
     const handleAsyncFn = async () => {
       try {
         const response = await getProfileData();
@@ -24,33 +27,75 @@ function ProfilePage() {
         setPhoneNumber(data.phoneNumber);
         setGender(data.gender);
         setAge(data.age);
-        setImage(data.image);
+        setImageSrc(data.image);
       } catch (error) {
         console.log(error);
       }
     };
     handleAsyncFn();
-  }, []);
 
-  const handleSubmit=async(e:React.FormEvent<HTMLFormElement>)=>{
-     e.preventDefault()
-     try {
-
-      if(name==userData?.userName&&phoneNumber==userData?.phoneNumber&&age==userData?.age){
-         toast.error("no changes in your profile")
-         return
-      }
-      
-     } catch (error) {
-        
-     }
-  };
-
+  },[]);
 
   
 
 
+  const handleSubmit=async(e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+      if (
+        name == userData?.userName &&
+        phoneNumber == userData?.phoneNumber &&
+        age == userData?.age &&
+        !baseUrl
+      ) {
+        toast.error("no changes in your profile");
+        return;
+      }
 
+      if(name?.trim()==""||phoneNumber?.trim()==""||gender==""||age==0){
+          toast.error("all field is required")
+          return
+      }
+
+      if(phoneNumber && phoneNumber?.length<9){
+          toast.error("your number must be 10 numbers")
+      }
+
+      if(age&&age<=0){
+          toast.error("age is must be enter ")
+      }
+
+      await updateUserProfile(name as string,phoneNumber as string,age as number,gender as string,baseUrl)  
+  
+      toast.success("updated successfully")
+
+    } catch (error) {
+           
+      console.log(error)
+
+    }
+  };
+
+
+  const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+
+    const ImageExtensions = ["jpg", "jpeg", "png", "gif", "webp", "svg"];
+    let type = file?.name.split(".")[1];
+    if (!ImageExtensions.includes(type as string)) {
+      toast.error("The image type is not allowed");
+      return;
+    }
+    setImage(file);
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const base64String = reader.result?.toString() || "";
+        setBaseUrl(base64String);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   const Userpages = [
     { path: "/", element: "Medical History" },
@@ -78,17 +123,34 @@ function ProfilePage() {
         <div className="md:w-1/2 mx-12 bg-gray-200 p-4 rounded-md shadow-md mb-4 md:mb-0">
           <div className="flex flex-col items-center p-5 mb-4">
             <div className="relative w-24 h-24 mb-4">
+             {image==null && imageSrc &&
               <img
-                src={image?image:doctorImage3}
-                alt="Profile"
-                className="w-full h-full object-cover rounded-full"
-              />
+              src={imageSrc}
+              alt="Profile"
+              className="w-full h-full object-cover rounded-full"
+            />}
+             
+            {image &&
+
+              <img
+              src={URL.createObjectURL(image)}
+              alt="Profile"
+              className="w-full h-full object-cover rounded-full"
+            />
+
+            }
+           
+             
+            
+             
               <input
                 type="file"
                 accept="image/*"
                 className="absolute inset-0 opacity-0 cursor-pointer"
+                onChange={(e) => handleImageChange(e)}
               />
             </div>
+
             <form className="w-full" onSubmit={handleSubmit}>
               <div className="mb-4">
                 <label className="block text-gray-600">Name</label>
@@ -118,11 +180,19 @@ function ProfilePage() {
               </div>
               <div className="mb-4">
                 <label className="block text-gray-600">Gender</label>
-                <input
-                  type="text"
-                  className="w-full p-2 border rounded-md"
+                <select
+                  id="gender"
+                  className="mt-1 block w-full px-3 py-2 border border-zinc-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
+                  onChange={(e) => setGender(e.target.value)}
                   value={gender}
-                />
+                >
+                  <option value="" disabled>
+                    Please select your gender
+                  </option>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                  <option value="other">Other</option>
+                </select>
               </div>
               <div className="mb-4">
                 <label className="block text-gray-600">Age</label>

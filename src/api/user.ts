@@ -120,3 +120,5 @@ export const getTransactionHistory=async()=>await Api.get(userRoutes.getTransact
 export const bookingReschedule=async(slotId:string,slotNumber:number,scheduleId:string,newSlotNumber:number)=>await Api.put(userRoutes.rescheduleBooking,{slotId,slotNumber,scheduleId,newSlotNumber})
 
 export const getInvoiceData=async(id:string)=>await Api.get(`${userRoutes.getInvoiceData}?id=${id}`)
+
+export const updateUserProfile=async(userName:string,phoneNumber:string,age:number,gender:string,image?:string|null)=>await Api.put(userRoutes.updateUserProfile,{userName,phoneNumber,age,gender,image})

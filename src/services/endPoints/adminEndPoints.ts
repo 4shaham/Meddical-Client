@@ -21,7 +21,8 @@ const adminRoutes={
     userBlocked:'/api/admin/userBlocked',
     userUnBlocked:'/api/admin/userUnBlocked',
     doctorBlocked:'/api/admin/doctorBlocked',
-    doctorUnBloced:'/api/admin/doctorUnBlocked'
+    doctorUnBloced:'/api/admin/doctorUnBlocked',
+    specalityChartData:'/api/admin/specalityChart'
 }
 
 export default adminRoutes
