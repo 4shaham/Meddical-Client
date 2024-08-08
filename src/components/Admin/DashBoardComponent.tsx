@@ -75,7 +75,7 @@ function DashBoardComponent() {
         </div>
       </div>
 
-      <div className="mt-10 p-5 w-full flex gap-3 ">
+      <div className="mt-10 p-5 w-full flex gap-5 ">
         <div className="mt-10 w-1/3">
           <h1 className="text-center font-medium mb-2 text-xl">
             Percentage of Doctors per Specialty
@@ -94,27 +94,24 @@ function DashBoardComponent() {
         </div>
 
         <div className="mt-10 w-2/3 mx-2">
-         
+          <h1 className="text-center font-medium text-xl">Income chart</h1>
+          <BarChart
+            className="mx-auto"
+            xAxis={[
+              { scaleType: "band", data: ["group A", "group B", "group C"] },
+            ]}
+            series={[
+              { data: [4, 3, 5] },
+              { data: [1, 6, 3] },
+              { data: [2, 5, 6] },
+            ]}
+            // width={400}
+            height={400}
+          />
         </div>
       </div>
 
-      <div>
-      <BarChart
-            className="mx-auto"
-            xAxis={[
-              { scaleType: "band", data: ["group A", "group B", "group C","group d"] },
-            ]}
-            series={[
-              { data: [4, 3, 5,1] },
-              { data: [1, 6, 3,1] },
-              { data: [2, 5, 6,1] } ,
-             { data: [2, 5, 6,1] },
-            ]}
-            // width={400}
-            height={300}
-          />
-      </div>
-
+      <div></div>
     </div>
   );
 }

@@ -1,6 +1,10 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
 import img from "../../assets/docterimage3.jpg";
-import { getDoctorProfile, updateDoctorPassword, updateDoctorProfile } from "../../api/doctor";
+import {
+  getDoctorProfile,
+  updateDoctorPassword,
+  updateDoctorProfile,
+} from "../../api/doctor";
 import { IDoctor } from "../../interface/interfaceDoctor";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
@@ -8,35 +12,36 @@ import { updateProfle } from "../../Redux/slice/DoctorAuthSlice";
 import { SubmitHandler, useForm } from "react-hook-form";
 import axios from "axios";
 
-
-interface IPasswordUpdateData{
-  password:string,
-  newPassword:string,
-  confirmPassword:string
+interface IPasswordUpdateData {
+  password: string;
+  newPassword: string;
+  confirmPassword: string;
 }
 
 function DoctorProfile() {
-
   const [doctorData, setDoctorData] = useState<IDoctor>();
   const [name, setName] = useState<string>();
   const [email, setEmail] = useState<string>();
   const [fees, setFees] = useState<number>();
-  const [image,setImage] = useState<string>();
-  const [newImage,setNewImage]=useState<File|null>();
+  const [image, setImage] = useState<string>();
+  const [newImage, setNewImage] = useState<File | null>();
   const [imageUrl, setImageUrl] = useState<string>();
   const [phoneNumber, setPhoneNumber] = useState<string>();
   const [specality, setSpecality] = useState<string>();
 
-
-  // update password 
-  const [changePasswordForm,setChangePasswordForm]=useState<boolean>(false) 
-  const {register,handleSubmit,setValue,watch,formState:{errors}}=useForm<IPasswordUpdateData>()
+  // update password
+  const [changePasswordForm, setChangePasswordForm] = useState<boolean>(false);
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    watch,
+    formState: { errors },
+  } = useForm<IPasswordUpdateData>();
   const newPassword = watch("newPassword");
-  const oldPassword=watch("password")
+  const oldPassword = watch("password");
 
-
-
-  const dispatch=useDispatch()
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const handleFn = async () => {
@@ -50,7 +55,7 @@ function DoctorProfile() {
         setFees(response.data.profileData.fees);
         setImage(response.data.profileData.image);
         setPhoneNumber(response.data.profileData.phoneNumber);
-        setSpecality(response.data.profileData.specialty)
+        setSpecality(response.data.profileData.specialty);
       } catch (error) {
         console.log(error);
       }
@@ -58,34 +63,46 @@ function DoctorProfile() {
     handleFn();
   }, []);
 
+  const handleSubmitUpdateProfile = async (
+    e: React.FormEvent<HTMLFormElement>
+  ) => {
+    try {
+      e.preventDefault();
+      console.log(doctorData?.specialty, specality);
 
-  const handleSubmitUpdateProfile=async(e:React.FormEvent<HTMLFormElement>)=>{
-      try {
-        e.preventDefault()
-         console.log(doctorData?.specialty,specality);
-         
-        if(doctorData?.name==name && doctorData?.phoneNumber==phoneNumber && doctorData?.fees == fees && doctorData?.specialty==specality){
-              toast.error("Your profile information remains unchanged")
-              return
-        }
-      
-        
-      const response=await updateDoctorProfile(name as string,phoneNumber as string,fees as number,specality as string,imageUrl)
-       let doctor={
-          id:response.data.newData._id,
-          name:response.data.newData.name,
-          email:doctorData?.email,
-          image:response.data.newData.image
-        }
-        dispatch(updateProfle(doctor))
-        toast.success("profile updated")
-
-        
-      } catch (error) {
-          console.log(error)
+      if (
+        doctorData?.name == name &&
+        doctorData?.phoneNumber == phoneNumber &&
+        doctorData?.fees == fees &&
+        doctorData?.specialty == specality
+      ) {
+        toast.error("Your profile information remains unchanged");
+        return;
       }
-  }
 
+      if (name?.trim() == "" || phoneNumber?.trim() == "") {
+        toast.error("all field is required");
+      }
+
+      const response = await updateDoctorProfile(
+        name as string,
+        phoneNumber as string,
+        fees as number,
+        specality as string,
+        imageUrl
+      );
+      let doctor = {
+        id: response.data.newData._id,
+        name: response.data.newData.name,
+        email: doctorData?.email,
+        image: response.data.newData.image,
+      };
+      dispatch(updateProfle(doctor));
+      toast.success("profile updated");
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -107,19 +124,18 @@ function DoctorProfile() {
     }
   };
 
-  const handleUpdatePassword:SubmitHandler<IPasswordUpdateData>=async(data:IPasswordUpdateData)=>{
-         try {
-         
-          await updateDoctorPassword(data.password,data.newPassword)
-          toast.success("password updated successfully")
-         } catch (error) {
-            if(axios.isAxiosError(error)){
-               toast.error(error.response?.data.message)
-            }
-         }
-  }
-
-
+  const handleUpdatePassword: SubmitHandler<IPasswordUpdateData> = async (
+    data: IPasswordUpdateData
+  ) => {
+    try {
+      await updateDoctorPassword(data.password, data.newPassword);
+      toast.success("password updated successfully");
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        toast.error(error.response?.data.message);
+      }
+    }
+  };
 
   return (
     <div className="mt-2 min-h-screen">
@@ -127,7 +143,7 @@ function DoctorProfile() {
         <div className="flex flex-col items-center p-5 mb-4">
           <div className="relative w-28 h-28 mb-4">
             <img
-              src={newImage?URL.createObjectURL(newImage):image}
+              src={newImage ? URL.createObjectURL(newImage) : image}
               alt="Profile"
               className="w-full h-full object-cover rounded-full"
             />
@@ -198,89 +214,95 @@ function DoctorProfile() {
               Save Changes
             </button>
           </form>
-          <p className="text-red-500" onClick={()=>setChangePasswordForm(true)} >change password</p>
+          <p
+            className="text-red-500"
+            onClick={() => setChangePasswordForm(true)}
+          >
+            change password
+          </p>
           {changePasswordForm && (
-              <form className="w-full mt-2" onSubmit={handleSubmit(handleUpdatePassword)}>
-                <div className="mb-4">
-                  <label className="block text-gray-600">old password</label>
-                  <input
-                    type="text"
-                    className="w-full p-2 border rounded-md"
-                    {...register("password",{
-                      required: "Password is required",
-                      onChange: (e): any =>
-                        setValue("password", e.target.value.trim()),
-                    })}
-                  />
-                  {errors.password && (
-                    <small className="font-medium text-red-600">
-                      {errors.password.message}
-                    </small>
-                  )}
-                </div>
-                <div className="mb-4">
-                  <label className="block text-gray-600">New password</label>
-                  <input
-                    type="text"
-                    className="w-full p-2 border rounded-md"
-                    {...register("newPassword", {
-                      required: "Password is required",
-                      minLength: {
-                        value: 5,
-                        message: "Password must be at least 5 characters long",
-                      },
-                      maxLength: {
-                        value: 8,
-                        message: "Password cannot exceed 8 characters",
-                      },
-                      pattern: {
-                        value:
-                          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-                        message:
-                          "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character",
-                      },
-                      onChange: (e) =>
-                        setValue("newPassword", e.target.value.trim()),
-                      validate: (value) =>
-                        value != oldPassword || "old password and new password is same",
-                    })}
-                  />
-                  {errors.newPassword && (
-                    <small className="font-medium text-red-600">
-                      {errors.newPassword.message}
-                    </small>
-                  )}
-                </div>
-                <div className="mb-4">
-                  <label className="block text-gray-600">
-                    confirm password
-                  </label>
-                  <input
-                    type="text"
-                    className="w-full p-2 border rounded-md"
-                    {...register("confirmPassword", {
-                      required: "This field is required",
-                      onChange: (e): any =>
-                        setValue("confirmPassword", e.target.value.trim()),
-                      validate: (value) =>
-                        value === newPassword || "Passwords do not match",
-                    })}
-                  />
-                  {errors.confirmPassword && (
-                    <small className="font-medium text-red-600">
-                      {errors.confirmPassword.message}
-                    </small>
-                  )}
-                </div>
-                <button
-                  type="submit"
-                  className="w-full p-2 bg-btnColor text-white rounded-md"
-                >
-                  update Password
-                </button>
-              </form>
-            )}
-
+            <form
+              className="w-full mt-2"
+              onSubmit={handleSubmit(handleUpdatePassword)}
+            >
+              <div className="mb-4">
+                <label className="block text-gray-600">old password</label>
+                <input
+                  type="text"
+                  className="w-full p-2 border rounded-md"
+                  {...register("password", {
+                    required: "Password is required",
+                    onChange: (e): any =>
+                      setValue("password", e.target.value.trim()),
+                  })}
+                />
+                {errors.password && (
+                  <small className="font-medium text-red-600">
+                    {errors.password.message}
+                  </small>
+                )}
+              </div>
+              <div className="mb-4">
+                <label className="block text-gray-600">New password</label>
+                <input
+                  type="text"
+                  className="w-full p-2 border rounded-md"
+                  {...register("newPassword", {
+                    required: "Password is required",
+                    minLength: {
+                      value: 5,
+                      message: "Password must be at least 5 characters long",
+                    },
+                    maxLength: {
+                      value: 8,
+                      message: "Password cannot exceed 8 characters",
+                    },
+                    pattern: {
+                      value:
+                        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+                      message:
+                        "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character",
+                    },
+                    onChange: (e) =>
+                      setValue("newPassword", e.target.value.trim()),
+                    validate: (value) =>
+                      value != oldPassword ||
+                      "old password and new password is same",
+                  })}
+                />
+                {errors.newPassword && (
+                  <small className="font-medium text-red-600">
+                    {errors.newPassword.message}
+                  </small>
+                )}
+              </div>
+              <div className="mb-4">
+                <label className="block text-gray-600">confirm password</label>
+                <input
+                  type="text"
+                  className="w-full p-2 border rounded-md"
+                  {...register("confirmPassword", {
+                    required: "This field is required",
+                    onChange: (e): any =>
+                      setValue("confirmPassword", e.target.value.trim()),
+                    validate: (value) =>
+                      value === newPassword || "Passwords do not match",
+                  })}
+                />
+                {errors.confirmPassword && (
+                  <small className="font-medium text-red-600">
+                    {errors.confirmPassword.message}
+                  </small>
+                )}
+              </div>
+              <button
+                type="submit"
+                className="w-full p-2 bg-btnColor text-white rounded-md"
+              >
+                update Password
+              </button>
+            </form>
+          )}
         </div>
       </div>
     </div>

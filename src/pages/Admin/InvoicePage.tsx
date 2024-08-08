@@ -1,49 +1,61 @@
-
-import React, { useEffect, useState } from 'react'
-import { useLocation } from 'react-router-dom';
-import { getInvoiceData } from '../../api/admin';
-import { InvoiceData, TransactionHistoryData } from '../../interface/interfaceAdmin';
+import React, { useEffect, useRef, useState } from "react";
+import { useLocation } from "react-router-dom";
+import { getInvoiceData } from "../../api/admin";
+import {
+  InvoiceData,
+  TransactionHistoryData,
+} from "../../interface/interfaceAdmin";
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
 
 function InvoicePage() {
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const query: string | null = searchParams.get("id");
+  const [invoiceData, setInvoiceData] = useState<InvoiceData[]>();
 
-  
-    const location = useLocation();
-    const searchParams = new URLSearchParams(location.search);
-    const query: string | null = searchParams.get("id");   
-    const [invoiceData,setInvoiceData]=useState<InvoiceData[]>() 
+  const pdfRef = useRef<any>();
+  const [loader, setLoader] = useState(false);
 
- 
-     useEffect(()=>{
+  const downloadPDF = () => {
+    setLoader(true);
+    const input = pdfRef.current;
+    html2canvas(input, { scale: 2 })
+      .then((canvas) => {
+        const imgData = canvas.toDataURL("image/png");
+        const pdf = new jsPDF();
+        const pdfWidth = pdf.internal.pageSize.getWidth();
+        const imgProps = pdf.getImageProperties(imgData);
+        const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+        pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+        pdf.save("invoice.pdf");
+        setLoader(false);
+      })
+      .catch((error) => {
+        console.error("Error generating PDF:", error);
+        setLoader(false);
+      });
+  };
 
-        const handleFn=async()=>{
+  useEffect(() => {
+    const handleFn = async () => {
+      try {
+        const response = await getInvoiceData(query as string);
+        console.log(response.data.invoiceData);
 
-            try {
-                
-                const response=await getInvoiceData(query as string)
-                console.log(response.data.invoiceData);
-                
-                setInvoiceData(response.data.invoiceData)
-
-
-            } catch (error) {
-                console.log(error)
-            }
-
-        }
-        handleFn()
-
-     },[])
-
-
-
-
-
+        setInvoiceData(response.data.invoiceData);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    handleFn();
+  }, []);
 
   return (
     <div className="bg-gray-100 p-8">
       {invoiceData?.map((val) => (
         <>
-          <div className="max-w-4xl mx-auto bg-white p-8 rounded-lg shadow-lg mt-7">
+          <div className="max-w-4xl mx-auto bg-white p-8 rounded-lg shadow-lg mt-7"  ref={pdfRef}>
             {/* Header */}
             <div className="flex justify-between items-center mb-8">
               <div>
@@ -60,7 +72,7 @@ function InvoicePage() {
 
             {/* Bill To */}
             <div className="mb-8">
-            <h3 className="text-lg font-semibold text-gray-700">
+              <h3 className="text-lg font-semibold text-gray-700">
                 Bill To:{val.userData.userName}
               </h3>
               <p className="text-gray-500">{val.userData.email}</p>
@@ -91,9 +103,15 @@ function InvoicePage() {
                     <td className="py-2 px-4 border-b border-gray-200">
                       DoctorAppointment
                     </td>
-                    <td className="py-2 px-4 border-b border-gray-200">{val.bookingData.slotNumber}</td>
-                    <td className="py-2 px-4 border-b border-gray-200">{val.amount}</td>
-                    <td className="py-2 px-4 border-b border-gray-200">{val.amount}</td>
+                    <td className="py-2 px-4 border-b border-gray-200">
+                      {val.bookingData.slotNumber}
+                    </td>
+                    <td className="py-2 px-4 border-b border-gray-200">
+                      {val.amount}
+                    </td>
+                    <td className="py-2 px-4 border-b border-gray-200">
+                      {val.amount}
+                    </td>
                   </tr>
                 </tbody>
               </table>
@@ -119,9 +137,21 @@ function InvoicePage() {
             </div>
           </div>
         </>
-       ))} 
+      ))}
+
+      <div className="text-center mt-4">
+        <button
+          onClick={downloadPDF}
+          className={`px-6 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 ${
+            loader ? "opacity-50 cursor-not-allowed" : ""
+          }`}
+          disabled={loader}
+        >
+          {loader ? "Downloading..." : "Download Invoice"}
+        </button>
+      </div>
     </div>
-  )
+  );
 }
 
-export default InvoicePage
+export default InvoicePage;
