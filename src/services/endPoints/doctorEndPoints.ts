@@ -17,7 +17,8 @@ const doctorRoutes={
    doctorGetConverasation:'/api/doctorGetConverasation',
    doctorUserProfileData:'/api/doctor/getUserProfileDoctor',
    getDoctorProfile:'/api/doctor/getDoctorProfile',
-   updateDoctorProfile:'/api/doctor/updateDoctorProfile'
+   updateDoctorProfile:'/api/doctor/updateDoctorProfile',
+   updatedDoctorPassword:'/api/doctor/updateDoctorPassword'
 }
 
 export default doctorRoutes

@@ -1,10 +1,19 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
 import img from "../../assets/docterimage3.jpg";
-import { getDoctorProfile, updateDoctorProfile } from "../../api/doctor";
+import { getDoctorProfile, updateDoctorPassword, updateDoctorProfile } from "../../api/doctor";
 import { IDoctor } from "../../interface/interfaceDoctor";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { updateProfle } from "../../Redux/slice/DoctorAuthSlice";
+import { SubmitHandler, useForm } from "react-hook-form";
+import axios from "axios";
+
+
+interface IPasswordUpdateData{
+  password:string,
+  newPassword:string,
+  confirmPassword:string
+}
 
 function DoctorProfile() {
 
@@ -17,6 +26,15 @@ function DoctorProfile() {
   const [imageUrl, setImageUrl] = useState<string>();
   const [phoneNumber, setPhoneNumber] = useState<string>();
   const [specality, setSpecality] = useState<string>();
+
+
+  // update password 
+  const [changePasswordForm,setChangePasswordForm]=useState<boolean>(false) 
+  const {register,handleSubmit,setValue,watch,formState:{errors}}=useForm<IPasswordUpdateData>()
+  const newPassword = watch("newPassword");
+  const oldPassword=watch("password")
+
+
 
   const dispatch=useDispatch()
 
@@ -41,7 +59,7 @@ function DoctorProfile() {
   }, []);
 
 
-  const handleSubmit=async(e:React.FormEvent<HTMLFormElement>)=>{
+  const handleSubmitUpdateProfile=async(e:React.FormEvent<HTMLFormElement>)=>{
       try {
         e.preventDefault()
          console.log(doctorData?.specialty,specality);
@@ -89,6 +107,20 @@ function DoctorProfile() {
     }
   };
 
+  const handleUpdatePassword:SubmitHandler<IPasswordUpdateData>=async(data:IPasswordUpdateData)=>{
+         try {
+         
+          await updateDoctorPassword(data.password,data.newPassword)
+          toast.success("password updated successfully")
+         } catch (error) {
+            if(axios.isAxiosError(error)){
+               toast.error(error.response?.data.message)
+            }
+         }
+  }
+
+
+
   return (
     <div className="mt-2 min-h-screen">
       <div className="md:w-1/2  bg-gray-200 p-4 rounded-md shadow-md mb-4 md:mb-0 mx-auto mt-12 ">
@@ -107,7 +139,7 @@ function DoctorProfile() {
             />
           </div>
 
-          <form className="w-full" onSubmit={handleSubmit}>
+          <form className="w-full" onSubmit={handleSubmitUpdateProfile}>
             <div className="mb-4">
               <label className="block text-gray-600">Name</label>
               <input
@@ -166,6 +198,89 @@ function DoctorProfile() {
               Save Changes
             </button>
           </form>
+          <p className="text-red-500" onClick={()=>setChangePasswordForm(true)} >change password</p>
+          {changePasswordForm && (
+              <form className="w-full mt-2" onSubmit={handleSubmit(handleUpdatePassword)}>
+                <div className="mb-4">
+                  <label className="block text-gray-600">old password</label>
+                  <input
+                    type="text"
+                    className="w-full p-2 border rounded-md"
+                    {...register("password",{
+                      required: "Password is required",
+                      onChange: (e): any =>
+                        setValue("password", e.target.value.trim()),
+                    })}
+                  />
+                  {errors.password && (
+                    <small className="font-medium text-red-600">
+                      {errors.password.message}
+                    </small>
+                  )}
+                </div>
+                <div className="mb-4">
+                  <label className="block text-gray-600">New password</label>
+                  <input
+                    type="text"
+                    className="w-full p-2 border rounded-md"
+                    {...register("newPassword", {
+                      required: "Password is required",
+                      minLength: {
+                        value: 5,
+                        message: "Password must be at least 5 characters long",
+                      },
+                      maxLength: {
+                        value: 8,
+                        message: "Password cannot exceed 8 characters",
+                      },
+                      pattern: {
+                        value:
+                          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+                        message:
+                          "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character",
+                      },
+                      onChange: (e) =>
+                        setValue("newPassword", e.target.value.trim()),
+                      validate: (value) =>
+                        value != oldPassword || "old password and new password is same",
+                    })}
+                  />
+                  {errors.newPassword && (
+                    <small className="font-medium text-red-600">
+                      {errors.newPassword.message}
+                    </small>
+                  )}
+                </div>
+                <div className="mb-4">
+                  <label className="block text-gray-600">
+                    confirm password
+                  </label>
+                  <input
+                    type="text"
+                    className="w-full p-2 border rounded-md"
+                    {...register("confirmPassword", {
+                      required: "This field is required",
+                      onChange: (e): any =>
+                        setValue("confirmPassword", e.target.value.trim()),
+                      validate: (value) =>
+                        value === newPassword || "Passwords do not match",
+                    })}
+                  />
+                  {errors.confirmPassword && (
+                    <small className="font-medium text-red-600">
+                      {errors.confirmPassword.message}
+                    </small>
+                  )}
+                </div>
+                <button
+                  type="submit"
+                  className="w-full p-2 bg-btnColor text-white rounded-md"
+                >
+                  update Password
+                </button>
+              </form>
+            )}
+
         </div>
       </div>
     </div>

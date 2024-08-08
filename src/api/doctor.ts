@@ -158,3 +158,5 @@ export const getUserProfileDataInChating=async(id:string)=>Api.get(`${doctorRout
 export const getDoctorProfile=async()=>Api.get(doctorRoutes.getDoctorProfile)
 
 export const updateDoctorProfile=async(name:string,phoneNumber:string,fees:number,specialty:string,image?:string|null)=>Api.put(doctorRoutes.updateDoctorProfile,{name,phoneNumber,fees,specialty,image})
+
+export const updateDoctorPassword=async(oldPassword:string,newPassword:string)=>await Api.patch(doctorRoutes.updatedDoctorPassword,{oldPassword,newPassword})

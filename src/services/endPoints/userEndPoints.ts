@@ -30,8 +30,9 @@ const userRoutes={
     rescheduleBooking:"/api/rescheduleBooking",
     getInvoiceData:"/api/getInvoiceData",
     updateUserProfile:"/api/updateProfile",
-    doctorSortWithSpecality:'/api/getDoctorWithSpecalitySort'
-
+    doctorSortWithSpecality:'/api/getDoctorWithSpecalitySort',
+    profilePasswordUpdate:'/api/profilePasswordUpdate',
+    
 }   
 
 

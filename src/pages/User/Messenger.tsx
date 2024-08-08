@@ -100,6 +100,7 @@ function Messenger() {
       setMessage(data.data.messages);
     };
     handleFn();
+    
   },[currentChat]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {

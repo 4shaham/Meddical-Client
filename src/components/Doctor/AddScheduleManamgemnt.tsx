@@ -66,10 +66,10 @@ function AddScheduleManamgemnt() {
       const [startHour, startMinute] = data.startTime.split(":").map(Number);
       const [endHour, endMinute] = data.endTime.split(":").map(Number);
 
-      // if (inputDate <= today) {
-      //   toast.error("The date must be greater than today's date");
-      //   return;
-      // }
+      if (inputDate <= today) {
+        toast.error("The date must be greater than today's date");
+        return;
+      }
 
       // Calculate start and end times in minutes
       const startTimeInMinutes = startHour * 60 + startMinute;
