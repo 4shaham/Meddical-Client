@@ -1,10 +1,13 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
 import img from "../../assets/docterimage3.jpg";
-import { getDoctorProfile } from "../../api/doctor";
+import { getDoctorProfile, updateDoctorProfile } from "../../api/doctor";
 import { IDoctor } from "../../interface/interfaceDoctor";
 import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { updateProfle } from "../../Redux/slice/DoctorAuthSlice";
 
 function DoctorProfile() {
+
   const [doctorData, setDoctorData] = useState<IDoctor>();
   const [name, setName] = useState<string>();
   const [email, setEmail] = useState<string>();
@@ -14,6 +17,8 @@ function DoctorProfile() {
   const [imageUrl, setImageUrl] = useState<string>();
   const [phoneNumber, setPhoneNumber] = useState<string>();
   const [specality, setSpecality] = useState<string>();
+
+  const dispatch=useDispatch()
 
   useEffect(() => {
     const handleFn = async () => {
@@ -47,7 +52,15 @@ function DoctorProfile() {
         }
       
         
-
+      const response=await updateDoctorProfile(name as string,phoneNumber as string,fees as number,specality as string,imageUrl)
+       let doctor={
+          id:response.data.newData._id,
+          name:response.data.newData.name,
+          email:doctorData?.email,
+          image:response.data.newData.image
+        }
+        dispatch(updateProfle(doctor))
+        toast.success("profile updated")
 
         
       } catch (error) {

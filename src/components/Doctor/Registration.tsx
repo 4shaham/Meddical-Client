@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { IoLanguageSharp } from "react-icons/io5";
 import { doctorSignUp } from "../../api/doctor";
@@ -6,6 +6,8 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { MdDelete } from "react-icons/md";
 import { toast } from "react-toastify";
+import { ISpecality } from "../../interface/interfaceDoctor";
+import { getSpecality } from "../../api/user";
 
 interface FormDataFirstPage {
   email: string;
@@ -20,6 +22,7 @@ function Registration() {
   const navigate = useNavigate();
 
   const [credentionErr, setCredintiaolErr] = useState("");
+  const [specality, setSpecality] = useState<ISpecality[]>();
 
   const {
     register,
@@ -30,6 +33,20 @@ function Registration() {
 
   const [image, setImage] = useState<File | null>(null);
   const [baseUrl, setBaseUrl] = useState<string>("");
+
+  useEffect(() => {
+    const handleFn = async () => {
+      try {
+        const response = await getSpecality();
+        console.log(response.data);
+        setSpecality(response.data.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    handleFn();
+  }, []);
 
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>): void => {
     const file = e.target.files?.[0] || null;
@@ -121,7 +138,7 @@ function Registration() {
                 type="email"
                 id="email"
                 aria-describedby="helper-text-explanation"
-                className="w-full bg-white text-gray-900 rounded-lg p-2.5 focus:ring-blue-500 focus:border-blue-500"
+                className="w-full bg-white border border-gray-300 text-gray-900 rounded-lg p-2.5 focus:ring-blue-500 focus:border-blue-500"
                 placeholder="name@flowbite.com"
                 {...register("email", {
                   required: true,
@@ -147,7 +164,7 @@ function Registration() {
                 Name
               </label>
               <input
-                className="w-full bg-white text-gray-900 rounded-lg p-2.5 focus:ring-blue-500 focus:border-blue-500"
+                className="w-full bg-white border border-gray-300 text-gray-900 rounded-lg p-2.5 focus:ring-blue-500 focus:border-blue-500"
                 {...register("name", {
                   required: true,
                   onChange: (e): any => setValue("name", e.target.value.trim()),
@@ -165,40 +182,63 @@ function Registration() {
                 Phone Number
               </label>
               <input
-                className="w-full bg-white text-gray-900 rounded-lg p-2.5 focus:ring-blue-500 focus:border-blue-500"
+                className="w-full bg-white border border-gray-300 text-gray-900 rounded-lg p-2.5 focus:ring-blue-500 focus:border-blue-500"
                 {...register("phoneNumber", {
-                  required: 'Phone number is required',
+                  required: "Phone number is required",
                   onChange: (e): any =>
                     setValue("phoneNumber", e.target.value.trim()),
                   minLength: {
-                    value:10,
+                    value: 10,
                     message: `Phone number must be ${10} digits long`,
                   },
                   maxLength: {
-                    value:10,
+                    value: 10,
                     message: `Phone number must be ${10} digits long`,
                   },
                 })}
               />
               {errors.phoneNumber && (
                 <small className="text-red-500 font-medium text-md">
-                 {errors.phoneNumber.message}
+                  {errors.phoneNumber.message}
                 </small>
               )}
             </div>
 
-            <div className="w-full mx-auto">
+            {/* <div className="w-full mx-auto">
               <label className="block mb-1 text-md text-black font-medium">
-                Specialist
+                Speciality
               </label>
               <input
-                className="w-full bg-white text-gray-900 rounded-lg p-2.5 focus:ring-blue-500 focus:border-blue-500"
+                className="w-full bg-white border border-gray-600 text-gray-900 rounded-lg p-2.5 focus:ring-blue-500 focus:border-blue-500"
                 {...register("specialist", {
                   required: true,
                   onChange: (e): any =>
                     setValue("specialist", e.target.value.trim()),
                 })}
               />
+              {errors.specialist && (
+                <small className="text-red-500 font-medium text-md">
+                  This field is required
+                </small>
+              )}
+            </div> */}
+            <div className="w-full mx-auto">
+              <label className="block mb-1 text-md text-black font-medium">
+                Specialty
+              </label>
+              <select
+                className="w-full bg-white border border-gray-300 text-gray-900 rounded-lg p-2.5 focus:ring-blue-500 focus:border-blue-500"
+                {...register("specialist", {
+                  required: true,
+                  onChange: (e): any =>
+                    setValue("specialist", e.target.value.trim()),
+                })}
+              >
+                <option value="">Select Specialty</option>
+                {specality?.map((values, index) => (
+                  <option value={values.name}>{values.name}</option>
+                ))}
+              </select>
               {errors.specialist && (
                 <small className="text-red-500 font-medium text-md">
                   This field is required
@@ -212,19 +252,19 @@ function Registration() {
               </label>
               <input
                 type="number"
-                className="w-full bg-gray-50 border border-gray-300 text-gray-900 rounded-lg p-2.5 focus:ring-blue-500 focus:border-blue-500"
+                className="w-full bg-gray-50  border border-gray-300 text-gray-900 rounded-lg p-2.5 focus:ring-blue-500 focus:border-blue-500"
                 {...register("fees", {
-                  required:"This field is required",
-                  min:{
-                    value:100,
-                    message:"lessthan 100 is not possible"
+                  required: "This field is required",
+                  min: {
+                    value: 100,
+                    message: "lessthan 100 is not possible",
                   },
                   onChange: (e): any => setValue("fees", e.target.value.trim()),
                 })}
               />
               {errors.fees && (
                 <small className="text-red-500 font-medium text-md">
-                {errors.fees.message}
+                  {errors.fees.message}
                 </small>
               )}
             </div>
@@ -234,7 +274,7 @@ function Registration() {
                 password
               </label>
               <input
-                className="w-full bg-white text-gray-900 rounded-lg p-2.5 focus:ring-blue-500 focus:border-blue-500"
+                className="w-full bg-white border border-gray-300 text-gray-900 rounded-lg p-2.5 focus:ring-blue-500 focus:border-blue-500"
                 {...register("password", {
                   required: true,
                   onChange: (e): any =>

@@ -122,3 +122,5 @@ export const bookingReschedule=async(slotId:string,slotNumber:number,scheduleId:
 export const getInvoiceData=async(id:string)=>await Api.get(`${userRoutes.getInvoiceData}?id=${id}`)
 
 export const updateUserProfile=async(userName:string,phoneNumber:string,age:number,gender:string,image?:string|null)=>await Api.put(userRoutes.updateUserProfile,{userName,phoneNumber,age,gender,image})
+
+export const sortDoctorsWithSpecality=async(specality:string)=>await Api.get(`${userRoutes.doctorSortWithSpecality}?specality=${specality}`)

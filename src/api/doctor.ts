@@ -156,3 +156,5 @@ export const createPrescription=async(description:string,medicines:Medicine[],re
 export const getUserProfileDataInChating=async(id:string)=>Api.get(`${doctorRoutes.doctorUserProfileData}?id=${id}`)  
 
 export const getDoctorProfile=async()=>Api.get(doctorRoutes.getDoctorProfile)
+
+export const updateDoctorProfile=async(name:string,phoneNumber:string,fees:number,specialty:string,image?:string|null)=>Api.put(doctorRoutes.updateDoctorProfile,{name,phoneNumber,fees,specialty,image})

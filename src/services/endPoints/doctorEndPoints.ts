@@ -16,7 +16,8 @@ const doctorRoutes={
    addPrescription:"/api/doctor/addPrescription",
    doctorGetConverasation:'/api/doctorGetConverasation',
    doctorUserProfileData:'/api/doctor/getUserProfileDoctor',
-   getDoctorProfile:'/api/doctor/getDoctorProfile'
+   getDoctorProfile:'/api/doctor/getDoctorProfile',
+   updateDoctorProfile:'/api/doctor/updateDoctorProfile'
 }
 
 export default doctorRoutes

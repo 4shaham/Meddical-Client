@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import CardComponent from "../../components/User/CardComponent";
-import { getAllDoctors, getSpecality } from "../../api/user";
+import { getAllDoctors, getSpecality, sortDoctorsWithSpecality } from "../../api/user";
 import Slider from "react-slick";
 import csp from "../../assets/paiedratrics.png";
 import { ISpecality } from "../../interface/interfaceDoctor";
@@ -36,7 +36,19 @@ function UserDoctorsPage() {
          navigate(`/doctorprofile?doctorId=${id}`)
   }
 
+  const handleClickSpeaciltySort=async(name:string)=>{
+         console.log(name)
+        try {
+          
+          const response=await sortDoctorsWithSpecality(name)
 
+          setDatas(response.data.doctorData)
+
+        } catch (error) {
+           console.log(error)
+        }
+         
+  }
 
 
   return (
@@ -51,8 +63,8 @@ function UserDoctorsPage() {
         <div className="slider-container ">
           <Slider {...settings}>
             {specality?.map((values, index) => (
-              <div className="flex justify-center mx-auto p-5" key={index}>
-                <div className="bg-white-100 shadow-lg flex items-center w-full   rounded-xl hover:bg-violet-50 hover:scale-110">
+              <div className="flex justify-center mx-auto p-5" key={index} onClick={()=>handleClickSpeaciltySort(values.name)}>
+                <div className="bg-gray-200 shadow-lg flex items-center w-full   rounded-xl hover:bg-violet-50 hover:scale-110">
                   <img
                     src={values.image}
                     height={200}

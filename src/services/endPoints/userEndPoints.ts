@@ -29,7 +29,9 @@ const userRoutes={
     getTransactionHistory:"/api/getTransactionHistory",
     rescheduleBooking:"/api/rescheduleBooking",
     getInvoiceData:"/api/getInvoiceData",
-    updateUserProfile:"/api/updateProfile"
+    updateUserProfile:"/api/updateProfile",
+    doctorSortWithSpecality:'/api/getDoctorWithSpecalitySort'
+
 }   
 
 

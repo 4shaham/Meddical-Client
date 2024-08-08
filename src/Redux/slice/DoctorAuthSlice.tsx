@@ -19,7 +19,7 @@ const DoctorSlice = createSlice({
   initialState,
   name: "doctor",
   reducers: {
-    login: (state, action) => {
+    login: (state,action) => {
       (state.doctor = action.payload), (state.isAuthenticated = true);
 
       localStorage.setItem("doctor", JSON.stringify(action.payload));
@@ -32,11 +32,15 @@ const DoctorSlice = createSlice({
       localStorage.removeItem("doctor");
       // localStorage.removeItem("isAuthenticated");
     },
+    updateProfle:(state,action)=>{
+      (state.doctor = action.payload), (state.isAuthenticated = true);
+      localStorage.setItem("doctor",JSON.stringify(action.payload));
+    },
     setIsAuthenticated:(state)=>{
        state.isAuthenticated=true
     }
   },
 });
 
-export const { login, logout,setIsAuthenticated} = DoctorSlice.actions;
+export const { login, logout,setIsAuthenticated,updateProfle} = DoctorSlice.actions;
 export default DoctorSlice.reducer;
