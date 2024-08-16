@@ -448,7 +448,7 @@ function DoctorManagement() {
       } else {
         await doctorBlocked(isSelected?._id as string);
         const updatedDoctors = doctors?.map((doctor) =>
-          doctor._id === isSelected._id
+          doctor._id === isSelected?._id
             ? { ...doctor, isBlocked: true }
             : doctor
         );

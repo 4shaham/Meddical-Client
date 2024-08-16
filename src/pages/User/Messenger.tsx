@@ -257,7 +257,8 @@ function Messenger() {
                   <FaPlus />
                 </button>
                 <InputEmoji
-                  value={messages}
+                  // value={messages}
+                  value={messages as string}
                   onChange={setMessages}
                   cleanOnEnter
                   placeholder="Type a message"
