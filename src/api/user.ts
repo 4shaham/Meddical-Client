@@ -1,4 +1,5 @@
 import { BookingData } from "../interface/interfaceDoctor";
+import { IUser } from "../interface/interfaceUser";
 import userAuthSlice from "../Redux/slice/userAuthSlice";
 import Api from "../services/axios";
 import userRoutes from "../services/endPoints/userEndPoints";
@@ -20,6 +21,7 @@ interface verifyOtpResponse {
     status: boolean;
     message: string;
     token?: string;
+    user?:IUser
   };
 }
 

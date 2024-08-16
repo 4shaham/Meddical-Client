@@ -7,9 +7,13 @@ import { toast } from "react-toastify";
 
 
 const Api: AxiosInstance = axios.create({
-  baseURL: "http://localhost:4001",
+  baseURL: "http://43.204.115.186:80",
   withCredentials: true,
 });
+// const Api: AxiosInstance = axios.create({
+//   baseURL: "http://localhost:4001",
+//   withCredentials: true,
+// });
 
 export const axiosInterceptor = (navigate: any) => {
   const dispatch = useDispatch();

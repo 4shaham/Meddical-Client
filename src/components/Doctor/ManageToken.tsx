@@ -41,6 +41,7 @@ function ManageToken() {
      
     if(roomNumber==""||roomNumber?.length<=5){
         toast.error("the room number is minimum in 6 characters")  
+        console.log('hiiiiii')
         navigate(`/vedioCallRoom?roomId=${id}`)
         return
      } 

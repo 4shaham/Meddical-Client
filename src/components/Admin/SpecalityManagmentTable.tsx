@@ -92,8 +92,8 @@ const MyComponent: React.FC = () => {
                 <Avatar  
                   src={name.image}
                   alt={"sjsj"}
-                  size="md"
-                  className="border border-blue-gray-50 bg-blue-gray-50/50 object-contain p-1"
+                  // size="md"
+                  // className="border border-blue-gray-50 bg-blue-gray-50/50 object-contain p-1"
                 />
               </td>
               <td className="p-4">

@@ -3,7 +3,10 @@ import Card from "@mui/material/Card";
 import Typography from "@mui/material/Typography";
 import Avatar from "@mui/material/Avatar";
 import { Link } from "react-router-dom";
-import { deletedSpecalityData, updatedDeletedSpecalityStatus } from "../../api/admin";
+import {
+  deletedSpecalityData,
+  updatedDeletedSpecalityStatus,
+} from "../../api/admin";
 import { toast } from "react-toastify";
 
 interface vlaues {
@@ -16,7 +19,7 @@ const TABLE_HEAD: string[] = ["Image", "specality Name", "Action"];
 
 const DeleteSpecalityManagment: React.FC = () => {
   const [datas, setDatas] = useState<vlaues[]>();
-  const [count,setCount]=useState<number>(0)
+  const [count, setCount] = useState<number>(0);
 
   useEffect(() => {
     const handleAsyncFn = async () => {
@@ -31,26 +34,19 @@ const DeleteSpecalityManagment: React.FC = () => {
     handleAsyncFn();
   }, [count]);
 
-
-  const handleRestore=async(id:string)=>{
+  const handleRestore = async (id: string) => {
     try {
-        
-        const response=await updatedDeletedSpecalityStatus(id)
+      const response = await updatedDeletedSpecalityStatus(id);
 
-        console.log(response)
-        if(response.data.status){
-            setCount(count+1)
-            toast.success(response.data.message)
-        }
+      console.log(response);
+      if (response.data.status) {
+        setCount(count + 1);
+        toast.success(response.data.message);
+      }
     } catch (error) {
-        console.log(error)
+      console.log(error);
     }
-  }
-
-  
-  
-
-
+  };
 
   return (
     <div className="px-5 py-5">
@@ -81,11 +77,15 @@ const DeleteSpecalityManagment: React.FC = () => {
                 className="text-center"
               >
                 <td className="p-4">
-                  <Avatar
+                  {/* <Avatar
                     src={name.image}
                     alt={"sjsj"}
                     size="md"
                     className="border border-blue-gray-50 bg-blue-gray-50/50 object-contain p-1"
+                  /> */}
+                  <Avatar
+                    alt="Remy Sharp"
+                    src={name.image} // or other valid image source
                   />
                 </td>
                 <td className="p-4">

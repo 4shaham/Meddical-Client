@@ -39,7 +39,7 @@ function DoctorChatUi() {
   const [message, setMessage] = useState<IMessage[]>([]);
   const [userProfile,setUserProfile] = useState<IUser>();
   const [onlineUsers, setOnlineUsers] = useState<OnlineUser[]>([]);
-  const scrollRef = useRef();
+  const scrollRef = useRef<HTMLDivElement>(null);
   const socket = useRef(io("ws://localhost:4001"));
 
   // messages string/image voice
@@ -254,6 +254,8 @@ function DoctorChatUi() {
                   cleanOnEnter
                   placeholder="Type a message"
                   inputClass="border border-black rounded-md"
+                  shouldReturn={true} // Ensure this prop is included
+                  shouldConvertEmojiToImage={false} // Ensure this prop is included
                 />
                 <button
                   className="text-white bg-blue-500 p-2 rounded-full ml-2"

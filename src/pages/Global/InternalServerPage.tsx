@@ -9,7 +9,7 @@ function InternalServerPage() {
           xmlns="http://www.w3.org/2000/svg"
           data-name="Layer 1"
           viewBox="0 0 1119.60911 699"
-          xmlns:xlink="http://www.w3.org/1999/xlink"
+          // xmlns:xlink="http://www.w3.org/1999/xlink"
         >
           <circle cx="292.60911" cy="213" r="213" fill="#f2f2f2"></circle>
           <path

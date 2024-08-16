@@ -1,214 +1,130 @@
-import { PencilIcon } from "@heroicons/react/24/solid";
-import {
-  ArrowDownTrayIcon,
-  MagnifyingGlassIcon,
-} from "@heroicons/react/24/outline";
-import {
-  Card,
-  CardHeader,
-  Typography,
-  Button,
-  CardBody,
-  Chip,
-  CardFooter,
-  Avatar,
-  IconButton,
-  Tooltip,
-  Input,
-} from "@material-tailwind/react";
-import { useEffect, useState } from "react";
-import { TransactionHistoryData } from "../../interface/interfaceAdmin";
-import { getTransactionHistroyAdmin } from "../../api/admin";
-import { FaFileInvoice } from "react-icons/fa";
-import { Link } from "react-router-dom";
-
+// import React, { useEffect, useState } from 'react';
+import { Typography, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, TextField, IconButton, Tooltip } from '@mui/material';
+import { ArrowDownward as ArrowDownTrayIcon, Search as MagnifyingGlassIcon } from '@mui/icons-material';
+import { FaFileInvoice } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
+import { TransactionHistoryData } from '../../interface/interfaceAdmin';
+import { getTransactionHistroyAdmin } from '../../api/admin';
+import { useEffect, useState } from 'react';
 
 function TransactionHistory() {
   const TABLE_HEAD = [
-    "doctorName",
-    "patientName",
-    "TransactionId",
+    "Doctor Name",
+    "Patient Name",
+    "Transaction ID",
     "Amount",
     "Date",
     "Status",
-    "",
+    "Actions",
   ];
 
-  const [transactionHistoryData, setTransactionHistoryData] =
-    useState<TransactionHistoryData[]>();
+  const [transactionHistoryData, setTransactionHistoryData] = useState<TransactionHistoryData[]>();
 
   useEffect(() => {
-    const handleFn = async () => {
+    const fetchTransactionHistory = async () => {
       try {
         const response = await getTransactionHistroyAdmin();
-        console.log(response.data);
         setTransactionHistoryData(response.data.transactionData);
-      } catch (error) {}
+      } catch (error) {
+        console.error("Failed to fetch transaction history:", error);
+      }
     };
-    handleFn();
+
+    fetchTransactionHistory();
   }, []);
 
   return (
-    <div className="p-10">
-      <h1 className="text-2xl font-medium text-center mt-4 mb-4">
+    <div style={{ padding: 20 }}>
+      <Typography variant="h4" align="center" gutterBottom>
         Transaction History
-      </h1>
+      </Typography>
 
-      <Card className="h-full w-full border">
-        {/* <CardHeader floated={false} shadow={false} className="rounded-none">
-        <div className="mb-4 flex flex-col justify-between gap-8 md:flex-row md:items-center bg-gray-300">
+      <Paper style={{ padding: 20 }}>
+        <div style={{ marginBottom: 20, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <div>
-            <Typography variant="h5" color="blue-gray">
+            <Typography variant="h5" color="textSecondary">
               Recent Transactions
             </Typography>
-            <Typography color="gray" className="mt-1 font-normal">
-              These are details about the last transactions
+            <Typography variant="body2" color="textSecondary">
+              These are details about the recent transactions
             </Typography>
           </div>
-          <div className="flex w-full shrink-0 gap-2 md:w-max">
-            <div className="w-full md:w-72">
-              <Input
-                label="Search"
-                icon={<MagnifyingGlassIcon className="h-5 w-5" />}
-              />
-            </div>
-            <Button className="flex items-center gap-3" size="sm">
-              <ArrowDownTrayIcon strokeWidth={2} className="h-4 w-4" /> Download
+          <div style={{ display: 'flex', gap: 10 }}>
+            <TextField
+              label="Search"
+              InputProps={{
+                endAdornment: <MagnifyingGlassIcon />,
+              }}
+            />
+            <Button variant="contained" color="primary" startIcon={<ArrowDownTrayIcon />}>
+              Download
             </Button>
           </div>
         </div>
-      </CardHeader> */}
-        <CardBody className="overflow-scroll px-0">
-          <table className="w-full min-w-max table-auto text-left">
-            <thead>
-              <tr>
+
+        <TableContainer component={Paper}>
+          <Table>
+            <TableHead>
+              <TableRow>
                 {TABLE_HEAD.map((head) => (
-                  <th
-                    key={head}
-                    className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 "
-                  >
-                    <Typography
-                      variant="small"
-                      className="font-medium text-black  leading-none  "
-                    >
+                  <TableCell key={head}>
+                    <Typography variant="subtitle2" color="textSecondary">
                       {head}
                     </Typography>
-                  </th>
+                  </TableCell>
                 ))}
-              </tr>
-            </thead>
-            <tbody>
-              {transactionHistoryData?.map((val, index) => {
-                return (
-                  <tr key={index}>
-                     <td className="p-4 border-b border-blue-gray-50 ">
-                      <div className="flex items-center gap-3">
-                        <Typography
-                          variant="small"
-                          color="blue-gray"
-                          className="font-normal"
-                        >
-                          {val.doctorData.name}
-                        </Typography>
-                      </div>
-                    </td>
-                    <td className="p-4 border-b border-blue-gray-50 ">
-                      <div className="flex items-center gap-3">
-                        <Typography
-                          variant="small"
-                          color="blue-gray"
-                          className="font-normal"
-                        >
-                          {val.userData.userName}
-                        </Typography>
-                      </div>
-                    </td>
-                    <td className="p-4 border-b border-blue-gray-50 ">
-                      <div className="flex items-center gap-3">
-                        <Typography
-                          variant="small"
-                          color="blue-gray"
-                          className="font-normal"
-                        >
-                          {val.transactionId}
-                        </Typography>
-                      </div>
-                    </td>
-                    <td className="p-4 border-b border-blue-gray-50">
-                      <Typography
-                        variant="small"
-                        color="blue-gray"
-                        className="font-normal"
-                      >
-                        {val.amount}
-                      </Typography>
-                    </td>
-                    <td className="p-4 border-b border-blue-gray-50">
-                      <Typography
-                        variant="small"
-                        color="blue-gray"
-                        className="font-normal"
-                      >
-                        {val.createdAt.split("T")[0]}
-                        <span className="text-red-400 mx-1">{`${val.createdAt.split("T")[1].split(":")[0]}:`}</span>
-                        <span className="text-red-400">{val.createdAt.split("T")[1].split(":")[1]}</span>
-                      </Typography>
-                    </td>
-                    <td className="p-4 border-b border-blue-gray-50">
-                      <Typography
-                        variant="small"
-                        color="blue-gray"
-                        className="font-normal"
-                      >
-                        Paid
-                      </Typography>
-                    </td>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {transactionHistoryData?.map((val, index) => (
+                <TableRow key={index}>
+                  <TableCell>{val.doctorData.name}</TableCell>
+                  <TableCell>{val.userData.userName}</TableCell>
+                  <TableCell>{val.transactionId}</TableCell>
+                  <TableCell>${val.amount}</TableCell>
+                  <TableCell>
+                    {new Date(val.createdAt).toLocaleDateString()}{" "}
+                    <span style={{ color: 'red' }}>
+                      {new Date(val.createdAt).toLocaleTimeString().split(":")[0]}:
+                    </span>
+                    <span style={{ color: 'red' }}>
+                      {new Date(val.createdAt).toLocaleTimeString().split(":")[1]}
+                    </span>
+                  </TableCell>
+                  <TableCell>Paid</TableCell>
+                  <TableCell>
+                    <Tooltip title="View Invoice">
+                      <IconButton>
+                        <Link to={`/admin/invoice?id=${val.tokenId}`}>
+                          <FaFileInvoice />
+                        </Link>
+                      </IconButton>
+                    </Tooltip>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
 
-                    <td className="p-4 border-b border-blue-gray-50">
-                      <Tooltip content="invoice">
-                        <IconButton variant="text">
-                         <Link to={`/admin/invoice?id=${val.tokenId}`}><FaFileInvoice className="h-4 w-4" /></Link> 
-                        </IconButton>
-                      </Tooltip>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </CardBody>
-        <CardFooter className="flex items-center justify-between border-t border-blue-gray-50 p-4">
-          <Button variant="outlined" size="sm" className="bg-black text-white">
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 20 }}>
+          <Button variant="outlined" color="primary">
             Previous
           </Button>
-          <div className="flex items-center gap-2">
-            <IconButton variant="outlined" size="sm">
-              1
-            </IconButton>
-            <IconButton variant="text" size="sm">
-              2
-            </IconButton>
-            <IconButton variant="text" size="sm">
-              3
-            </IconButton>
-            <IconButton variant="text" size="sm">
-              ...
-            </IconButton>
-            <IconButton variant="text" size="sm">
-              8
-            </IconButton>
-            <IconButton variant="text" size="sm">
-              9
-            </IconButton>
-            <IconButton variant="text" size="sm">
-              10
-            </IconButton>
+          <div style={{ display: 'flex', gap: 5 }}>
+            <Button variant="outlined" size="small">1</Button>
+            <Button variant="outlined" size="small">2</Button>
+            <Button variant="outlined" size="small">3</Button>
+            <Button variant="outlined" size="small">...</Button>
+            <Button variant="outlined" size="small">8</Button>
+            <Button variant="outlined" size="small">9</Button>
+            <Button variant="outlined" size="small">10</Button>
           </div>
-          <Button variant="outlined" size="sm" className="bg-black text-white">
+          <Button variant="outlined" color="primary">
             Next
           </Button>
-        </CardFooter>
-      </Card>
+        </div>
+      </Paper>
     </div>
   );
 }

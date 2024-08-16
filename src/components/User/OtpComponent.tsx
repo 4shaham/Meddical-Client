@@ -132,7 +132,7 @@ function OtpComponent() {
         response.data.message == "the Otp verification is completed" &&
         token
       ) {
-        dispatch(login());
+        dispatch(login(response.data.user._id as string));
         dispatch(unVerifed())
         navigate("/");
       }

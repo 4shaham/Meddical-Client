@@ -13,7 +13,7 @@ const UseProtectLoginAndRegistration = async () => {
   let response = await getToken();
 
   if (response.data.status) {
-    dispath(login());
+    dispath(login(response.data.decoded));
     navigate("/");
   }
 
