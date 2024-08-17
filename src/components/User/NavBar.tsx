@@ -131,9 +131,9 @@ function NavBar() {
         {isMenuOpen ? (
           <ul className="block my-2 bg-gray-100 rounded-md p-2 ">
             {navItem.map((values) => (
-              <li className="mx-auto text-black text-lg font-medium mt-2">
+             <Link to={values.link}><li className="mx-auto text-black text-lg font-medium mt-2">
                 {values.path}
-              </li>
+              </li></Link> 
             ))}
             {userStatus && (
               <>

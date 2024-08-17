@@ -42,6 +42,7 @@ function DoctorChatUi() {
   const scrollRef = useRef<HTMLDivElement>(null);
   const socket = useRef(io("wss://server.shaham.website"));
 
+
   // messages string/image voice
 
   // const [messages, setMessages] = useState<string>("");

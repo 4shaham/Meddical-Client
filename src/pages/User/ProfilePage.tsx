@@ -165,7 +165,7 @@ function ProfilePage() {
   return (
     <div>
       <main className="flex flex-1 flex-col md:flex-row p-4">
-        <div className="md:w-1/2 mx-12 bg-gray-300 p-4 rounded-md shadow-md mb-4 md:mb-0">
+        <div className="md:w-1/2 mx-12 bg-gray-100 p-4 rounded-md shadow-md mb-4 md:mb-0">
           <div className="flex flex-col items-center p-5 mb-4">
             <div className="relative w-24 h-24 mb-4">
               {image == null && imageSrc && (
