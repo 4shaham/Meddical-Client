@@ -1,9 +1,9 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { getInvoiceData } from "../../api/admin";
 import {
   InvoiceData,
-  TransactionHistoryData,
+  // TransactionHistoryData,
 } from "../../interface/interfaceAdmin";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";

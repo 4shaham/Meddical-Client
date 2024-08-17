@@ -1,6 +1,4 @@
-import React, { useEffect, useState } from "react";
-
-import profileImage from "../../assets/docterimage3.jpg";
+import  { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { getDoctorProfile } from "../../api/user";
 import { IDoctor } from "../../interface/interfaceDoctor";

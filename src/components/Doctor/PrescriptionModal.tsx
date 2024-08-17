@@ -1,9 +1,7 @@
-import { Button, Modal } from "flowbite-react";
+
 import React, { useState } from "react";
-import { HiOutlineExclamationCircle } from "react-icons/hi";
 import { toast } from "react-toastify";
 import { createPrescription } from "../../api/doctor";
-import { IUser } from "../../interface/interfaceUser";
 import { IMangeTokenData } from "../../interface/interfaceDoctor";
 
 // interface Of Medicien
@@ -22,7 +20,7 @@ type PrescriptionModalProps={
 
 const  PrescriptionModal:React.FC<PrescriptionModalProps>=({consulationPatient,callback,successesCounter})=> {
 
-  const [openModal,setOpenModal] = useState(false);
+  // const [openModal,setOpenModal] = useState(false);
   const [showAddMedicienForm, setAddMedicienForm] = useState<boolean>(false);
 
 

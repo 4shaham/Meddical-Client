@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { getTransactionHistory } from "../../api/user";
 import { IPaymentData } from "../../interface/interfaceUser";
 

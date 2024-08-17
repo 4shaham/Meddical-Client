@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Card from "@mui/material/Card";
 import Typography from "@mui/material/Typography";
 import { BookingData } from "../../interface/interfaceDoctor";
@@ -86,7 +86,7 @@ function PastBookingTokens() {
           </thead>
 
           <tbody>
-            {datas?.map((values, index) => (
+            {datas?.map((values) => (
               <tr className="text-center">
                 <td className="p-4">
                   <Typography

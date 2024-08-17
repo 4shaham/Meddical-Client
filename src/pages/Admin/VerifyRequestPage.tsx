@@ -1,5 +1,4 @@
-import React, { FC, useEffect, useState } from "react";
-import profileImage from "../../assets/doctoProfiler.jpg";
+import { FC, useEffect, useState } from "react";
 import { findAllNewRequestedDoctors } from "../../api/admin";
 import { Link } from "react-router-dom";
 
@@ -96,7 +95,7 @@ const VerifyRequestPage: FC = () => {
             </tr>
           </thead>
           <tbody>
-            {doctors.map((values:Response, index) => (
+            {doctors.map((values:Response) => (
               <tr className="bg-white border-b    hover:bg-gray-50 dark:hover:bg-gray-100">
                 <td
                   scope="row"

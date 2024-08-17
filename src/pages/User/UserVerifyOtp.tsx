@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react'
+
 import OtpComponent from '../../components/User/OtpComponent'
-import { useDispatch, useSelector } from 'react-redux'
+import {  useSelector } from 'react-redux'
 import { Navigate } from 'react-router-dom'
 
 interface root{

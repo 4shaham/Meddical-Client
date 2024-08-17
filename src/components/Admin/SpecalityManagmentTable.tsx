@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect} from "react";
 import Card from "@mui/material/Card";
 import Typography from "@mui/material/Typography";
 import { deleteSpecality, findspecality } from "../../api/admin";
@@ -38,8 +38,8 @@ const MyComponent: React.FC = () => {
         console.log(id)
         try {
            
-        const response=await deleteSpecality(id)
-
+        await deleteSpecality(id)
+        
         // if(response.data.status){
           let array=states.filter((values:vlaues)=>values._id!=id)
           dispatch(add(array))
@@ -84,7 +84,7 @@ const MyComponent: React.FC = () => {
         <tbody>
           {states?.map((name:vlaues,index:number) => (
             <tr
-              key={name._id}
+              key={index}
               //   className={index % 2 === 0 ? 'bg-blue-gray-50/50' : ''}
               className="text-center"
             >

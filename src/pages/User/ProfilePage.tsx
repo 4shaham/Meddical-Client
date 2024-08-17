@@ -2,7 +2,6 @@ import React, { ChangeEvent, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getProfileData, proflePasswordUpdate, updateUserProfile } from "../../api/user";
 import { IUser } from "../../interface/interfaceUser";
-import doctorImage3 from "../../assets/docterimage3.jpg";
 import { toast } from "react-toastify";
 import { SubmitHandler, useForm } from "react-hook-form";
 import axios from "axios";

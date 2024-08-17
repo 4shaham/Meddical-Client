@@ -1,10 +1,8 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Banner from "../../components/User/Banner";
-import paiedratrics from "../../assets/paiedratrics.png";
 import CardComponent from "../../components/User/CardComponent";
-import hospital from "../../assets/hospital.jpg";
 import Slider from "react-slick";
-import { getAllDoctors, getSpecality, getToken } from "../../api/user";
+import { getAllDoctors, getSpecality} from "../../api/user";
 import { ISpecality } from "../../interface/interfaceDoctor";
 
 function UserHomePage() {

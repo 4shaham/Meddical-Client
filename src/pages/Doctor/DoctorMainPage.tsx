@@ -1,8 +1,7 @@
-import React, { useEffect } from "react";
+
 import DSideBar from "../../components/Doctor/DSideBar";
 import NavBar from "../../components/Doctor/NavBar";
-import { Outlet, useNavigate } from "react-router-dom";
-import UseDoctorProtoct from "../../hook/DoctorSide/useDoctorProtectRoute";
+import { Outlet} from "react-router-dom";
 
 function DoctorMainPage() {
   // UseDoctorProtoct();

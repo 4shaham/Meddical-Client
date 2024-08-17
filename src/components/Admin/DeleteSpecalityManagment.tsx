@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Card from "@mui/material/Card";
 import Typography from "@mui/material/Typography";
 import Avatar from "@mui/material/Avatar";
-import { Link } from "react-router-dom";
+
 import {
   deletedSpecalityData,
   updatedDeletedSpecalityStatus,
@@ -70,9 +70,9 @@ const DeleteSpecalityManagment: React.FC = () => {
             </tr>
           </thead>
           <tbody>
-            {datas?.map((name: vlaues, index: number) => (
+            {datas?.map((name: vlaues,index: number) => (
               <tr
-                key={name._id}
+                key={index}
                 //   className={index % 2 === 0 ? 'bg-blue-gray-50/50' : ''}
                 className="text-center"
               >

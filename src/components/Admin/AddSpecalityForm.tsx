@@ -1,5 +1,4 @@
-import React, { ChangeEvent, FormEvent, useState } from "react";
-import { useForm } from "react-hook-form";
+import { ChangeEvent, FormEvent, useState } from "react";
 import { addSpecality } from "../../api/admin";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";

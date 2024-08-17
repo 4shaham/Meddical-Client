@@ -1,4 +1,4 @@
-import React from "react";
+
 import { adminLogout } from "../../api/admin";
 import { useNavigate } from "react-router-dom";
 

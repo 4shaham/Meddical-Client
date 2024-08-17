@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
 import { PieChart } from "@mui/x-charts/PieChart";
 import { specalityChartData } from "../../api/admin";
 import { SpecialityChart } from "../../interface/interfaceAdmin";

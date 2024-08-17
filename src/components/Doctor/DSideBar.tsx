@@ -1,11 +1,10 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { LuLayoutDashboard } from "react-icons/lu";
 import { IoMdNotifications } from "react-icons/io";
 import { FaUsersRectangle } from "react-icons/fa6";
-import { FaUserDoctor } from "react-icons/fa6";
 import { MdLocalFireDepartment } from "react-icons/md";
 import { RiCalendarScheduleFill } from "react-icons/ri";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { FaFacebookMessenger } from "react-icons/fa";
 import { CgProfile } from "react-icons/cg";
 

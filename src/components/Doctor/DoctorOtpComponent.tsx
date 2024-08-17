@@ -11,7 +11,7 @@ function DoctorOtpComponent() {
 
     const [page,SetPage]=useState<boolean>()
 
-  
+    console.log(page)
   const navigate = useNavigate();
   const [buttonStatus, setButtonStatus] = useState<boolean>(false);
   const inputRef = useRef<HTMLInputElement[]>([]);

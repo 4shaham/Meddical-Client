@@ -1,5 +1,4 @@
-import React, { ChangeEvent, useEffect, useRef, useState } from "react";
-import { Input } from "@material-tailwind/react";
+import React, { ChangeEvent, useEffect,useState } from "react";
 import image from "../../assets/image.png";
 import { useForm } from "react-hook-form";
 import KycStep2 from "../../components/Doctor/KycStep2";
@@ -84,8 +83,8 @@ function KycVerificationPage() {
 
   // image
 
-  const [idCardImage, setIdCardImage] = useState<File | null>();
-  const [idCardImageUrl, setIdCardImageUrl] = useState<string>("");
+  // const [idCardImage, setIdCardImage] = useState<File | null>();
+  // const [idCardImageUrl, setIdCardImageUrl] = useState<string>("");
 
   const handleOnSubmit = async (data: FormData) => {
     try {

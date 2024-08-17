@@ -1,11 +1,10 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   IAddScheduleIntervals,
   addScheduleFormData,
 } from "../../interface/interfaceDoctor";
 import { useForm } from "react-hook-form";
 import { addSchedule } from "../../api/doctor";
-import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -30,8 +29,9 @@ function AddScheduleManamgemnt() {
   } = useForm<addScheduleFormData>();
 
   const hanldeAddInterval = () => {
-    const startTimerData = startTime.split(":");
-    const endTimeData = endTime.split(":");
+
+    // const startTimerData = startTime.split(":");
+    // const endTimeData = endTime.split(":");
 
     if (startTime == "" || endTime == "") {
       toast.error("this fild is required");
@@ -82,7 +82,7 @@ function AddScheduleManamgemnt() {
         return;
       }
 
-      let response = await addSchedule(
+       await addSchedule(
         data.startDate,
         data.consultationMethod,
         data.startTime,
@@ -255,7 +255,7 @@ function AddScheduleManamgemnt() {
                   </tr>
                 </thead>
                 <tbody>
-                  {intervals?.map((values, index) => (
+                  {intervals?.map((values) => (
                     <tr className="hover:bg-gray-100">
                       <td className="py-2 px-4 border-b border-gray-300">
                         {values.type}

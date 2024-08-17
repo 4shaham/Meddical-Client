@@ -1,6 +1,4 @@
 
-import UpdatePassword from "../../components/User/UpdatePassword"
-
 
 const userRoutes={
 

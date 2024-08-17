@@ -1,17 +1,15 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { IMangeTokenData } from "../../interface/interfaceDoctor";
-import { doctorSchedule, findDoctorSchedule } from "../../api/doctor";
+import { doctorSchedule } from "../../api/doctor";
 import Typography from "@mui/material/Typography";
 import PrescriptionModal from "./PrescriptionModal";
-import { input } from "@material-tailwind/react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 function ManageToken() {
-  const [slots, setSlots] = useState<IMangeTokenData[]>();
-  const [status, setStatus] = useState<string>("pending");
+  const [slots, setSlots]= useState<IMangeTokenData[]>();
+  const [status,setStatus]= useState<string>("pending");
   const [showModal, setShowModal] = useState<boolean>(false);
   const [counter, setCounter] = useState<number>(0);
-  const [onCounsultationPatient, setConsultaionPatient] = useState<any>();
   const [roomNumber, setRoomNumber] = useState<string>("");
   const [createRoomForm, setCreateRoomForm] = useState<boolean>(false);
   const navigate=useNavigate()
@@ -20,6 +18,7 @@ function ManageToken() {
   useEffect(() => {
     const handleFn = async () => {
       try {
+        console.log(setStatus)
         const response = await doctorSchedule();
         setSlots(response.data.doctorSchedule);
       } catch (error) {
@@ -176,7 +175,7 @@ function ManageToken() {
       </div>
 
       <div className=" grid grid-cols-5 gap-5 p-4 mt-2  bg-gray-200 rounded-md">
-        {slots?.map((val, index) => (
+        {slots?.map((val) => (
           <>
             <div
               className={

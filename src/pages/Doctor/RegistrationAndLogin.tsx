@@ -1,5 +1,4 @@
-import React from "react";
-import Login from "../../components/Doctor/Login";
+
 import { Outlet } from "react-router-dom";
 import doctorProfile from "../../assets/doctoProfiler.jpg"
 import UseDoctorLoginAndRegistration from "../../hook/DoctorSide/useDoctorLoginAndRegistration";

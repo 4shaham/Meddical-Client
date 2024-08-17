@@ -1,6 +1,4 @@
-import React from "react";
-import banner from "../../assets/banner.jpg";
-import profileImage from "../../assets/doctoProfiler.jpg";
+
 
 function Banner() {
   return (

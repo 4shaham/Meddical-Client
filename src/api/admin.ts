@@ -1,4 +1,4 @@
-import AdminRouter from "../Routes/AdminRouter";
+
 import Api from "../services/axios";
 import adminRoutes from "../services/endPoints/adminEndPoints";
 

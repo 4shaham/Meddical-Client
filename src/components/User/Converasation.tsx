@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Avatar } from "@mui/material";
-import { IUser } from "../../interface/interfaceUser";
 import IConverasation from "../../interface/chatingInterface";
-import { getDoctorProfile, getProfileData } from "../../api/user";
+import { getDoctorProfile} from "../../api/user";
 import { IDoctor } from "../../interface/interfaceDoctor";
 
 type Props = {
@@ -35,9 +34,9 @@ const Converasation: React.FC<Props> = ({ data,onlineStatus,callback}) => {
   },[data.members]);
 
 
-  const onSelect=(name:string)=>{
-        console.log('hiiiiiiiii',name)
-  }
+  // const onSelect=(name:string)=>{
+  //       console.log('hiiiiiiiii',name)
+  // }
 
   return (
 

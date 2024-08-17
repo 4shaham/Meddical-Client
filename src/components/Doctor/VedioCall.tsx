@@ -1,4 +1,4 @@
-import React from 'react'
+
 import  {ZegoUIKitPrebuilt}  from "@zegoCloud/zego-uikit-prebuilt";
 import { useLocation } from 'react-router-dom';
 

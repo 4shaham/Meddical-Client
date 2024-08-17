@@ -1,21 +1,16 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Navigate, Outlet } from "react-router-dom";
-import { getToken } from "../api/user";
-import { adminGetToken } from "../api/admin";
-import { useDispatch, useSelector } from "react-redux";
-import { login } from "../Redux/slice/AdminAuthSlice";
-import Login from "../components/Doctor/Login";
-import { FaTruckMedical } from "react-icons/fa6";
+
 import { docotorGetToken } from "../api/doctor";
 
 
-interface rootNode{
-    doctorAuth:{
-        doctor:{
-            isAuthenticated:boolean
-        }
-    }
-}
+// interface rootNode{
+//     doctorAuth:{
+//         doctor:{
+//             isAuthenticated:boolean
+//         }
+//     }
+// }
 
 
 

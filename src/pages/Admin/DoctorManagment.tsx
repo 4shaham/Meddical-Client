@@ -367,7 +367,6 @@ import {
   CardActions,
   Avatar,
   Button,
-  IconButton,
   Tooltip,
   Typography,
   TextField,
@@ -494,7 +493,7 @@ function DoctorManagement() {
               </tr>
             </thead>
             <tbody>
-              {doctors?.map((doctor, index) => (
+              {doctors?.map((doctor) => (
                 <tr key={doctor._id}>
                   <td style={{ padding: '10px' }}>
                     {doctor.image ? (

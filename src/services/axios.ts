@@ -2,7 +2,7 @@
 import axios, { AxiosInstance } from "axios";
 import { useDispatch } from "react-redux";
 import { logout } from "../Redux/slice/userAuthSlice";
-import { toast } from "react-toastify";
+
 // import {logout} from "../Redux/slice/DoctorAuthSlice"
 
 

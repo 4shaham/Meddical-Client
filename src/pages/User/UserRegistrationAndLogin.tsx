@@ -1,7 +1,6 @@
 import { Link, Outlet } from "react-router-dom";
-import { IoArrowBackCircleOutline } from "react-icons/io5";
 import UseProtectLoginAndRegistration from "../../hook/UserSide/useProtectLoginAndRegistration";
-import bgimage from "../../assets/loginBg.jpeg";
+
 
 function UserRegistrationAndLogin() {
   UseProtectLoginAndRegistration();

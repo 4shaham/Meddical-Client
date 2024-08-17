@@ -1,8 +1,6 @@
-import React, { useEffect, useState } from "react";
-import CardComponent from "../../components/User/CardComponent";
+import { useEffect, useState } from "react";
 import { getAllDoctors, getSpecality, sortDoctorsWithSpecality } from "../../api/user";
 import Slider from "react-slick";
-import csp from "../../assets/paiedratrics.png";
 import { ISpecality } from "../../interface/interfaceDoctor";
 import { useNavigate } from "react-router-dom";
 

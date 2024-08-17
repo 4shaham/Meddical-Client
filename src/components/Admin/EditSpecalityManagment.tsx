@@ -1,5 +1,5 @@
-import React, { ChangeEvent, FormEvent, useEffect, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import  { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import {  useLocation, useNavigate } from "react-router-dom";
 import { getEditSpecalityData, updateSpecality } from "../../api/admin";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -13,13 +13,16 @@ function EditSpecalityManagment() {
   const [image,setImage] = useState<File | null>(null);
   const [baseUrl, setBaseUrl] = useState<string>("");
   const [specalityName, setSpecalityName] = useState<string>("");
-  const [id, setId] = useState<string>();
+  const [id,setId] = useState<string>();
   const [imageSrc,setImageSrc] = useState("");
   const [dataValues, setData] = useState<{
     _id: string;
     name: string;
     image: string;
   }>();
+
+  console.log(id);
+  
 
   useEffect(() => {
     const handleAsyncFunction = async () => {

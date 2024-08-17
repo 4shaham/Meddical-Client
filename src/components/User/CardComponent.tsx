@@ -1,6 +1,6 @@
 import React from "react";
 
-import doctorImg from "../../assets/docterimage3.jpg";
+
 import { useNavigate } from "react-router-dom";
 
 interface CardComponentProps {

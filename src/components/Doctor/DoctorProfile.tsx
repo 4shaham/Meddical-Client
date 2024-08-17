@@ -1,5 +1,4 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
-import img from "../../assets/docterimage3.jpg";
 import {
   getDoctorProfile,
   updateDoctorPassword,

@@ -1,5 +1,4 @@
-import axios from "axios";
-import { adminGetToken } from "../../api/admin";
+
 import { useNavigate } from "react-router-dom";
 import { docotorGetToken } from "../../api/doctor";
 import { useDispatch } from "react-redux";

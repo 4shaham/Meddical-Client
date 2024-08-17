@@ -1,8 +1,8 @@
-import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { doctorLogout } from "../../api/doctor";
 import { logout } from "../../Redux/slice/DoctorAuthSlice";
+
 
 interface rootNode {
   doctorAuth: {

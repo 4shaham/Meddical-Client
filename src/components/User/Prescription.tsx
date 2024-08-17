@@ -1,9 +1,9 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 import { getPrescription } from "../../api/user";
 import { useLocation } from "react-router-dom";
-import { IPrescription, prescriptionData } from "../../interface/interfaceUser";
+import {prescriptionData } from "../../interface/interfaceUser";
 // Replace with your actual logo path
 
 const Prescription = () => {

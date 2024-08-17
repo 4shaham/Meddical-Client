@@ -5,12 +5,10 @@ import IDoctorSchedule, {
 } from "../../interface/interfaceDoctor";
 import { useSelector } from "react-redux";
 import { RootState } from "../../Redux/store/store";
-import { Navigate, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { createToken, getProfileData, paymentChekcout } from "../../api/user";
+import {getProfileData, paymentChekcout } from "../../api/user";
 import { IUser } from "../../interface/interfaceUser";
 import {loadStripe} from '@stripe/stripe-js';
-import axios from "axios";
 
 type TokenBookingModalProps = {
   callback: () => void; // Define the type for callback prop
@@ -29,9 +27,10 @@ const TokenBookingModal: React.FC<TokenBookingModalProps> = ({
   
 
 
-  const navigate = useNavigate();
+ 
   const userStatus = useSelector((state: RootState) => state.user.userStatus);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading,setLoading] = useState<boolean>(false);
+ console.log(setLoading)
   const [userData,setUserData]=useState<IUser>()
 
   useEffect(() => {
@@ -61,31 +60,31 @@ const TokenBookingModal: React.FC<TokenBookingModalProps> = ({
     setConsultaionType(event.target.value);
   };
 
-  const handleOnClickPay = async () => {
-    try {
-      if (loading == true) {
-        return;
-      }
-      setLoading(true);
-      console.log(selectedSlot.startTime)
-      return
-      const response = await createToken(
-        doctorData.fees,
-        consultaionType,
-        doctorSchedule._id,
-        selectedSlot.slotNumber,
-        selectedSlot.startTime,
-        selectedSlot.endTime
-      );
-      setLoading(false);
+  // const handleOnClickPay = async () => {
+  //   try {
+  //     if (loading == true) {
+  //       return;
+  //     }
+  //     setLoading(true);
+  //     console.log(selectedSlot.startTime)
+  //     return
+  //     const response = await createToken(
+  //       doctorData.fees,
+  //       consultaionType,
+  //       doctorSchedule._id,
+  //       selectedSlot.slotNumber,
+  //       selectedSlot.startTime,
+  //       selectedSlot.endTime
+  //     );
+  //     setLoading(false);
 
-      if (response.data.status) {
-        navigate("/successPage");
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  //     if (response.data.status) {
+  //       navigate("/successPage");
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
 
   const makeaPayment = async () => {

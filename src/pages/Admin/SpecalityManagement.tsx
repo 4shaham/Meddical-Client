@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+
 import SpecalityManagmentTable from "../../components/Admin/SpecalityManagmentTable";
-import { Link, useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 
 
 function SpecalityManagement() {

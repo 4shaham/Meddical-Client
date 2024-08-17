@@ -44,7 +44,7 @@ function DoctorChatUi() {
 
   // messages string/image voice
 
-  const [messages, setMessages] = useState<string>("");
+  // const [messages, setMessages] = useState<string>("");
   const [text, setText] = useState("");
 
 

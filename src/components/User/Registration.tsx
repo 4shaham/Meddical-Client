@@ -1,4 +1,4 @@
-import React from "react";
+
 import { useState } from "react";
 import { signUp } from "../../api/user";
 import { Link, useNavigate } from "react-router-dom";
@@ -32,7 +32,7 @@ function Registration() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const [registrationErr, setRegistrationErr] = useState<RegistrationErr>({
+  const [registrationErr,setRegistrationErr] = useState<RegistrationErr>({
     userNameErr: "",
     emailErr: "",
     genderErr: "",
@@ -43,6 +43,9 @@ function Registration() {
   });
 
   const [isLoaidng,setIsLoading] = useState<boolean>(false);
+
+  console.log(isLoaidng,registrationErr);
+  
 
   const handleOnSubmit: SubmitHandler<IUserRegisterData> = async (
     data: IUserRegisterData

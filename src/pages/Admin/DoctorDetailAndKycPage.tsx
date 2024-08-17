@@ -1,10 +1,7 @@
-import React, { useEffect, useState } from "react";
-import image from "../../assets/doctoProfiler.jpg";
+import { useEffect, useState } from "react";
 import {
-  Navigate,
   useLocation,
   useNavigate,
-  useParams,
 } from "react-router-dom";
 import { findDoctorKycData, updateDoctorKycStatus } from "../../api/admin";
 import { toast } from "react-toastify";
@@ -101,7 +98,7 @@ function DoctorDetailAndKycPage() {
 
   return (
     <div>
-      {values?.map((values,index) => (
+      {values?.map((values) => (
         <div className="w-full h-screen  md:flex p-5 gap-2">
           <div className="w-full md:w-1/2 bg-white">
             <div className="w-[30]  mx-auto  mb-10">

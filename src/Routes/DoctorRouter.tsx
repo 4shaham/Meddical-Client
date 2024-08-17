@@ -1,4 +1,4 @@
-import React from "react";
+
 import { Route, Routes } from "react-router-dom";
 import DoctorMainPage from "../pages/Doctor/DoctorMainPage";
 import RegistrationAndLogin from "../pages/Doctor/RegistrationAndLogin";

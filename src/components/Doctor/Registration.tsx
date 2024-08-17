@@ -1,6 +1,5 @@
-import React, { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { IoLanguageSharp } from "react-icons/io5";
 import { doctorSignUp } from "../../api/doctor";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -235,7 +234,7 @@ function Registration() {
                 })}
               >
                 <option value="">Select Specialty</option>
-                {specality?.map((values, index) => (
+                {specality?.map((values) => (
                   <option value={values.name}>{values.name}</option>
                 ))}
               </select>

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Avatar } from "@mui/material";
-import { getDoctorProfile, getProfileData } from "../../api/user";
 import IConverasation from "../../interface/chatingInterface";
 import { IUser } from "../../interface/interfaceUser";
 import { getUserProfileDataInChating } from "../../api/doctor";

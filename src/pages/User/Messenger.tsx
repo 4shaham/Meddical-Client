@@ -1,7 +1,7 @@
 import { Avatar } from "@mui/material";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, {useEffect, useRef, useState } from "react";
 import { IoSearchOutline } from "react-icons/io5";
-import { FaPlus, FaSmile, FaPaperPlane } from "react-icons/fa";
+import { FaPlus, FaPaperPlane } from "react-icons/fa";
 import Converasation from "../../components/User/Converasation";
 import { IoChatbubblesOutline } from "react-icons/io5";
 import {
@@ -11,12 +11,11 @@ import {
   storeMessage,
 } from "../../api/user";
 import IConverasation, { IMessage } from "../../interface/chatingInterface";
-import { io, Socket } from "socket.io-client";
+import { io} from "socket.io-client";
 import InputEmoji from "react-input-emoji";
 
 import { format } from "timeago.js";
-import { useSelector } from "react-redux";
-import { RootState } from "../../Redux/store/store";
+
 import { DecodedJwt } from "../../Routes/UserProtectRoutes";
 import IDoctor from "../../interface/interfaceAdmin";
 
@@ -134,7 +133,7 @@ function Messenger() {
 
   // filter converasation with name
 
-  const [drName, setDoctorName] = useState<string>("");
+  // const [drName, setDoctorName] = useState<string>("");
 
   // const handleFilter=(event:any)=>{
 

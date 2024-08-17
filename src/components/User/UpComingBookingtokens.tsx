@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
 import Card from "@mui/material/Card";
 import Typography from "@mui/material/Typography";
 import { cancelToken, getBookingDataWithStatus } from "../../api/user";
@@ -17,7 +17,7 @@ function UpComingBookingtokens() {
   const [isSelectedToReschedule, setIsSelectedToReschedule] =
     useState<BookingData>();
 
-  const currentDate = Date.now();
+  // const currentDate = Date.now();
 
   useEffect(() => {
     const handleFn = async () => {

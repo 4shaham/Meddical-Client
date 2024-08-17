@@ -1,11 +1,8 @@
-import { Tooltip } from "@mui/material";
-import React from "react";
+
 import {
   Area,
   AreaChart,
   CartesianGrid,
-  Legend,
-  Line,
   XAxis,
   YAxis,
 } from "recharts";

@@ -1,6 +1,5 @@
 import { Medicine } from "../components/Doctor/PrescriptionModal";
 import { IAddScheduleIntervals } from "../interface/interfaceDoctor";
-import DoctorRouter from "../Routes/DoctorRouter";
 import Api from "../services/axios";
 import doctorRoutes from "../services/endPoints/doctorEndPoints";
 

@@ -326,29 +326,24 @@ import {
   Card,
   CardHeader,
   CardContent,
-  CardActions,
   Typography,
   Button,
-  Avatar,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
   TableRow,
-  TableSortLabel,
   TextField,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
-  IconButton,
-  Tooltip,
+
 } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { IUser } from '../../interface/interfaceUser';
 import { getAllUsers, userBlocked, userUnBlocked } from '../../api/admin';
-import { FaUserAlt } from 'react-icons/fa';
 import { toast } from 'react-toastify';
 import { IoIosWarning } from 'react-icons/io';
 
