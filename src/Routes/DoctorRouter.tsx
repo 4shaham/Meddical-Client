@@ -21,7 +21,7 @@ function DoctorRouter() {
     <div>
       <Routes>
         <Route element={<RegistrationAndLogin />}>
-          <Route path="/doctor/login" element={<Login />} />
+          <Route path="doctor/login" element={<Login />} />
           <Route path="/doctor/register" element={<Registration />} />
         </Route>
 
