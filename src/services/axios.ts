@@ -7,7 +7,7 @@ import { logout } from "../Redux/slice/userAuthSlice";
 
 
 const Api: AxiosInstance = axios.create({
-  baseURL: "http://43.204.115.186:80",
+  baseURL: "https://server.shaham.website",
   withCredentials: true,
 });
 // const Api: AxiosInstance = axios.create({

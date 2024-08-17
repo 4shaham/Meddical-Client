@@ -11,6 +11,7 @@ export default withMT({
         btnColor: "rgba(16,27,85)",
         bgColors: "rgba(255,255,255)",
         serviceColors: "rgba(241,237,237)",
+        'bg-gray-100': "rgba(245,245,245)"
       },
     },
   },
