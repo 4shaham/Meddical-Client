@@ -29,7 +29,7 @@ function Messenger() {
   const [currentChat, setCurrentChat] = useState<IConverasation | null>(null);
   const [message, setMessage] = useState<IMessage[]>([]);
   const [doctorProfile, setDoctorProfile] = useState<IDoctor>();
-  const socket = useRef(io("ws://localhost:4001"));
+  const socket = useRef(io("wss://server.shaham.website"));
   const scrollRef = useRef<HTMLDivElement>(null);
   const [onlineUsers, setOnlineUsers] = useState<OnlineUser[]>([]);
   // const userId=useSelector((state:RootState)=>state.user.userData.id)

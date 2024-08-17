@@ -40,7 +40,7 @@ function DoctorChatUi() {
   const [userProfile,setUserProfile] = useState<IUser>();
   const [onlineUsers, setOnlineUsers] = useState<OnlineUser[]>([]);
   const scrollRef = useRef<HTMLDivElement>(null);
-  const socket = useRef(io("ws://localhost:4001"));
+  const socket = useRef(io("wss://server.shaham.website"));
 
   // messages string/image voice
 

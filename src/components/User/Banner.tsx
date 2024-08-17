@@ -3,7 +3,7 @@
 function Banner() {
   return (
     <div className="p-10">
-      <div className="bg-gray-100 shadow-2xl flex flex-col md:flex-row items-center justify-between p-8 md:p-16 rounded-lg ">
+      <div className="bg-gray-50 shadow-2xl flex flex-col md:flex-row items-center justify-between p-8 md:p-16 rounded-lg ">
         <div className="md:w-1/2 text-center md:text-left">
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900">
             Your Health Solution <br /> For a Better Life
@@ -12,11 +12,11 @@ function Banner() {
             Contrary to popular belief, Lorem Ipsum is not simply random text.
             It has roots in a piece.
           </p>
-          <button className="mt-6 bg-blue-950 text-white py-3 px-6 rounded hover:bg-white hover:text-black border hover:border-black">
+          <button className="mt-6 bg-blue-900 text-white py-3 px-6 rounded hover:bg-white hover:text-black border hover:border-black">
             Book an Appointment
           </button>
           <div className="mt-8 flex justify-around">
-            <div className="text-center">
+            <div className="text-center ">
               <span className="block text-2xl font-bold">10k</span>
               <span className="text-gray-600">Customer</span>
             </div>
