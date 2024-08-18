@@ -3,7 +3,6 @@ import { PieChart } from "@mui/x-charts/PieChart";
 import { specalityChartData } from "../../api/admin";
 import { SpecialityChart } from "../../interface/interfaceAdmin";
 import { BarChart } from "@mui/x-charts/BarChart";
-import { Button } from "@material-tailwind/react";
 interface ChartData {
   id: number;
   value: number;
