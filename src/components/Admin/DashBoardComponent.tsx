@@ -47,7 +47,6 @@ function DashBoardComponent() {
   return (
     <div className="bg-red mt-5 rounded-lg">
       <div className="mx-auto flex justify-center gap-20  ">
-      <Button>Button</Button>;
         <div className="bg-gray-50 h-40 shadow-2xl w-40 justify-center text-center rounded-lg">
           <svg
             viewBox="0 0 940 1000"
