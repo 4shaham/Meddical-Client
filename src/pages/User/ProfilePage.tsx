@@ -143,23 +143,23 @@ function ProfilePage() {
   };
 
   const Userpages = [
-    { path: "/", element: "Medical History" },
+    // { path: "/", element: "Medical History" },
     {
       path: "/myAppointmentPage",
       element: "My Appointment",
     },
-    {
-      path: "/",
-      element: "Patient Details",
-    },
+    // {
+    //   path: "/",
+    //   element: "Patient Details",
+    // },
     {
       path: "/transaction",
       element: " Transaction List",
     },
-    {
-      path: "/appointmentPage",
-      element: "Wallet",
-    },
+    // {
+    //   path: "/appointmentPage",
+    //   element: "Wallet",
+    // },
   ];
 
   return (
@@ -252,18 +252,18 @@ function ProfilePage() {
               </button>
             </form>
 
-            <p
+            <small
               className="text-red-500 mt-1"
               onClick={() => setChangePasswordForm(!changePasswordForm)}
             >
               change password
-            </p>
+            </small>
             {changePasswordForm && (
               <form className="w-full mt-2" onSubmit={handleSubmit(handleUpdatePassword)}>
                 <div className="mb-4">
                   <label className="block text-gray-600">old password</label>
                   <input
-                    type="text"
+                    type="password"
                     className="w-full p-2 border rounded-md"
                     {...register("password",{
                       required: "Password is required",
@@ -280,7 +280,7 @@ function ProfilePage() {
                 <div className="mb-4">
                   <label className="block text-gray-600">New password</label>
                   <input
-                    type="text"
+                    type="password"
                     className="w-full p-2 border rounded-md"
                     {...register("newPassword", {
                       required: "Password is required",
@@ -315,7 +315,7 @@ function ProfilePage() {
                     confirm password
                   </label>
                   <input
-                    type="text"
+                     type="password"
                     className="w-full p-2 border rounded-md"
                     {...register("confirmPassword", {
                       required: "This field is required",
@@ -344,7 +344,7 @@ function ProfilePage() {
         <div className="w-full md:w-1/2 flex flex-col space-y-4 mx-auto my-auto">
           {Userpages.map((values) => (
             <Link to={values.path}>
-              <button className="w-full flex justify-center md:w-1/2 mx-auto p-4 bg-gray-200 rounded-md shadow-md hover:bg-gradient-to-r hover:from-white hover:to-green-300 transition-all duration-300">
+              <button className="w-full flex justify-center md:w-1/2 mx-auto p-4 bg-gray-100 rounded-md shadow-md hover:bg-gradient-to-r hover:from-white hover:to-green-100 transition-all duration-300">
                 {values.element}
               </button>
             </Link>

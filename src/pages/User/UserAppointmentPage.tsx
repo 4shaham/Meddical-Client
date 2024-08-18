@@ -16,7 +16,7 @@ function UserAppointmentPage() {
         <button
           className={
             status == ButtonStatus.pending
-              ? "px-4 py-2 w-1/2 text-center font-medium bg-gray-200 text-x"
+              ? "px-4 py-2 w-1/2 text-center font-medium bg-gray-100 text-x"
               : "px-4 py-2 w-1/2 text-center text-red-400 border border-black font-medium  hover:to-green-300 text-x"
           }
           onClick={() => setStatus(ButtonStatus.visited)}
@@ -26,7 +26,7 @@ function UserAppointmentPage() {
         <button
           className={
             status != ButtonStatus.pending
-              ? "px-4 py-2 w-1/2 text-center font-medium bg-gray-200 text-x"
+              ? "px-4 py-2 w-1/2 text-center font-medium bg-gray-100 text-x"
               : "px-4 py-2 w-1/2 text-center text-red-400 border border-gray-500 bg-gray-50 rounded-md font-medium  hover:to-green-300 text-x"
           }
           onClick={() => setStatus(ButtonStatus.pending)}

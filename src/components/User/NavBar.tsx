@@ -72,7 +72,7 @@ function NavBar() {
             {navItem.map((values, index) => (
               <Link to={values.path}>
                 <li
-                  className="mx-auto text-black text-lg font-medium"
+                  className="mx-auto text-black text-lg font-medium hover:underline"
                   key={index}
                 >
                   {values.path}
@@ -81,7 +81,7 @@ function NavBar() {
             ))}
             {userStatus && (
               <Link to={"/profile"}>
-                <li className="mx-auto text-black text-lg font-medium">
+                <li className="mx-auto text-black text-lg font-medium ">
                   Profile
                 </li>
               </Link>
@@ -131,7 +131,7 @@ function NavBar() {
         {isMenuOpen ? (
           <ul className="block my-2 bg-gray-100 rounded-md p-2 ">
             {navItem.map((values) => (
-             <Link to={values.link}><li className="mx-auto text-black text-lg font-medium mt-2">
+              <Link to={values.link}><li className="mx-auto text-black text-lg font-medium mt-2 ">
                 {values.path}
               </li></Link> 
             ))}
