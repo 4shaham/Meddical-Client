@@ -10,6 +10,7 @@ interface ChartData {
 }
 
 function DashBoardComponent() {
+  
   const [chartValue, setChartValues] = useState<ChartData[]>();
   const [totalDoctor, setTotalDoctor] = useState<number>();
 
