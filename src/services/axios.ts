@@ -10,11 +10,12 @@ const Api: AxiosInstance = axios.create({
   baseURL: "https://server.shaham.website",
   withCredentials: true,
 });
+
 // const Api: AxiosInstance = axios.create({
 //   baseURL: "http://localhost:4001",
 //   withCredentials: true,
 // });
-
+   
 export const axiosInterceptor = (navigate: any) => {
   const dispatch = useDispatch();
 

@@ -34,8 +34,12 @@ function UserDoctorsPage() {
          navigate(`/doctorprofile?doctorId=${id}`)
   }
 
+
+  const handleBookAppointmentClick=(id:string)=>{
+        navigate(`/appointmentPage?doctorId=${id}`)
+  }
+
   const handleClickSpeaciltySort=async(name:string)=>{
-         console.log(name)
         try {
           
           const response=await sortDoctorsWithSpecality(name)
@@ -97,7 +101,7 @@ function UserDoctorsPage() {
               />
               <h1 className="text-center font-medium mt-1">Dr.{values.name}</h1>
               <h1 className="text-center">{values.specialty}</h1>
-              <button className="text-center text-sm mx-auto flex bg-btnColor  md:px-5 md:py-1 rounded-md text-white mb-3">
+              <button className="text-center text-sm mx-auto flex bg-btnColor  md:px-5 md:py-1 rounded-md text-white mb-3" onClick={()=>handleBookAppointmentClick(values._id)}>
                 Book an appintment
               </button>
               <div className="w-full bg-gray-50">
